@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When Insiders Trade Less — Density and Return Predictability</title>
+<style>
+:root {
+  --bg: #050706;
+  --bg-2: #080c09;
+  --panel: #0b0f0c;
+  --panel-2: #111714;
+  --panel-3: #18201a;
+  --border: #1f2a22;
+  --text: #e8f2ea;
+  --muted: #8a9990;
+  --dim: #55635b;
+  --accent: #00d95f;
+  --green: #8fe64a;
+  --red: #ff4b5c;
+  --yellow: #f2b01e;
+  --purple: #9d7cff;
+  --orange: #ff8a3d;
+  --gold: #ffc53d;
+  --cyan: #35cfe0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Familjen Grotesk", -apple-system, system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(0,217,95,0.10), transparent 58%),
+    radial-gradient(ellipse at 10% 95%, rgba(157,124,255,0.09), transparent 62%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+.mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; }
+
+header {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(5,7,6, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+header h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+header .sub { color: var(--muted); font-size: 12px; }
+.nav-link {
+  margin-left: auto;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.nav-link:hover { background: var(--panel-2); }
+
+.stat-row { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat .label {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.stat .value {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.stat .value.accent { color: var(--accent); }
+.stat .value.gold { color: var(--gold); }
+.stat .value.purple { color: var(--purple); }
+
+main {
+  padding: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%),
+    var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+}
+.panel h2 {
+  margin: 0 0 4px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.panel h3 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+.panel p { color: var(--text); margin: 0 0 12px; font-size: 14px; }
+.panel p.muted { color: var(--muted); font-size: 13px; }
+.panel ul { color: var(--text); font-size: 14px; margin: 0 0 12px; padding-left: 20px; }
+.panel ul li { margin-bottom: 6px; }
+.panel ul li::marker { color: var(--dim); }
+.panel strong { color: var(--text); }
+.panel em { color: var(--muted); font-style: normal; }
+.kw { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; color: var(--accent); font-size: 13px; }
+
+/* The big "aha" callout */
+.aha {
+  background:
+    linear-gradient(135deg, rgba(0,217,95,0.10), rgba(157,124,255,0.07) 60%, rgba(53,207,224,0.06));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.aha::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--purple), var(--cyan));
+}
+.aha .tag {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--purple);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.aha .headline {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  line-height: 1.35;
+}
+.aha .body { color: var(--text); font-size: 14.5px; margin: 0; }
+.aha .body em { color: var(--purple); font-style: italic; }
+
+/* Density strips */
+.strip { margin-bottom: 20px; }
+.strip:last-child { margin-bottom: 0; }
+.strip-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.strip-head .who {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.strip-head .dens {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+}
+.strip.low  .dens { color: var(--accent); border-color: rgba(0,217,95,0.4); }
+.strip.high .dens { color: var(--muted); }
+.strip-head .note { font-size: 12px; color: var(--muted); margin-left: auto; }
+.months {
+  display: grid;
+  grid-template-columns: repeat(36, 1fr);
+  gap: 3px;
+  min-width: 480px;
+}
+.months-scroll { overflow-x: auto; padding-bottom: 4px; }
+.months span {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--panel-3);
+  border: 1px solid var(--border);
+  display: block;
+}
+.months span.t {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px -2px rgba(0,217,95,0.9);
+}
+.strip.high .months span.t {
+  background: #3f5a49;
+  border-color: #4d6b58;
+  box-shadow: none;
+}
+.axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  color: var(--dim);
+  margin-top: 6px;
+  min-width: 480px;
+}
+
+/* Two-story comparison cards */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.story-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.story-card.rare  { border-left: 3px solid var(--accent); }
+.story-card.often { border-left: 3px solid var(--dim); }
+.story-card .tag {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.story-card.rare  .tag { color: var(--accent); }
+.story-card.often .tag { color: var(--muted); }
+.story-card .head {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+.story-card .recipe {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.story-card .recipe .arr { color: var(--muted); margin: 0 6px; }
+.story-card .recipe .out { color: var(--gold); font-weight: 700; }
+.story-card .recipe .off { color: var(--dim); font-weight: 700; }
+.story-card .why { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; }
+.story-card .why strong { color: var(--text); }
+@media (max-width: 760px) { .story-grid { grid-template-columns: 1fr; } }
+
+/* Scale figures */
+.scale-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.scale {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.scale .n {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  line-height: 1.2;
+}
+.scale .l {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Method pipeline */
+.method-pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.method-step {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.method-step .num {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.method-step .name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.method-step .desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+@media (max-width: 900px) { .method-pipe { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .method-pipe { grid-template-columns: 1fr; } }
+
+/* Moderator cards */
+.mod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+.mod {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--purple);
+  border-radius: 10px;
+  padding: 15px 17px;
+}
+.mod .k {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+.mod .name { font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 6px; }
+.mod .blurb { font-size: 12.5px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+/* Quote block */
+.example-quote {
+  background: var(--bg-2);
+  border-left: 3px solid var(--dim);
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+.example-quote.acc { border-left-color: var(--accent); }
+.example-quote.pur { border-left-color: var(--purple); }
+.example-quote strong { color: var(--text); font-style: normal; }
+
+/* Takeaways */
+.takeaway-list { display: grid; gap: 10px; }
+.take-item {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.take-item .order {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.take-item .title { font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 3px; }
+.take-item .blurb { font-size: 12.5px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+/* Gaps / caveats */
+.caveat {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.caveat .h { font-size: 13px; font-weight: 700; color: var(--yellow); margin: 0 0 4px; }
+.caveat p { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+/* Source-depth notice */
+.notice {
+  background: linear-gradient(180deg, rgba(242,176,30,0.07), transparent 70%), var(--panel);
+  border: 1px solid rgba(242,176,30,0.32);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.notice .badge {
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  border: 1px solid rgba(242,176,30,0.4);
+  border-radius: 999px;
+  padding: 4px 11px;
+  white-space: nowrap;
+  flex: none;
+}
+.notice p { margin: 0; font-size: 13px; color: var(--muted); flex: 1; min-width: 260px; }
+.notice p strong { color: var(--text); }
+
+/* Citation */
+.citation {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.citation strong { color: var(--text); }
+.citation a { color: var(--accent); }
+
+footer {
+  padding: 24px 32px 36px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<meta name="theme-color" content="#050706">
+</head>
+
+<body>
+
+<header>
+  <div class="title-row">
+    <h1>When Insiders Trade Less</h1>
+    <span class="sub">Wang, Wang, Chiah &amp; Bai 2025 — trading density and return predictability in China</span>
+    <a class="nav-link" href="index.html">Back to index</a>
+  </div>
+  <div class="stat-row">
+    <div class="stat">
+      <span class="label">Journal</span>
+      <span class="value">Int. Rev. of Econ. &amp; Finance</span>
+    </div>
+    <div class="stat">
+      <span class="label">Market</span>
+      <span class="value">China A-shares</span>
+    </div>
+    <div class="stat">
+      <span class="label">Sample</span>
+      <span class="value accent">2008 – 2019</span>
+    </div>
+    <div class="stat">
+      <span class="label">Insiders</span>
+      <span class="value gold">18,206</span>
+    </div>
+    <div class="stat">
+      <span class="label">Signal</span>
+      <span class="value purple">trade months / tenure</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= THE BIG AHA ================= -->
+  <div class="aha">
+    <div class="tag">The single insight</div>
+    <p class="headline">The informative insider is the one who almost never trades. <em>How often</em> they trade tells you how much to believe them.</p>
+    <p class="body">Insider-trading research spends its effort on the trade — size, direction, seniority, timing. This paper conditions on the trader's <strong>habit</strong> instead. Divide the months in which an insider traded by the months of their tenure and you get a density. Insiders who trade at low density are the ones whose purchases and sales carry abnormal returns; the frequent traders are largely noise. The signal costs nothing to compute — it lives entirely in the public disclosure record you already have.</p>
+  </div>
+
+  <!-- ================= SECTION 1 — THE MEASURE ================= -->
+  <section class="panel">
+    <h2>Section 1 · The measure</h2>
+    <h3>Trading density, in one picture</h3>
+    <p>Two insiders, each with a three-year tenure. Each lit cell is a month in which they traded their own firm's stock. The paper's claim is that the first row's trades are worth following and the second row's are not — before you look at a single fundamental.</p>
+
+    <div class="months-scroll">
+      <div class="strip low">
+        <div class="strip-head">
+          <span class="who">Insider A — the rare trader</span>
+          <span class="dens">density = 3 / 36 = 0.08</span>
+          <span class="note">nothing about this insider predicts a trade</span>
+        </div>
+        <div class="months">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span class="t"></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span class="t"></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span class="t"></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="axis"><span>month 1 of tenure</span><span>month 36</span></div>
+      </div>
+
+      <div class="strip high">
+        <div class="strip-head">
+          <span class="who">Insider B — the routine trader</span>
+          <span class="dens">density = 22 / 36 = 0.61</span>
+          <span class="note">trading is expected; a trade says little</span>
+        </div>
+        <div class="months">
+          <span class="t"></span><span class="t"></span><span></span><span class="t"></span><span class="t"></span><span></span>
+          <span class="t"></span><span class="t"></span><span></span><span class="t"></span><span class="t"></span><span></span>
+          <span class="t"></span><span class="t"></span><span></span><span class="t"></span><span></span><span class="t"></span>
+          <span class="t"></span><span></span><span class="t"></span><span class="t"></span><span></span><span class="t"></span>
+          <span class="t"></span><span></span><span class="t"></span><span></span><span class="t"></span><span></span>
+          <span class="t"></span><span></span><span class="t"></span><span></span><span class="t"></span><span></span>
+        </div>
+        <div class="axis"><span>month 1 of tenure</span><span>month 36</span></div>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:16px;">Scaling by tenure rather than by calendar time is what makes the measure comparable. A director two years into the job and one twelve years in should not be judged by raw trade counts — density asks what fraction of their <em>available</em> months they chose to act in.</p>
+  </section>
+
+  <!-- ================= SECTION 2 — THE LOGIC ================= -->
+  <section class="panel">
+    <h2>Section 2 · Why it should work</h2>
+    <h3>Expectedness is the hidden variable</h3>
+    <p>Insiders trade for two broad reasons. One is information: they know something the market does not. The other is everything else — liquidity needs, diversification away from a concentrated position, mechanical disposal of vested equity, personal cash flow. The second category produces a <strong>steady drip</strong> of transactions; the first produces <strong>rare, deliberate</strong> ones.</p>
+    <p>Density separates them without ever having to observe a motive. If an insider trades most months, the next trade was going to happen regardless of what they knew — its arrival carries almost no news. If an insider has sat still for two years and then buys, the decision to act <em>is itself</em> the information.</p>
+
+    <div class="story-grid">
+      <div class="story-card rare">
+        <div class="tag">Low density</div>
+        <h4 class="head">Unexpected trade, informative</h4>
+        <div class="recipe">
+          rare trader <span class="arr">+</span> strong purchase <span class="arr">→</span> <span class="out">abnormal return follows</span>
+        </div>
+        <p class="why"><strong>Why:</strong> the trade breaks a pattern of inaction. Nothing routine explains it, so the residual explanation is private information. This is the leg the paper says the hedge portfolio should be built from.</p>
+      </div>
+
+      <div class="story-card often">
+        <div class="tag">High density</div>
+        <h4 class="head">Expected trade, uninformative</h4>
+        <div class="recipe">
+          routine trader <span class="arr">+</span> strong purchase <span class="arr">→</span> <span class="off">little to no signal</span>
+        </div>
+        <p class="why"><strong>Why:</strong> the base rate of trading is already high, so a trade updates your beliefs barely at all. Screening on direction and size alone pulls in a great deal of this — which is why undifferentiated insider-trading signals are weak.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3 — DATA ================= -->
+  <section class="panel">
+    <h2>Section 3 · The sample</h2>
+    <h3>Twelve years of Chinese insider disclosures</h3>
+    <div class="scale-grid">
+      <div class="scale"><span class="n">40,159</span><span class="l">monthly transaction records</span></div>
+      <div class="scale"><span class="n">18,206</span><span class="l">individual insiders</span></div>
+      <div class="scale"><span class="n">2,653</span><span class="l">listed firms</span></div>
+      <div class="scale"><span class="n">2008–19</span><span class="l">sample window</span></div>
+    </div>
+    <p class="muted" style="margin-top:16px;">The unit of observation is the insider-month, which is what makes the density measure computable at all: you need the full history of when each individual did and did not trade, not just the trades themselves.</p>
+  </section>
+
+  <!-- ================= SECTION 4 — METHOD ================= -->
+  <section class="panel">
+    <h2>Section 4 · The method</h2>
+    <h3>Four ways of asking the same question</h3>
+    <div class="method-pipe">
+      <div class="method-step">
+        <div class="num">TEST 01</div>
+        <div class="name">Hedge portfolios</div>
+        <div class="desc">Long strong purchases, short strong sales. Low-density trades deliver significantly higher abnormal returns than high-density ones.</div>
+      </div>
+      <div class="method-step">
+        <div class="num">TEST 02</div>
+        <div class="name">Panel regressions</div>
+        <div class="desc">Result survives controls for firm-level and insider-level characteristics, trading patterns, and alternative specifications of the density variable.</div>
+      </div>
+      <div class="method-step">
+        <div class="num">TEST 03</div>
+        <div class="name">Short-horizon returns</div>
+        <div class="desc">Short-run abnormal returns around the trades reinforce that density tracks informativeness.</div>
+      </div>
+      <div class="method-step">
+        <div class="num">TEST 04</div>
+        <div class="name">Large price moves</div>
+        <div class="desc">Behaviour around large price movements gives a second, event-based read on the same claim.</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;">The specification battery is the load-bearing part. "Rare traders outperform" has an obvious mechanical rival — rare traders may simply sit in different firms — and the firm-level controls plus alternative variable definitions exist to rule that out.</p>
+  </section>
+
+  <!-- ================= SECTION 5 — MODERATORS ================= -->
+  <section class="panel">
+    <h2>Section 5 · Where the signal is strongest</h2>
+    <h3>Three conditions that move the effect</h3>
+    <p>The paper reports that density's predictive power is moderated by three things. Each one is a plausible dial on how much private information an insider can hold and how freely they can act on it.</p>
+    <div class="mod-grid">
+      <div class="mod">
+        <div class="k">Moderator 01</div>
+        <p class="name">Information asymmetry</p>
+        <p class="blurb">The more opaque the firm, the more there is for an insider to know that the market does not. The density signal should — and does — respond to how wide that gap is.</p>
+      </div>
+      <div class="mod">
+        <div class="k">Moderator 02</div>
+        <p class="name">Corporate governance</p>
+        <p class="blurb">Governance quality determines how constrained an insider is in acting on what they know. It changes both the willingness to trade and the interpretation of a trade that happens anyway.</p>
+      </div>
+      <div class="mod">
+        <div class="k">Moderator 03</div>
+        <p class="name">Account type</p>
+        <p class="blurb">Whether the transaction runs through the insider's own account or a related one bears on how deliberate it is — and in the Chinese disclosure regime this is observable.</p>
+      </div>
+    </div>
+    <div class="example-quote pur" style="margin-top:16px;">
+      <strong>The framing claim:</strong> trading density captures a private-information advantage <em>beyond</em> established proxies — meaning it is not a repackaging of seniority, trade size or firm characteristics, but an additional dimension for judging how much a given insider trade should move your view.
+    </div>
+  </section>
+
+  <!-- ================= SECTION 6 — SOURCE DEPTH ================= -->
+  <section class="panel">
+    <h2>Section 6 · How much of this is verified</h2>
+    <h3>What I could and could not read</h3>
+    <div class="notice">
+      <span class="badge">Abstract only</span>
+      <p>This page is written from the <strong>published abstract, keywords and metadata</strong>. The article is listed as open access in DOAJ, but the full text sits behind ScienceDirect's bot protection and I could not retrieve it. Everything above that is not a sample-size figure is either stated in the abstract or is my own reading of the mechanism, labelled as such.</p>
+    </div>
+
+    <p style="margin-top:18px;">Concretely, here is what is missing and would change how much weight to put on the result:</p>
+
+    <div class="caveat">
+      <p class="h">No magnitudes</p>
+      <p>The abstract says "significantly higher abnormal returns" and gives no number. Without the size of the spread, its t-statistic, and whether it is monthly or event-window, the economic significance is unknown.</p>
+    </div>
+    <div class="caveat">
+      <p class="h">No definition of "strong" purchases and sales</p>
+      <p>The hedge portfolios are built on <em>strong</em> purchases and sales. That threshold is doing real work and is not described in the abstract.</p>
+    </div>
+    <div class="caveat">
+      <p class="h">No density cutoff</p>
+      <p>Where the line falls between "low" and "high" density — quintile, median, or a fixed ratio — is unstated, and a signal defined by a cutoff is only as good as its insensitivity to that cutoff.</p>
+    </div>
+    <div class="caveat">
+      <p class="h">Direction of the moderators is unreported</p>
+      <p>The abstract says information asymmetry, governance and account type moderate the effect. It does not say which way. The interpretations in Section 5 above are mine, not the paper's.</p>
+    </div>
+    <div class="caveat">
+      <p class="h">Transferability to other markets is untested here</p>
+      <p>The sample is China 2008–2019: a retail-heavy market with its own disclosure regime and its own enforcement history. Whether density carries the same information in a US or European insider panel is a separate empirical question.</p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 7 — TAKEAWAYS ================= -->
+  <section class="panel">
+    <h2>Section 7 · Bottom line</h2>
+    <h3>Three things to remember</h3>
+    <div class="takeaway-list">
+      <div class="take-item">
+        <span class="order">01</span>
+        <div>
+          <p class="title">Condition on the trader, not just the trade</p>
+          <p class="blurb">The transferable idea has nothing to do with China or with insiders specifically: when an action is rare for the actor, the action carries more information. That reframing applies to any signal derived from someone's discretionary behaviour.</p>
+        </div>
+      </div>
+      <div class="take-item">
+        <span class="order">02</span>
+        <div>
+          <p class="title">The base rate is the free variable everyone drops</p>
+          <p class="blurb">Density is computable from data you already hold if you track insider filings at all. It requires no new source — only that you stop throwing away the months in which nothing happened.</p>
+        </div>
+      </div>
+      <div class="take-item">
+        <span class="order">03</span>
+        <div>
+          <p class="title">Treat this page as a map, not a result</p>
+          <p class="blurb">The mechanism is clean and the sample is large, but the magnitudes are unread. Pull the full text before acting on any of it — see the gaps listed in Section 6.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CITATION ================= -->
+  <section class="panel">
+    <h2>Reference</h2>
+    <h3>Source paper</h3>
+    <div class="citation">
+      <strong>Wang, C., Wang, Z., Chiah, M., &amp; Bai, Y.</strong> (2025). <em>When insiders trade less: density and return predictability.</em><br>
+      International Review of Economics &amp; Finance, Vol. 104, article 104641 (December 2025).<br>
+      DOI <span class="mono">10.1016/j.iref.2025.104641</span> — JEL <span class="mono">G12, G14, G34</span><br>
+      <a href="https://www.sciencedirect.com/science/article/pii/S1059056025008044" target="_blank" rel="noopener">ScienceDirect</a> ·
+      <a href="https://doaj.org/article/daf5692141cc41d49d9ca4bbb9d08ea2" target="_blank" rel="noopener">DOAJ record</a><br>
+      Earlier working-paper version: <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4382997" target="_blank" rel="noopener">SSRN 4382997</a>, titled "Does Insider Trading Density Convey Information to Predict Future Stock Returns? Evidence from China"
+    </div>
+    <p class="muted" style="margin-top:14px;">Affiliations: Zhejiang University of Finance &amp; Economics (Wang, Wang, Bai) and Newcastle Business School, University of Newcastle, Australia (Chiah).</p>
+  </section>
+
+</main>
+
+<footer>
+  Copyright © 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a> All rights reserved.
+</footer>
+
+</body>
+</html>

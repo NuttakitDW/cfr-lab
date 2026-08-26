@@ -465,7 +465,7 @@ section.ledger { animation-delay: 0.3s; }
   <h1>Poker theory, <em>counterfactual regret,</em> and learning experiments.</h1>
   <p class="lede">Interactive solvers that learn Kuhn and Leduc hold'em from scratch, self-grading drills for the nine-game mix, and study notes on the algorithms behind modern poker bots. <strong>Everything runs in the browser.</strong></p>
   <dl class="strip">
-    <div><dt>Pages</dt><dd>34</dd></div>
+    <div><dt>Pages</dt><dd>38</dd></div>
     <div><dt>Sections</dt><dd>14</dd></div>
     <div><dt>Solvers</dt><dd>CFR+ · <span>DCFR</span></dd></div>
     <div><dt>Toy games</dt><dd>Kuhn · Leduc</dd></div>
@@ -808,7 +808,7 @@ section.ledger { animation-delay: 0.3s; }
         <h2>Quant</h2>
         <p class="sub">Finance papers and asset-pricing notes</p>
       </div>
-      <span class="count">2 entries</span>
+      <span class="count">6 entries</span>
     </div>
 
     <div class="entries">
@@ -824,6 +824,34 @@ section.ledger { animation-delay: 0.3s; }
         <h3>R&amp;D Investments &amp; Past Returns</h3>
         <p>Maletic 2019 — when high R&amp;D spending predicts higher future stock returns depends on whether you mean the <em>level</em> or the <em>change</em>, and on past performance. Two interactions, opposite signs.</p>
         <span class="path">/rd-investments-paper -&gt;</span>
+      </a>
+
+      <a class="entry" href="/profit-trend-paper">
+        <span class="tag paper">Paper</span>
+        <h3>The Trend in Firm Profitability</h3>
+        <p>Akbas, Jiang &amp; Koch 2017 — every level signal hides a slope signal. Fit the last eight quarters of gross profitability to a time trend and keep the coefficient instead of the mean: two firms with identical profitability today land at opposite ends of the book. The spread earned <strong>0.83% a month</strong> gross, survives controls for the level and for earnings momentum, and — the part that makes it mispricing rather than a factor — predicts next quarter's earnings surprise and a full year of analyst forecast errors.</p>
+        <span class="path">/profit-trend-paper -&gt;</span>
+      </a>
+
+      <a class="entry" href="/owners-earnings-paper">
+        <span class="tag paper">Paper</span>
+        <h3>Owner's Earnings — Buffett's metric, rebuilt from asset-pricing parts</h3>
+        <p>Vyas 2024 — the profitability literature is one long subtraction (gross profits, minus SG&amp;A, minus accruals) and it stopped one line early. Subtract capital expenditures and you get Buffett's owner's earnings, which subsumes a dozen popular value and profitability anomalies on every deflator. The mechanism is mechanical and pretty: capex predicts nothing on its own, but subtracting it drives the metric's correlation with capex from <span class="mono">0.345</span> to <span class="mono">0.030</span> while leaving the cash-profitability exposure intact. Includes the author's own flagged doubts about his data pipeline.</p>
+        <span class="path">/owners-earnings-paper -&gt;</span>
+      </a>
+
+      <a class="entry" href="/insider-density-paper">
+        <span class="tag paper">Paper</span>
+        <h3>When Insiders Trade Less — density and return predictability</h3>
+        <p>Wang, Wang, Chiah &amp; Bai 2025 — condition on the trader, not the trade. Divide the months an insider traded by the months of their tenure and the rare traders are the ones worth following: their purchases and sales carry the abnormal returns, the routine traders are noise. 40,159 insider-months across 2,653 Chinese firms. Summarised from the abstract only — the page lists exactly which numbers I could not verify.</p>
+        <span class="path">/insider-density-paper -&gt;</span>
+      </a>
+
+      <a class="entry" href="/eig-premium-paper">
+        <span class="tag paper">Paper</span>
+        <h3>The Expected Investment Growth Premium — sorting on the capex a firm is about to do</h3>
+        <p>Li, Wang &amp; Yu 2021 — the investment factor says heavy spenders underperform. Forecast next year's capex growth instead of measuring last year's, and the sign turns over: high expected investment growth beats low by <strong>17% a year</strong>. The reconciliation is the lag — a committed but unspent outlay sits ahead of the equity holder like debt, and embedded leverage raises the required return. Includes the LASSO that shrinks eleven predictors to six (Tobin's <span class="mono">q</span> does not survive), and the companion result where the <em>same</em> measure, aggregated, predicts the market with the opposite sign.</p>
+        <span class="path">/eig-premium-paper -&gt;</span>
       </a>
     </div>
   </section>
