@@ -465,7 +465,7 @@ section.ledger { animation-delay: 0.3s; }
   <h1>Poker theory, <em>counterfactual regret,</em> and learning experiments.</h1>
   <p class="lede">Interactive solvers that learn Kuhn and Leduc hold'em from scratch, self-grading drills for the nine-game mix, and study notes on the algorithms behind modern poker bots. <strong>Everything runs in the browser.</strong></p>
   <dl class="strip">
-    <div><dt>Pages</dt><dd>38</dd></div>
+    <div><dt>Pages</dt><dd>39</dd></div>
     <div><dt>Sections</dt><dd>14</dd></div>
     <div><dt>Solvers</dt><dd>CFR+ · <span>DCFR</span></dd></div>
     <div><dt>Toy games</dt><dd>Kuhn · Leduc</dd></div>
@@ -565,12 +565,19 @@ section.ledger { animation-delay: 0.3s; }
       <span class="idx">03</span>
       <div>
         <h2>Deuce-to-Seven Analysis</h2>
-        <p class="sub">Exact enumeration output from poker-bot</p>
+        <p class="sub">Equity, class tables and the game tree for 2-7 triple draw</p>
       </div>
-      <span class="count">2 entries</span>
+      <span class="count">3 entries</span>
     </div>
 
     <div class="entries">
+      <a class="entry" href="/deuce-ev">
+        <span class="tag drill">Tool</span>
+        <h3>2-7 Triple Draw EV Calculator</h3>
+        <p>Win, tie and equity for a deuce-to-seven spot, with the three draws actually played out rather than frozen at showdown &mdash; so a pat eight and a live one-card draw are priced against each other honestly. Then the part a hold&rsquo;em calculator has no room for: what the hand can still <em>become</em>, priced side by side with <strong>three, two and one</strong> draw remaining. Holding 5-4-3-2, the nut is <strong>19.3%</strong> away with three draws and only <strong>8.5%</strong> with one. The last-draw column is exact by enumeration; the evaluator is the same 7,462 classes as the table below. Runs in a worker, no server.</p>
+        <span class="path">/deuce-ev -&gt;</span>
+      </a>
+
       <a class="entry" href="/deuce-equity">
         <span class="tag metric">Table</span>
         <h3>2-7 Class Equity Table</h3>
