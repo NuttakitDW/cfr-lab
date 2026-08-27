@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-7 Triple Draw EV Calculator</title>
+<meta name="description" content="Win, tie and equity for deuce-to-seven triple draw, plus the probability of improving to every hand class with three, two and one draw remaining.">
+<meta name="theme-color" content="#050706">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; line-height: 1.5; min-height: 100vh; }
+
+/* ---- chrome ---------------------------------------------------------- */
+header {
+  padding: 16px 26px; position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+}
+header h1 { margin: 0; }
+header h1 em { font-style: italic; color: var(--signal); }
+header .sub { margin: 0; }
+header .home { margin-left: auto; text-decoration: none; font-size: 12px; color: var(--ash-1); font-family: var(--mono); }
+header .home:hover { color: var(--signal); }
+
+main { padding: 24px 26px 48px; max-width: 1180px; margin: 0 auto; }
+section.panel { padding: 20px 22px 22px; margin-bottom: 18px; }
+section.panel > h2 { margin: 0 0 4px; }
+.lede { margin: 0 0 18px; color: var(--ash-1); font-size: 13.5px; max-width: 82ch; }
+.lede b { color: var(--pale); font-weight: 600; }
+
+/* ---- segmented control ----------------------------------------------- */
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button {
+  font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+  background: var(--ink-4); color: var(--ash-1);
+  border: 1px solid var(--edge-line); border-radius: 6px; padding: 7px 13px;
+}
+.seg button .n { font-family: var(--mono); font-size: 10px; display: block; color: var(--ash-2); letter-spacing: 0.5px; }
+.seg button.active .n { color: var(--signal-deep); }
+.seg button:hover { color: var(--pale); }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-end; margin-bottom: 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field > label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--ash-1);
+}
+select { font-size: 12px; padding: 7px 10px; }
+
+/* ---- playing cards ---------------------------------------------------- */
+.slots { display: flex; gap: 5px; }
+.card {
+  width: 40px; height: 56px; border-radius: 5px; flex: none; cursor: pointer;
+  background: linear-gradient(178deg, #fbfdfa, #e4e9e3);
+  border: 1px solid #aab5ac; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: var(--mono); line-height: 1; user-select: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.45);
+  transition: transform 0.13s ease, box-shadow 0.13s ease;
+}
+.card .r { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; }
+.card .s { font-size: 13px; margin-top: 1px; }
+.card.s-s { color: #0b0f0c; } .card.s-h { color: #c4162a; }
+.card.s-d { color: #12608f; } .card.s-c { color: #1a7a3c; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
+.card.empty {
+  background: rgba(232,242,234,0.03); border: 1px dashed var(--edge-lit);
+  color: var(--ash-2); box-shadow: none;
+}
+.card.empty .r { font-size: 15px; font-weight: 400; }
+.card.back {
+  background:
+    repeating-linear-gradient(45deg, rgba(0,217,95,0.16) 0 3px, transparent 3px 6px),
+    linear-gradient(178deg, #10321f, #071309);
+  border-color: var(--edge-lit); color: var(--signal-deep); cursor: default;
+}
+.card.back:hover { transform: none; box-shadow: none; }
+.card.back .r { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+.card.sm { width: 30px; height: 42px; }
+.card.sm .r { font-size: 14px; } .card.sm .s { font-size: 10px; }
+
+/* ---- seats ------------------------------------------------------------ */
+.seat {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 11px 13px; border: 1px solid var(--edge-line); border-radius: 8px;
+  background: var(--ink-2); margin-bottom: 8px; cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.seat:hover { border-color: var(--edge-lit); }
+.seat.active { border-color: rgba(0,217,95,0.45); background: rgba(0,217,95,0.045);
+  box-shadow: 0 0 0 1px rgba(0,217,95,0.10), 0 0 24px -10px rgba(0,217,95,0.6); }
+.seat .who { min-width: 96px; }
+.seat .who b { display: block; font-size: 13.5px; }
+.seat .who span { font-family: var(--mono); font-size: 9.5px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ash-2); }
+.seat.active .who span { color: var(--signal-deep); }
+.seat .made { font-family: var(--mono); font-size: 11px; color: var(--ash-1); min-width: 108px; }
+.seat .made b { color: var(--signal); font-weight: 600; }
+.seat-tools { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.mini {
+  font: inherit; font-family: var(--mono); font-size: 10px; letter-spacing: 0.6px;
+  text-transform: uppercase; padding: 5px 9px; border-radius: 5px; cursor: pointer;
+  background: var(--ink-4); border: 1px solid var(--edge-line); color: var(--ash-1);
+}
+.mini:hover { color: var(--pale); border-color: var(--edge-lit); }
+.mini.on { background: rgba(0,217,95,0.13); border-color: rgba(0,217,95,0.4); color: var(--signal); }
+
+/* ---- picker ----------------------------------------------------------- */
+.picker { margin-top: 16px; }
+.picker-grid { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 4px; max-width: 660px; }
+.pk {
+  font: inherit; font-family: var(--mono); font-size: 11px; font-weight: 600;
+  padding: 6px 0; border-radius: 4px; cursor: pointer; text-align: center;
+  border: 1px solid var(--edge-line); background: var(--ink-4);
+}
+.pk.s-s { color: #cfd9d1; } .pk.s-h { color: #ff6b76; }
+.pk.s-d { color: #4fc4d8; } .pk.s-c { color: #9ce65c; }
+.pk:hover:not(:disabled) { border-color: var(--signal-deep); background: var(--ink-5); }
+.pk:disabled { opacity: 0.18; cursor: not-allowed; }
+
+/* ---- results ---------------------------------------------------------- */
+.res { display: flex; flex-direction: column; gap: 12px; }
+.res-row {
+  display: grid; grid-template-columns: 190px 1fr 250px; gap: 18px; align-items: center;
+  padding: 14px; border: 1px solid var(--edge-line); border-radius: 9px; background: var(--ink-2);
+}
+.res-row.hero { border-color: rgba(0,217,95,0.32); background: rgba(0,217,95,0.04); }
+.res-name b { display: block; font-size: 14px; margin-bottom: 6px; }
+.res-cards { display: flex; gap: 3px; }
+.bar { height: 26px; border-radius: 5px; overflow: hidden; display: flex; background: var(--ink-5);
+  border: 1px solid var(--edge-line); }
+.bar i { display: block; height: 100%; transition: width 0.6s cubic-bezier(0.2,0.75,0.3,1); }
+.bar .w { background: linear-gradient(180deg, var(--signal), var(--signal-deep)); }
+.bar .t { background: var(--moss); border-left: 1px solid rgba(0,217,95,0.4); }
+.nums { display: flex; gap: 16px; justify-content: flex-end; }
+.num { text-align: right; }
+.num span { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ash-2); }
+.num b { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--pale); }
+.num.eq b { font-size: 22px; color: var(--signal); }
+.pm { font-family: var(--mono); font-size: 9.5px; color: var(--ash-2); }
+
+/* ---- improvement table ------------------------------------------------ */
+.tbl-wrap { overflow-x: auto; }
+table.imp { width: 100%; border-collapse: collapse; min-width: 620px; }
+table.imp th, table.imp td { padding: 7px 10px; border-bottom: 1px solid var(--edge-line); }
+table.imp th { text-align: right; white-space: nowrap; }
+table.imp th:first-child { text-align: left; }
+table.imp td { font-family: var(--mono); font-size: 12.5px; text-align: right; }
+table.imp td:first-child { text-align: left; font-family: var(--sans); font-size: 13px; color: var(--pale); }
+table.imp tbody tr:hover { background: rgba(0,217,95,0.045); }
+table.imp tr.nut td { background: rgba(0,217,95,0.09); }
+table.imp tr.nut td:first-child { color: var(--signal); font-weight: 700; }
+table.imp tr.made td:first-child { color: var(--ash-1); }
+table.imp tr.total td { border-top: 1px solid var(--edge-lit); border-bottom: none;
+  font-weight: 700; color: var(--pale); }
+.cell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.cell .v { min-width: 52px; }
+.cell .g { width: 46px; height: 5px; border-radius: 3px; background: var(--ink-5); overflow: hidden; flex: none; }
+.cell .g i { display: block; height: 100%; background: var(--signal-deep); }
+.zero { color: var(--ash-2); }
+.plan {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 16px;
+}
+.plan div { border: 1px solid var(--edge-line); border-left: 2px solid var(--signal-deep);
+  border-radius: 6px; padding: 10px 12px; background: var(--ink-2); }
+.plan span { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ash-2); margin-bottom: 4px; }
+.plan b { font-family: var(--mono); font-size: 13px; color: var(--signal); font-weight: 600; }
+.plan em { display: block; font-style: normal; font-size: 11.5px; color: var(--ash-1); margin-top: 3px; }
+
+/* ---- EV strip --------------------------------------------------------- */
+.ev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.ev-cell { border: 1px solid var(--edge-line); border-radius: 8px; padding: 13px 14px; background: var(--ink-2); }
+.ev-cell span { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ash-2); margin-bottom: 6px; }
+.ev-cell b { font-family: var(--mono); font-size: 21px; font-weight: 600; }
+.ev-cell.good b { color: var(--signal); } .ev-cell.bad b { color: var(--red); }
+.ev-cell em { display: block; font-style: normal; font-family: var(--mono); font-size: 10.5px;
+  color: var(--ash-1); margin-top: 4px; }
+.ev-inputs { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.ev-inputs input { width: 92px; font-size: 12.5px; padding: 7px 9px; }
+
+/* ---- status / progress ------------------------------------------------ */
+.runbar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 18px;
+  padding-top: 16px; border-top: 1px solid var(--edge-line); }
+.status { font-family: var(--mono); font-size: 11px; color: var(--ash-1); }
+.status b { color: var(--signal); }
+.prog { flex: 1; min-width: 140px; height: 4px; border-radius: 3px; background: var(--ink-5); overflow: hidden; }
+.prog i { display: block; height: 100%; width: 0; background: var(--signal); transition: width 0.25s linear; }
+.note { font-family: var(--mono); font-size: 10.5px; color: var(--ash-2); line-height: 1.65; margin-top: 14px; }
+.note b { color: var(--ash-1); font-weight: 600; }
+.tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 3px; margin-left: 7px; vertical-align: 1.5px; }
+.tag.exact { background: rgba(0,217,95,0.14); color: var(--signal); border: 1px solid rgba(0,217,95,0.3); }
+.tag.mc { background: rgba(53,207,224,0.12); color: var(--cyan); border: 1px solid rgba(53,207,224,0.28); }
+
+footer { padding: 22px 26px 30px; text-align: center; }
+
+@media (max-width: 820px) {
+  main { padding: 18px 14px 40px; }
+  section.panel { padding: 16px 14px 18px; }
+  .res-row { grid-template-columns: 1fr; }
+  .nums { justify-content: flex-start; }
+  .picker-grid { grid-template-columns: repeat(7, minmax(0,1fr)); }
+  header { padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>2-7 Triple Draw <em>EV Calculator</em></h1>
+    <p class="sub">Equity, and the odds of getting there, with three draws to come</p>
+  </div>
+  <a class="home" href="/">&larr; nuttakitkundum.com</a>
+</header>
+
+<main>
+
+<section class="panel">
+  <h2>Setup</h2>
+  <p class="lede">Deuce-to-seven lowball: the <b>ace is always high</b>, and straights and flushes count
+  against you — so <b>7-5-4-3-2</b> is the nut and <b>7-6-5-4-3</b> is a straight. Give a seat five cards or
+  leave it face down for a random hand, pick how many draws are still to come, and run it. Both seats
+  then draw out the hand under the same policy, so the equity is the real thing rather than a showdown
+  between frozen hands.</p>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Draws remaining</label>
+      <div class="seg" id="stageSeg">
+        <button data-d="3" class="active">Pre-draw<span class="n">3 draws</span></button>
+        <button data-d="2">After draw 1<span class="n">2 draws</span></button>
+        <button data-d="1">After draw 2<span class="n">1 draw</span></button>
+        <button data-d="0">After draw 3<span class="n">showdown</span></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Trials</label>
+      <select id="trials">
+        <option value="50000">50,000 &mdash; fast</option>
+        <option value="200000" selected>200,000 &mdash; balanced</option>
+        <option value="600000">600,000 &mdash; precise</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="seats"></div>
+
+  <div class="field-row" style="margin: 10px 0 0;">
+    <button class="mini" id="addSeat">+ add opponent</button>
+    <button class="mini" id="dealBtn">deal a random spot</button>
+    <button class="mini" id="clearBtn">clear all</button>
+  </div>
+
+  <div class="picker">
+    <div class="field" style="margin-bottom: 9px;">
+      <label>Click to fill <span id="pickTarget" style="color:var(--signal)">Seat 1</span></label>
+    </div>
+    <div class="picker-grid" id="picker"></div>
+  </div>
+
+  <div class="runbar">
+    <button class="btn primary" id="runBtn" style="font-size:13px;padding:9px 22px;cursor:pointer">Run</button>
+    <div class="prog"><i id="progBar"></i></div>
+    <div class="status" id="status">Booting engine&hellip;</div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Equity</h2>
+  <h3 id="eqTitle">Run a spot to see win, tie and equity</h3>
+  <p class="lede" id="eqSub">Equity is win% plus an even share of every tie, which is what a pot is
+  actually worth to you at showdown.</p>
+  <div class="res" id="results"></div>
+</section>
+
+<section class="panel">
+  <h2>Improvement by draw round</h2>
+  <h3>What this hand can still become</h3>
+  <p class="lede">The same five cards, priced with <b>three, two and one</b> draw left. Each column plays
+  the hand out to showdown from that point, so the left column is worth more than the right one for
+  exactly the reason you would expect &mdash; more draws, more chances to get there. The
+  <b>one-draw</b> column is exact: every remaining card is enumerated, nothing is sampled.</p>
+  <div class="plan" id="plan"></div>
+  <div class="field-row" style="margin-bottom:14px">
+    <div class="field">
+      <label>Show</label>
+      <div class="seg" id="cumSeg">
+        <button data-c="0" class="active">Exactly this class</button>
+        <button data-c="1">This class or better</button>
+      </div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="imp" id="impTable"><tbody></tbody></table>
+  </div>
+  <p class="note" id="impNote"></p>
+</section>
+
+<section class="panel">
+  <h2>Pot odds</h2>
+  <h3>Is the call profitable?</h3>
+  <p class="lede">Fixed-limit sizing, in big bets. Equity comes from the seat highlighted above.</p>
+  <div class="ev-inputs">
+    <div class="field"><label>Pot</label><input type="number" id="potIn" value="4" min="0" step="0.5"></div>
+    <div class="field"><label>To call</label><input type="number" id="callIn" value="1" min="0" step="0.5"></div>
+  </div>
+  <div class="ev-grid" id="evGrid"></div>
+  <p class="note">Pot odds ignore what happens on later streets &mdash; implied odds from the draws still
+  to come, and the bets you will pay to see them, both move the real number. Treat this as the floor.</p>
+</section>
+
+<section class="panel">
+  <h2>Method</h2>
+  <h3>What is exact, and what is sampled</h3>
+  <p class="note" id="method"></p>
+</section>
+
+</main>
+
+<footer>
+  <span>Copyright &copy; 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a> &mdash; All rights reserved.</span>
+</footer>
+
+<script src="/assets/deuce-engine.js"></script>
+<script>
+'use strict';
+/* ===========================================================================
+   2-7 TRIPLE DRAW EV CALCULATOR — UI
+   The engine (assets/deuce-engine.js) is loaded twice on purpose: once here,
+   for instant hand labels while you click cards, and once inside the worker,
+   where the expensive draw-value table and the simulations live.
+   ======================================================================== */
+
+const RANKS = ['2','3','4','5','6','7','8','9','T','J','Q','K','A'];
+const SUITS = ['s','h','d','c'];
+const GLYPH = { s: '♠', h: '♥', d: '♦', c: '♣' };
+const cardName = c => RANKS[c >> 2] + SUITS[c & 3];
+
+Deuce.buildClasses();          /* main-thread copy: labels only, no draw table */
+
+/* ---- state ------------------------------------------------------------- */
+const S = {
+  drawsLeft: 3,
+  seats: [ { cards: [], random: false }, { cards: [], random: true } ],
+  dead: [],
+  active: 0,                   /* -1 == the dead-card tray */
+  cumulative: false,
+  ready: false,
+  last: null
+};
+
+const $ = id => document.getElementById(id);
+const usedCards = () => {
+  const u = new Set(S.dead);
+  for (const s of S.seats) if (!s.random) for (const c of s.cards) u.add(c);
+  return u;
+};
+
+/* ---- card rendering ---------------------------------------------------- */
+function cardEl(c, small) {
+  const d = document.createElement('div');
+  d.className = 'card s-' + SUITS[c & 3] + (small ? ' sm' : '');
+  d.innerHTML = '<span class="r">' + RANKS[c >> 2] + '</span><span class="s">' + GLYPH[SUITS[c & 3]] + '</span>';
+  return d;
+}
+function emptyEl(label) {
+  const d = document.createElement('div');
+  d.className = 'card empty';
+  d.innerHTML = '<span class="r">' + (label || '+') + '</span>';
+  return d;
+}
+function backEl() {
+  const d = document.createElement('div');
+  d.className = 'card back';
+  d.innerHTML = '<span class="r">RND</span>';
+  return d;
+}
+
+/* ---- made-hand label --------------------------------------------------- */
+function describe(cards) {
+  if (cards.length !== 5) return null;
+  const v = Deuce.evalHand(cards[0], cards[1], cards[2], cards[3], cards[4]);
+  const cat = Deuce.categorize(v);
+  const ranksDesc = cards.map(c => c >> 2).sort((a, b) => b - a).map(r => RANKS[r]);
+  const name = cat <= 7
+    ? ranksDesc.join('-')
+    : Deuce.CATS[cat];
+  return { v, cat, name, nut: v === Deuce.NUT, pct: Deuce.strengthOf(v) };
+}
+
+/* ---- seats ------------------------------------------------------------- */
+function renderSeats() {
+  const wrap = $('seats');
+  wrap.innerHTML = '';
+  S.seats.forEach((seat, i) => {
+    const row = document.createElement('div');
+    row.className = 'seat' + (S.active === i ? ' active' : '');
+    row.onclick = e => { if (e.target.closest('.seat-tools')) return; S.active = i; renderAll(); };
+
+    const who = document.createElement('div');
+    who.className = 'who';
+    who.innerHTML = '<b>' + (i === 0 ? 'Hero' : 'Seat ' + (i + 1)) + '</b><span>' +
+      (S.active === i ? 'filling' : (seat.random ? 'random' : 'known')) + '</span>';
+    row.appendChild(who);
+
+    const slots = document.createElement('div');
+    slots.className = 'slots';
+    if (seat.random) { for (let k = 0; k < 5; k++) slots.appendChild(backEl()); }
+    else {
+      seat.cards.forEach((c, k) => {
+        const el = cardEl(c);
+        el.onclick = ev => { ev.stopPropagation(); seat.cards.splice(k, 1); S.active = i; renderAll(); };
+        slots.appendChild(el);
+      });
+      for (let k = seat.cards.length; k < 5; k++) slots.appendChild(emptyEl());
+    }
+    row.appendChild(slots);
+
+    const made = document.createElement('div');
+    made.className = 'made';
+    const d = seat.random ? null : describe(seat.cards);
+    made.innerHTML = seat.random ? 'any five cards'
+      : d ? (d.nut ? '<b>THE NUT</b>' : (d.cat <= 7 ? '<b>' + d.name + '</b>' : d.name))
+          : (seat.cards.length + '/5 cards');
+    row.appendChild(made);
+
+    const tools = document.createElement('div');
+    tools.className = 'seat-tools';
+    const rb = document.createElement('button');
+    rb.className = 'mini' + (seat.random ? ' on' : '');
+    rb.textContent = 'random';
+    rb.onclick = () => {
+      seat.random = !seat.random;
+      if (seat.random) seat.cards = [];
+      renderAll();
+      if (S.seats.every(s => s.random || s.cards.length === 5)) run();
+    };
+    tools.appendChild(rb);
+    if (S.seats.length > 2) {
+      const xb = document.createElement('button');
+      xb.className = 'mini'; xb.textContent = 'remove';
+      xb.onclick = () => { S.seats.splice(i, 1); S.active = Math.min(S.active, S.seats.length - 1); renderAll(); };
+      tools.appendChild(xb);
+    }
+    row.appendChild(tools);
+    wrap.appendChild(row);
+  });
+
+  /* the dead-card tray */
+  const row = document.createElement('div');
+  row.className = 'seat' + (S.active === -1 ? ' active' : '');
+  row.onclick = () => { S.active = -1; renderAll(); };
+  row.innerHTML = '<div class="who"><b>Dead cards</b><span>' +
+    (S.active === -1 ? 'filling' : 'removed from deck') + '</span></div>';
+  const slots = document.createElement('div');
+  slots.className = 'slots';
+  S.dead.forEach((c, k) => {
+    const el = cardEl(c, true);
+    el.onclick = ev => { ev.stopPropagation(); S.dead.splice(k, 1); renderAll(); };
+    slots.appendChild(el);
+  });
+  slots.appendChild(emptyEl('+')).classList.add('sm');
+  row.appendChild(slots);
+  const m = document.createElement('div');
+  m.className = 'made';
+  m.textContent = S.dead.length ? S.dead.length + ' card' + (S.dead.length > 1 ? 's' : '') + ' folded' : 'none';
+  row.appendChild(m);
+  $('seats').appendChild(row);
+
+  $('pickTarget').textContent = S.active === -1 ? 'dead cards'
+    : (S.active === 0 ? 'Hero' : 'Seat ' + (S.active + 1));
+}
+
+/* ---- picker ------------------------------------------------------------ */
+function renderPicker() {
+  const g = $('picker');
+  if (!g.childElementCount) {
+    for (let s = 0; s < 4; s++) for (let r = 0; r < 13; r++) {
+      const c = r * 4 + s;
+      const b = document.createElement('button');
+      b.className = 'pk s-' + SUITS[s];
+      b.textContent = RANKS[r] + GLYPH[SUITS[s]];
+      b.dataset.c = c;
+      b.onclick = () => addCard(c);
+      g.appendChild(b);
+    }
+  }
+  const used = usedCards();
+  [...g.children].forEach(b => {
+    const c = +b.dataset.c;
+    const full = S.active >= 0 && !S.seats[S.active].random && S.seats[S.active].cards.length >= 5;
+    b.disabled = used.has(c) || (S.active >= 0 && S.seats[S.active].random) || full;
+  });
+}
+function addCard(c) {
+  if (usedCards().has(c)) return;
+  if (S.active === -1) S.dead.push(c);
+  else {
+    const seat = S.seats[S.active];
+    if (seat.random || seat.cards.length >= 5) return;
+    seat.cards.push(c);
+    if (seat.cards.length === 5) {                  /* hop to the next seat needing cards */
+      const next = S.seats.findIndex(s => !s.random && s.cards.length < 5);
+      if (next >= 0) S.active = next;
+    }
+  }
+  renderAll();
+  if (S.active !== -1 && S.seats.every(s => s.random || s.cards.length === 5)) run();
+}
+
+/* ---- worker ------------------------------------------------------------ */
+const workerSrc =
+  "importScripts(" + JSON.stringify(location.origin + '/assets/deuce-engine.js') + ");\n" +
+  "var DV = null;\n" +
+  "onmessage = function (e) {\n" +
+  "  var m = e.data;\n" +
+  "  if (m.cmd === 'init') {\n" +
+  "    Deuce.buildClasses();\n" +
+  "    DV = Deuce.calibrate({ rounds: 3, rollouts: 120000,\n" +
+  "      onProgress: function (p) { postMessage({ t: 'prog', p: p }); } });\n" +
+  "    postMessage({ t: 'ready', cats: Deuce.CATS });\n" +
+  "    return;\n" +
+  "  }\n" +
+  "  if (m.cmd === 'run') {\n" +
+  "    var eq = Deuce.runEquity({ players: m.players, drawsLeft: m.drawsLeft,\n" +
+  "      dead: m.dead, trials: m.trials, DV: DV, seed: m.seed });\n" +
+  "    var imp = null;\n" +
+  "    if (m.hero) {\n" +
+  "      imp = {};\n" +
+  "      [3, 2, 1].forEach(function (d) {\n" +
+  "        imp[d] = Deuce.runImprovement(m.hero, d, m.dead, DV, Math.max(120000, m.trials), 900 + d);\n" +
+  "      });\n" +
+  "    }\n" +
+  "    postMessage({ t: 'result', eq: eq, imp: imp });\n" +
+  "  }\n" +
+  "};\n";
+
+let worker = null, CATS = Deuce.CATS;
+function boot() {
+  worker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'application/javascript' })));
+  worker.onmessage = e => {
+    const m = e.data;
+    if (m.t === 'prog') { $('progBar').style.width = (m.p * 100).toFixed(1) + '%';
+      setStatus('Calibrating draw policy&hellip; <b>' + (m.p * 100).toFixed(0) + '%</b>'); }
+    else if (m.t === 'ready') {
+      CATS = m.cats; S.ready = true;
+      $('progBar').style.width = '100%';
+      setStatus('Engine ready. <b>7,462</b> value classes, draw policy calibrated by self-play.');
+      $('runBtn').disabled = false;
+      run();
+    } else if (m.t === 'result') { S.last = m; renderResults(); }
+  };
+  worker.postMessage({ cmd: 'init' });
+}
+const setStatus = html => { $('status').innerHTML = html; };
+
+/* ---- run --------------------------------------------------------------- */
+let running = false;
+function run() {
+  if (!S.ready || running) return;
+  for (const s of S.seats) if (!s.random && s.cards.length !== 5) {
+    setStatus('Every known seat needs five cards.'); return;
+  }
+  running = true;
+  $('runBtn').disabled = true;
+  setStatus('Simulating&hellip;');
+  $('progBar').style.width = '35%';
+  const hero = (!S.seats[0].random && S.seats[0].cards.length === 5) ? S.seats[0].cards.slice() : null;
+  worker.postMessage({
+    cmd: 'run',
+    players: S.seats.map(s => ({ cards: s.random ? null : s.cards.slice() })),
+    drawsLeft: S.drawsLeft, dead: S.dead.slice(),
+    trials: +$('trials').value, hero, seed: (Math.random() * 1e9) | 0
+  });
+}
+
+/* ---- results ----------------------------------------------------------- */
+const pct = x => (x * 100).toFixed(2) + '%';
+
+function renderResults() {
+  running = false;
+  $('runBtn').disabled = false;
+  $('progBar').style.width = '100%';
+  if (!S.last) return;
+  const { eq, imp } = S.last;
+  const trials = +$('trials').value;
+  setStatus('Done. <b>' + trials.toLocaleString() + '</b> trials, ' +
+    ['showdown', 'one draw', 'two draws', 'three draws'][S.drawsLeft] + ' played out.');
+
+  const wrap = $('results');
+  wrap.innerHTML = '';
+  const stageWord = ['after the last draw', 'with one draw to come',
+                     'with two draws to come', 'with three draws to come'][S.drawsLeft];
+  $('eqTitle').textContent = S.seats.length + '-handed, ' + stageWord;
+  $('eqSub').innerHTML = 'Equity is win% plus an even share of every tie. Each seat draws out the ' +
+    'hand under the calibrated policy, so a pat hand and a live draw are compared as they actually play.';
+
+  eq.forEach((r, i) => {
+    const seat = S.seats[i];
+    const row = document.createElement('div');
+    row.className = 'res-row' + (i === 0 ? ' hero' : '');
+
+    const nm = document.createElement('div');
+    nm.className = 'res-name';
+    const d = seat.random ? null : describe(seat.cards);
+    nm.innerHTML = '<b>' + (i === 0 ? 'Hero' : 'Seat ' + (i + 1)) + '</b>';
+    const cds = document.createElement('div');
+    cds.className = 'res-cards';
+    if (seat.random) for (let k = 0; k < 5; k++) cds.appendChild(backEl()).classList.add('sm');
+    else seat.cards.forEach(c => cds.appendChild(cardEl(c, true)));
+    nm.appendChild(cds);
+    if (d) {
+      const lb = document.createElement('div');
+      lb.className = 'pm'; lb.style.marginTop = '6px';
+      lb.textContent = d.nut ? 'the nut' : (d.cat <= 7 ? d.name + '  ·  ' + CATS[d.cat].toLowerCase() : CATS[d.cat]);
+      nm.appendChild(lb);
+    }
+    row.appendChild(nm);
+
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.innerHTML = '<i class="w" style="width:0"></i><i class="t" style="width:0"></i>';
+    row.appendChild(bar);
+    requestAnimationFrame(() => {
+      bar.children[0].style.width = (r.win * 100) + '%';
+      bar.children[1].style.width = (r.tie * 100) + '%';
+    });
+
+    const nums = document.createElement('div');
+    nums.className = 'nums';
+    nums.innerHTML =
+      '<div class="num"><span>Win</span><b>' + pct(r.win) + '</b></div>' +
+      '<div class="num"><span>Tie</span><b>' + pct(r.tie) + '</b></div>' +
+      '<div class="num eq"><span>Equity</span><b>' + pct(r.equity) + '</b>' +
+      '<div class="pm">&plusmn;' + (r.stderr * 196).toFixed(2) + '</div></div>';
+    row.appendChild(nums);
+    wrap.appendChild(row);
+  });
+
+  renderImprovement(imp);
+  renderEV(eq[0] ? eq[0].equity : 0);
+}
+
+/* ---- improvement ------------------------------------------------------- */
+function renderImprovement(imp) {
+  const plan = $('plan'), tb = $('impTable').querySelector('tbody');
+  plan.innerHTML = ''; tb.innerHTML = '';
+  if (!imp) {
+    $('impNote').innerHTML = 'Give <b>Hero</b> five cards to price the draws.';
+    return;
+  }
+  const DS = [3, 2, 1];
+
+  DS.forEach(d => {
+    const p = imp[d];
+    const box = document.createElement('div');
+    const kept = p.keep.map(c => RANKS[c >> 2] + GLYPH[SUITS[c & 3]]).join(' ');
+    box.innerHTML = '<span>' + d + ' draw' + (d > 1 ? 's' : '') + ' remaining</span>' +
+      '<b>' + (p.plan.discards === 0 ? 'STANDS PAT' : 'DRAWS ' + p.plan.discards) + '</b>' +
+      '<em>' + (p.plan.discards === 0 ? 'the hand is already worth keeping' : 'keeps ' + kept) + '</em>';
+    if (d === S.drawsLeft) box.style.borderLeftColor = 'var(--signal)';
+    plan.appendChild(box);
+  });
+
+  const head = document.createElement('tr');
+  head.innerHTML = '<th>Final hand</th>' + DS.map(d =>
+    '<th>' + d + ' draw' + (d > 1 ? 's' : '') + (imp[d].exact ? ' <span class="tag exact">exact</span>'
+      : ' <span class="tag mc">mc</span>') + '</th>').join('');
+  tb.appendChild(head);
+
+  const rows = [{ label: '7-5-4-3-2 &mdash; the nut', cls: 'nut', pick: (r) => r.nut, cum: (r) => r.nut }];
+  CATS.forEach((c, i) => rows.push({
+    label: c, cls: i <= 7 ? '' : 'made',
+    pick: r => r.counts[i],
+    cum: r => { let s = 0; for (let j = 0; j <= i; j++) s += r.counts[j]; return s; }
+  }));
+
+  const any = rows.map(row => DS.some(d => row.pick(imp[d]) > 0.00005));
+  rows.forEach((row, ri) => {
+    if (!any[ri] && ri > 0) return;
+    const tr = document.createElement('tr');
+    tr.className = row.cls;
+    let html = '<td>' + row.label + '</td>';
+    DS.forEach(d => {
+      const v = S.cumulative ? row.cum(imp[d]) : row.pick(imp[d]);
+      const hi = d === S.drawsLeft ? ' style="color:var(--signal)"' : (v < 0.00005 ? ' class="zero"' : '');
+      html += '<td' + hi + '><div class="cell"><span class="v">' + (v * 100).toFixed(2) + '%</span>' +
+        '<span class="g"><i style="width:' + Math.min(100, v * 100 * 2.2).toFixed(1) + '%"></i></span></div></td>';
+    });
+    tr.innerHTML = html;
+    tb.appendChild(tr);
+  });
+
+  const nutRow = DS.map(d => imp[d].nut);
+  const eightPlus = DS.map(d => imp[d].counts[0] + imp[d].counts[1]);
+  $('impNote').innerHTML =
+    'Holding these exact five cards, the chance of ending on <b>7-5-4-3-2</b> is <b>' + pct(nutRow[0]) +
+    '</b> with three draws left but only <b>' + pct(nutRow[2]) + '</b> with one &mdash; ' +
+    (nutRow[2] > 0 ? (nutRow[0] / nutRow[2]).toFixed(1) + '&times; better early. ' : '') +
+    'An <b>eight-low or better</b> goes ' + pct(eightPlus[0]) + ' &rarr; ' + pct(eightPlus[1]) +
+    ' &rarr; ' + pct(eightPlus[2]) + '. ' +
+    'The one-draw column enumerates all ' + imp[1].outcomes.toLocaleString() +
+    ' remaining draws exactly; the other two are sampled.';
+}
+
+/* ---- pot odds ---------------------------------------------------------- */
+function renderEV(equity) {
+  const pot = Math.max(0, +$('potIn').value || 0), call = Math.max(0, +$('callIn').value || 0);
+  const need = (pot + call) > 0 ? call / (pot + call) : 0;
+  const ev = equity * (pot + call) - call;
+  const ok = ev >= 0;
+  $('evGrid').innerHTML =
+    '<div class="ev-cell"><span>Hero equity</span><b style="color:var(--signal)">' + pct(equity) + '</b>' +
+      '<em>from the run above</em></div>' +
+    '<div class="ev-cell"><span>Equity needed</span><b>' + pct(need) + '</b>' +
+      '<em>' + call + ' to win ' + (pot + call) + '</em></div>' +
+    '<div class="ev-cell ' + (ok ? 'good' : 'bad') + '"><span>EV of calling</span><b>' +
+      (ev >= 0 ? '+' : '') + ev.toFixed(3) + '</b><em>big bets per call</em></div>' +
+    '<div class="ev-cell ' + (ok ? 'good' : 'bad') + '"><span>Verdict</span><b>' +
+      (ok ? 'CALL' : 'FOLD') + '</b><em>' + (equity - need >= 0 ? '+' : '') +
+      ((equity - need) * 100).toFixed(2) + ' pts vs the price</em></div>';
+}
+
+/* ---- wiring ------------------------------------------------------------ */
+function renderAll() { renderSeats(); renderPicker(); }
+
+$('stageSeg').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S.drawsLeft = +b.dataset.d;
+  [...$('stageSeg').children].forEach(x => x.classList.toggle('active', x === b));
+  run();
+};
+$('cumSeg').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S.cumulative = b.dataset.c === '1';
+  [...$('cumSeg').children].forEach(x => x.classList.toggle('active', x === b));
+  if (S.last) renderImprovement(S.last.imp);
+};
+$('addSeat').onclick = () => {
+  if (S.seats.length >= 6) return;
+  S.seats.push({ cards: [], random: true }); renderAll();
+};
+$('clearBtn').onclick = () => {
+  S.seats = [{ cards: [], random: false }, { cards: [], random: true }];
+  S.dead = []; S.active = 0; renderAll();
+};
+$('dealBtn').onclick = () => {
+  const deck = [...Array(52).keys()];
+  for (let i = 51; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  let p = 0;
+  S.dead = [];
+  S.seats.forEach(s => { if (!s.random) s.cards = deck.slice(p, p += 5); });
+  renderAll(); run();
+};
+$('runBtn').onclick = run;
+$('trials').onchange = run;
+$('potIn').oninput = $('callIn').oninput = () =>
+  renderEV(S.last && S.last.eq[0] ? S.last.eq[0].equity : 0);
+
+$('method').innerHTML =
+  '<b>The evaluator</b> is exact and verified by enumeration: all <b>2,598,960</b> five-card hands ' +
+  'collapse into <b>7,462</b> deuce-to-seven value classes. The ace is high only, so A-5-4-3-2 is an ' +
+  'ace-high hand, not a straight, and 7-6-5-4-3 is a straight, not a seven-low.<br><br>' +
+  '<b>The draw policy</b> is not a rule of thumb. For every keep-set and every number of draws ' +
+  'remaining, the engine stores the expected final strength of drawing to it, then keeps whichever ' +
+  'subset of the lowest distinct ranks scores highest. That table is calibrated by <b>self-play to a ' +
+  'fixed point</b>: a hand is scored against an opponent who has also drawn three times, not against a ' +
+  'random five cards. Without that step a hand like K-5-4-3-2 looks strong enough to stand pat, which ' +
+  'is badly wrong &mdash; roughly a quarter of showdowns are an eight-low or better.<br><br>' +
+  '<b>What is exact:</b> the hand evaluator, the class table, and the improvement column with one draw ' +
+  'left, which enumerates every remaining card. <b>What is sampled:</b> the equity numbers and the ' +
+  'two- and three-draw improvement columns, both Monte Carlo &mdash; the &plusmn; figure beside each ' +
+  'equity is a 95% interval. Nested exact enumeration over three draws is not tractable in a browser.<br><br>' +
+  '<b>Known simplifications.</b> Both seats draw under the same policy, so the equity assumes an ' +
+  'opponent who plays their draws sensibly and never snows, bluffs, or breaks a made hand for value. ' +
+  'Betting is not modelled, so nobody folds &mdash; every seat sees showdown. The draw-value table is ' +
+  'built against a generic stub rather than one that knows your exact discards, a second-order effect.';
+
+renderAll();
+$('runBtn').disabled = true;
+boot();
+</script>
+
+</body>
+</html>
