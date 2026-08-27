@@ -380,6 +380,130 @@ section.ledger { margin-bottom: 54px; scroll-margin-top: 68px; }
   padding: 3px 8px;
 }
 
+/* ----------------------------------------------------------- credentials */
+.certs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1px;
+  border: 1px solid var(--edge-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+a.cert {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: var(--ink-3);
+  padding: 16px 16px 20px;
+  box-shadow: 0 0 0 1px var(--edge-line);
+  transition: background 0.2s ease;
+}
+a.cert::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--signal);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.28s cubic-bezier(0.2,0.75,0.3,1);
+}
+a.cert:hover {
+  background:
+    linear-gradient(120deg, rgba(0,217,95,0.05), transparent 55%),
+    var(--ink-4);
+}
+a.cert:hover::before { transform: scaleY(1); }
+
+.cert .plate {
+  position: relative;
+  border: 1px solid var(--edge-line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 16px;
+}
+.cert .plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* the award is the evidence — held near true colour, only slightly banked
+     down so it sits on the ground instead of glaring off it */
+  filter: brightness(0.86) saturate(0.9);
+  transition: filter 0.28s ease, transform 0.4s cubic-bezier(0.2,0.75,0.3,1);
+}
+a.cert:hover .plate img { filter: none; transform: scale(1.015); }
+.cert .plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(5,7,6,0.16) 0px,
+    rgba(5,7,6,0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.cert .issuer {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ash-2);
+  display: block;
+  margin-bottom: 8px;
+}
+.cert h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.2;
+  color: var(--pale);
+  margin: 0 0 12px;
+}
+a.cert:hover h3 { color: var(--signal); }
+.cert dl {
+  display: flex;
+  gap: 26px;
+  margin: 0 0 16px;
+  flex: 1;
+}
+.cert dt {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ash-2);
+  margin: 0 0 4px;
+}
+.cert dd {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pale);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.cert dd.lit { color: var(--signal); }
+.cert .path {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.4px;
+  color: var(--ash-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s, gap 0.2s;
+}
+a.cert:hover .path { color: var(--signal); gap: 12px; }
+
 /* --------------------------------------------------------------- contact */
 .contact {
   display: grid;
@@ -500,7 +624,7 @@ section.ledger { animation-delay: 0.3s; }
 }
 
 @media (max-width: 640px) {
-  .contact { grid-template-columns: 1fr; }
+  .contact, .certs { grid-template-columns: 1fr; }
   .skills .row { grid-template-columns: 1fr; gap: 10px; }
   .ledger-head { flex-wrap: wrap; }
   .ledger-head .count { margin-left: 0; width: 100%; }
@@ -518,6 +642,7 @@ section.ledger { animation-delay: 0.3s; }
     <a href="/#trainers">Trainers</a>
     <a href="/#tabular">Tabular CFR</a>
     <a href="/#neural">Neural</a>
+    <a href="#credentials">Credentials</a>
     <a href="#contact">Contact</a>
   </nav>
   <span class="est">nuttakitkundum.com</span>
@@ -556,7 +681,7 @@ section.ledger { animation-delay: 0.3s; }
 
     <div class="prose">
       <p class="drop">Poker taught me to reason about hidden information before I had a name for it. You act on a distribution, not a fact — and the discipline of separating a good decision from a good outcome is the same discipline a research process needs. Counterfactual regret minimization is the formal version of that instinct, which is why so much of this site is spent taking it apart: Kuhn, then Leduc, then the neural variants, each one small enough to hold in your head and watch converge.</p>
-      <p>Markets were the natural next table. I research alphas on <strong>WorldQuant BRAIN</strong>, where I reached <strong>Expert</strong> level in 2026 Q2 — cross-sectional ranking, neutralization, turnover control, and the automated pipelines that keep candidate signals flowing instead of arriving in batches whenever I think one up. The bottleneck stopped being ideas and became how carefully I screen them.</p>
+      <p>Markets were the natural next table. I research alphas on <strong>WorldQuant BRAIN</strong>, where I reached <strong>Expert</strong> level in 2026 Q2 — cross-sectional ranking, neutralization, turnover control, and the automated pipelines that keep candidate signals flowing instead of arriving in batches whenever I think one up. The bottleneck stopped being ideas and became how carefully I screen them. Two BRAIN competitions have placed me <strong>1st in Thailand</strong>.</p>
       <p>Along the way I have joined BRAIN roadshows at Khon Kaen and Chulalongkorn, helped run quant research nights, and mentored a friend from software engineering into quant, who now represents Thailand at IQC. Teaching the material is the fastest way I know to find out which parts of it I only <em>thought</em> I understood.</p>
       <p>Everything published here is a study artifact rather than a product. The solvers are real and the numbers are computed live, but the notes are mine and the mistakes are too — where a page is unverified, it says so at the top.</p>
     </div>
@@ -652,9 +777,68 @@ section.ledger { animation-delay: 0.3s; }
   </section>
 
   <!-- 04 --------------------------------------------------------------->
-  <section class="ledger" id="contact">
+  <section class="ledger" id="credentials">
     <div class="ledger-head">
       <span class="idx">04</span>
+      <div>
+        <h2>Credentials</h2>
+        <p class="sub">WorldQuant BRAIN — level and competition certificates</p>
+      </div>
+      <span class="count">3 certificates</span>
+    </div>
+
+    <div class="certs">
+      <a class="cert" href="/assets/certificates/worldquant-genius-expert.pdf" target="_blank" rel="noopener">
+        <div class="plate">
+          <img src="/assets/certificates/worldquant-genius-expert.jpg"
+               alt="WorldQuant BRAIN Genius Program level certificate — Expert Level, 2026 Quarter 2, awarded to Nuttakit Kundum"
+               width="1000" height="563" loading="lazy">
+        </div>
+        <span class="issuer">WorldQuant BRAIN · Genius Program</span>
+        <h3>Expert Level</h3>
+        <dl>
+          <div><dt>Level</dt><dd class="lit">Expert</dd></div>
+          <div><dt>Quarter</dt><dd>2026 Q2</dd></div>
+        </dl>
+        <span class="path">View certificate -&gt;</span>
+      </a>
+
+      <a class="cert" href="/assets/certificates/worldquant-aiac.pdf" target="_blank" rel="noopener">
+        <div class="plate">
+          <img src="/assets/certificates/worldquant-aiac.jpg"
+               alt="WorldQuant BRAIN AI Alpha Competition 2.0 certificate of accomplishment — Region Rank 1st, Thailand, awarded to Nuttakit Kundum"
+               width="1000" height="563" loading="lazy">
+        </div>
+        <span class="issuer">WorldQuant BRAIN · Competition</span>
+        <h3>AI Alpha Competition 2.0</h3>
+        <dl>
+          <div><dt>Region rank</dt><dd class="lit">1st</dd></div>
+          <div><dt>Region</dt><dd>Thailand</dd></div>
+        </dl>
+        <span class="path">View certificate -&gt;</span>
+      </a>
+
+      <a class="cert" href="/assets/certificates/worldquant-osmosis.pdf" target="_blank" rel="noopener">
+        <div class="plate">
+          <img src="/assets/certificates/worldquant-osmosis.jpg"
+               alt="WorldQuant BRAIN Alpha OSMOSIS 2025-26 certificate of accomplishment — Region Rank 1st, Thailand, awarded to Nuttakit Kundum"
+               width="1000" height="563" loading="lazy">
+        </div>
+        <span class="issuer">WorldQuant BRAIN · Competition</span>
+        <h3>Alpha OSMOSIS 2025&ndash;26</h3>
+        <dl>
+          <div><dt>Region rank</dt><dd class="lit">1st</dd></div>
+          <div><dt>Region</dt><dd>Thailand</dd></div>
+        </dl>
+        <span class="path">View certificate -&gt;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 05 --------------------------------------------------------------->
+  <section class="ledger" id="contact">
+    <div class="ledger-head">
+      <span class="idx">05</span>
       <div>
         <h2>Contact</h2>
         <p class="sub">Where to find me</p>
