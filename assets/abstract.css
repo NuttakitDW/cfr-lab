@@ -1,0 +1,201 @@
+/* ============================================================================
+   ABSTRACT SHEET — nuttakitkundum.com
+   One paper, one page: an eyebrow, a lede, three paragraphs, the source.
+   Loaded AFTER theme.css. Deliberately owns no charts, tables or panels.
+   ========================================================================= */
+
+:root {
+  --read: #c7d4cb;          /* long-form body ink — a step under --pale */
+  --measure: 40rem;         /* the reading column */
+}
+
+/* ---- chrome -------------------------------------------------------- */
+
+header { padding: 16px 28px; position: sticky; top: 0; z-index: 20; }
+
+.title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+header h1 { margin: 0; font-size: 20px; }
+header .sub { flex: 1 1 auto; min-width: 0; }
+
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+
+/* ---- the sheet ----------------------------------------------------- */
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 64px 28px 8px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ash-2);
+  margin-bottom: 26px;
+}
+.eyebrow .kind {
+  color: var(--signal);
+  border: 1px solid rgba(0, 217, 95, 0.30);
+  background: rgba(0, 217, 95, 0.07);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+.eyebrow .rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--edge-lit), transparent);
+}
+
+.lede {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(27px, 4.4vw, 36px);
+  line-height: 1.22;
+  letter-spacing: 0.1px;
+  color: var(--pale);
+  margin: 0 0 30px;
+  text-wrap: balance;
+}
+.lede em { color: var(--signal); font-style: italic; }
+
+.abstract p {
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--read);
+  margin: 0 0 20px;
+}
+.abstract p:last-child { margin-bottom: 0; }
+.abstract strong { color: var(--pale); font-weight: 600; }
+.abstract em { color: var(--pale); }
+.abstract .mono { font-size: 0.93em; color: var(--lime); }
+
+/* the byline strip sitting under the lede */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  color: var(--ash-2);
+  padding-bottom: 26px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--edge-line);
+}
+.facts b { color: var(--ash-1); font-weight: 500; }
+
+/* ---- the source block — the point of the page ---------------------- */
+
+.source {
+  margin: 44px 0 0;
+  padding: 24px 26px;
+  background: var(--ink-2);
+  border: 1px solid var(--edge-line);
+  border-left: 2px solid var(--signal-deep);
+  border-radius: 8px;
+}
+.source h2 {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin: 0 0 14px;
+}
+.cite {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--pale);
+  margin: 0 0 6px;
+}
+.cite .venue { color: var(--ash-1); font-style: italic; }
+
+.ident {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--ash-2);
+  margin: 0 0 18px;
+}
+
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  color: var(--signal);
+  background: rgba(0, 217, 95, 0.06);
+  border: 1px solid rgba(0, 217, 95, 0.24);
+  border-radius: 5px;
+  padding: 7px 13px;
+  transition: background 0.16s ease, border-color 0.16s ease,
+              color 0.16s ease, box-shadow 0.16s ease;
+}
+.links a:hover {
+  background: rgba(0, 217, 95, 0.13);
+  border-color: rgba(0, 217, 95, 0.5);
+  color: var(--lime);
+  box-shadow: 0 0 20px -7px rgba(0, 217, 95, 0.8);
+}
+.links a.plain {
+  color: var(--ash-1);
+  background: var(--ink-4);
+  border-color: var(--edge-line);
+}
+.links a.plain:hover { color: var(--pale); border-color: var(--edge-lit); box-shadow: none; }
+
+.caveat {
+  margin: 26px 0 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--ash-2);
+  border-top: 1px solid var(--edge-line);
+  padding-top: 18px;
+}
+.caveat strong { color: var(--ash-1); font-weight: 600; }
+
+footer { padding: 26px 28px 40px; text-align: center; }
+
+/* ---- arrival ------------------------------------------------------- */
+
+@keyframes sheet-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.eyebrow, .lede, .facts, .abstract, .source, .caveat {
+  animation: sheet-in 0.6s cubic-bezier(0.2, 0.75, 0.3, 1) backwards;
+}
+.eyebrow  { animation-delay: 0.02s; }
+.lede     { animation-delay: 0.08s; }
+.facts    { animation-delay: 0.14s; }
+.abstract { animation-delay: 0.20s; }
+.source   { animation-delay: 0.28s; }
+.caveat   { animation-delay: 0.34s; }
+
+@media (max-width: 560px) {
+  main { padding-top: 44px; }
+  header { position: static; }
+  .source { padding: 20px 18px; }
+}
