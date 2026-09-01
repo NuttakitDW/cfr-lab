@@ -78,8 +78,8 @@ const CLIPS = {
     "— แบบนี้แหละครับที่เรียกว่า Premium",
   'classify-02-en':
     "This hand is Marginal. Let's see why. The pair of Jacks is a one-way hand — " +
-    "the only flop it really wants is another Jack for a set, and even then, " +
-    "a middle set can walk straight into bigger hands. The single suit is Jack high, " +
+    "the only flop it really wants is another Jack for trips, and even then, " +
+    "middle trips can walk straight into bigger hands. The single suit is Jack high, " +
     "and a Jack-high flush is exactly the kind of hand that pays off a bigger flush. " +
     "As for the Three of spades — that's a dangler. It connects with nothing. " +
     "So you have three cards doing half a job, and one card doing nothing at all. " +
@@ -87,7 +87,7 @@ const CLIPS = {
     "That is Marginal.",
   'classify-02-th':
     "มือนี้คือ Marginal ครับ มาดูเหตุผลกัน pair J เป็นมือทางเดียว — " +
-    "flop เดียวที่มันต้องการจริงๆ คือ J อีกใบเพื่อทำ set แต่ set กลางๆ " +
+    "flop เดียวที่มันต้องการจริงๆ คือ J อีกใบเพื่อทำ trip แต่ trip กลางๆ " +
     "ก็ยังเสี่ยงเจอมือที่ใหญ่กว่าอยู่ดี ส่วน suit เดียวที่มีก็สูงแค่ J " +
     "ซึ่ง Jack high flush แบบนี้แหละที่มักเสียเงินให้ flush ที่ใหญ่กว่า " +
     "แล้ว 3 โพดำล่ะครับ? นั่นคือ dangler ไม่เชื่อมกับใบไหนเลย " +
