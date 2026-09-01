@@ -2,9 +2,10 @@
 // Hand-crafted conversational scripts — question narration, shared verdict
 // clips, and a mini-lesson solution — in English and Thai.
 //
-// Usage: node scripts/gen-plo-q1-experience.mjs
+// Usage: node scripts/gen-plo-q1-experience.mjs [clip-id]
 //   Reads PAXA_API_KEY from the environment, .env.local, or .env.
-//   Always regenerates (overwrites) the clips it owns.
+//   Always regenerates (overwrites) the clips it owns; pass a clip id
+//   (e.g. classify-01-th) to regenerate just that one.
 import { readFileSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -96,7 +97,8 @@ async function tts(text, outFile) {
 
 mkdirSync(OUT_DIR, { recursive: true });
 
-const entries = Object.entries(CLIPS);
+const only = process.argv[2];
+const entries = Object.entries(CLIPS).filter(([id]) => !only || id === only);
 console.log(`${entries.length} clips to generate`);
 const failed = [];
 for (const [n, [id, text]] of entries.entries()) {
