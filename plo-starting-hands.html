@@ -927,7 +927,12 @@ function renderQuiz() {
   bodyEl.innerHTML = html;
 
   bodyEl.querySelectorAll('.opt:not(:disabled)').forEach(b =>
-    b.addEventListener('click', () => { st.answers[st.idx] = +b.dataset.opt; renderQuiz(); }));
+    b.addEventListener('click', () => {
+      st.answers[st.idx] = +b.dataset.opt;
+      renderQuiz();
+      const voBtn = bodyEl.querySelector('.vo-btn');
+      if (voBtn) toggleVoiceover(voBtn, st.idx);
+    }));
   bodyEl.querySelectorAll('[data-act]').forEach(b =>
     b.addEventListener('click', () => {
       const a = b.dataset.act;
