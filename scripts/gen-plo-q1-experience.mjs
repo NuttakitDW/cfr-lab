@@ -1,11 +1,11 @@
-// Voiceover clips for the classify Q1 learning experience (voice: khanomkrok).
+// Voiceover clips for the classify Q1 & Q2 learning experience (voice: khanomkrok).
 // Hand-crafted conversational scripts — question narration, shared verdict
 // clips, and a mini-lesson solution — in English and Thai.
 //
-// Usage: node scripts/gen-plo-q1-experience.mjs [clip-id]
+// Usage: node scripts/gen-plo-q1-experience.mjs [clip-id...]
 //   Reads PAXA_API_KEY from the environment, .env.local, or .env.
-//   Always regenerates (overwrites) the clips it owns; pass a clip id
-//   (e.g. classify-01-th) to regenerate just that one.
+//   Always regenerates (overwrites) the clips it owns; pass one or more
+//   clip ids (e.g. classify-01-th) to regenerate just those.
 import { readFileSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,15 +34,22 @@ const VOICE = 'khanomkrok';
 const MODEL = 'paxa-tts-flash-v1';
 
 const CLIPS = {
-  // Question narration — plays when classify Q1 appears
+  // Question narration — plays when the question appears
   'classify-q-01-en':
     "Question one. Your four cards: the King of spades, the King of diamonds, " +
     "the Queen of diamonds, and the Jack of spades. Double suited, all high cards. " +
-    "So — Premium, Speculative, Marginal, or Trash? Take your time.",
+    "How would you rate this hand? Take your time.",
   'classify-q-01-th':
     "ข้อที่หนึ่งครับ ไพ่สี่ใบของคุณคือ K โพดำ, K ข้าวหลามตัด, Q ข้าวหลามตัด และ J โพดำ " +
-    "— double suited ไพ่สูงทั้งหมด แล้วมือนี้เป็น Premium, Speculative, Marginal " +
-    "หรือ Trash ครับ ค่อยๆ คิดได้เลย",
+    "— double suited ไพ่สูงทั้งหมด คุณจะจัดมือนี้ไว้ระดับไหนครับ ค่อยๆ คิดได้เลย",
+  'classify-q-02-en':
+    "Question two. This time you're holding the Jack of diamonds, the Jack of clubs, " +
+    "the Six of clubs, and the Three of spades. A pair of Jacks, one suit, " +
+    "and that lonely Three. What do you make of this one?",
+  'classify-q-02-th':
+    "ข้อที่สองครับ คราวนี้ไพ่ของคุณคือ J ข้าวหลามตัด, J ดอกจิก, 6 ดอกจิก และ 3 โพดำ " +
+    "— มี pair J หนึ่งคู่ suit เดียว แล้วก็เลขสามที่ดูโดดเดี่ยวอยู่หนึ่งใบ " +
+    "คุณว่ามือนี้อยู่ระดับไหนครับ",
 
   // Shared verdict clips — reusable across every question
   'verdict-correct-en':
@@ -69,6 +76,24 @@ const CLIPS = {
     "หรือแม้แต่ สิบ เก้า กับไพ่อะไรก็ได้ คุณก็มี draw ถึงสิบสองใบไปหา nut straight " +
     "พร้อม overpair คอยหนุน คู่ใหญ่สองคู่ สองดอก ไพ่ทุกใบทำงานร่วมกัน " +
     "— แบบนี้แหละครับที่เรียกว่า Premium",
+  'classify-02-en':
+    "This hand is Marginal. Let's see why. The pair of Jacks is a one-way hand — " +
+    "the only flop it really wants is another Jack for a set, and even then, " +
+    "a middle set can walk straight into bigger hands. The single suit is Jack high, " +
+    "and a Jack-high flush is exactly the kind of hand that pays off a bigger flush. " +
+    "As for the Three of spades — that's a dangler. It connects with nothing. " +
+    "So you have three cards doing half a job, and one card doing nothing at all. " +
+    "Take a cheap flop from late position for the minimum bet, and no more. " +
+    "That is Marginal.",
+  'classify-02-th':
+    "มือนี้คือ Marginal ครับ มาดูเหตุผลกัน pair J เป็นมือทางเดียว — " +
+    "flop เดียวที่มันต้องการจริงๆ คือ J อีกใบเพื่อทำ set แต่ set กลางๆ " +
+    "ก็ยังเสี่ยงเจอมือที่ใหญ่กว่าอยู่ดี ส่วน suit เดียวที่มีก็สูงแค่ J " +
+    "ซึ่ง flush หัว J แบบนี้แหละที่มักเสียเงินให้ flush ที่ใหญ่กว่า " +
+    "แล้ว 3 โพดำล่ะครับ? นั่นคือ dangler ไม่เชื่อมกับใบไหนเลย " +
+    "สรุปคือไพ่สามใบทำงานได้ครึ่งเดียว อีกใบไม่ทำงานเลย " +
+    "มือแบบนี้เล่นได้แค่ดู flop ถูกๆ จากตำแหน่งหลังเท่านั้น " +
+    "— นี่แหละครับคือ Marginal",
 };
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -97,8 +122,8 @@ async function tts(text, outFile) {
 
 mkdirSync(OUT_DIR, { recursive: true });
 
-const only = process.argv[2];
-const entries = Object.entries(CLIPS).filter(([id]) => !only || id === only);
+const only = process.argv.slice(2);
+const entries = Object.entries(CLIPS).filter(([id]) => !only.length || only.includes(id));
 console.log(`${entries.length} clips to generate`);
 const failed = [];
 for (const [n, [id, text]] of entries.entries()) {
