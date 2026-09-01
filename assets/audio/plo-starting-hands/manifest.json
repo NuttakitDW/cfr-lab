@@ -1,0 +1,362 @@
+[
+  {
+    "id": "classify-01-en",
+    "text": "Premium. Easy to imagine favorable flops: T nine eight for the nut straight with redraws, K T nine for the nut straight plus a full house, or T nine x for a twelve-card nut straight draw with an overpair."
+  },
+  {
+    "id": "classify-01-th",
+    "text": "Premium นึก flop ดีๆ ได้ง่าย: T 9 8 ได้ nut straight พร้อม redraw, K T 9 ได้ nut straight บวก full house, หรือ T 9 x ได้ nut straight draw 12 ใบพร้อม overpair"
+  },
+  {
+    "id": "classify-02-en",
+    "text": "Marginal. The pair of Jacks is a one-way hand and the single suit barely helps. A late-position, minimum-bet-only type of hand."
+  },
+  {
+    "id": "classify-02-th",
+    "text": "Marginal pair J เป็นมือทางเดียว และมี suit เดียวช่วยอะไรไม่ได้มาก เป็นมือสำหรับตำแหน่งหลัง ลง bet ขั้นต่ำเท่านั้น"
+  },
+  {
+    "id": "classify-03-en",
+    "text": "Premium (near-premium drawing hand). Flops six five four for the nut straight with nut-flush redraws; six spades, five spades, two diamonds, gives a thirteen-card nut straight draw plus the nut flush draw. Worth playing from any position."
+  },
+  {
+    "id": "classify-03-th",
+    "text": "Premium (มือ draw เกือบ premium) ติด 6 5 4 ได้ nut straight พร้อม nut-flush redraw; 6 โพดำ, 5 โพดำ, 2 ข้าวหลามตัด, ให้ nut straight draw 13 ใบบวก nut flush draw คุ้มที่จะเล่นจากทุกตำแหน่ง"
+  },
+  {
+    "id": "classify-04-en",
+    "text": "Speculative with big-play potential: it can flop the nut straight with a set and two flush draws, a twelve-card nut straight draw with a pair, or a set with an open-ender."
+  },
+  {
+    "id": "classify-04-th",
+    "text": "Speculative ที่มีศักยภาพทำเงินก้อนใหญ่: ติด nut straight พร้อม set และ flush draw สองดอก, nut straight draw 12 ใบพร้อม pair, หรือ set พร้อม open-ender ได้"
+  },
+  {
+    "id": "classify-05-en",
+    "text": "Trash — complete and utter, even double-suited. Any straight it flops is dominated. On six four two it's a fifty-eight to forty-two dog to eight seven five three before suits, because a five or seven makes the opponent a bigger straight while only an eight saves you."
+  },
+  {
+    "id": "classify-05-th",
+    "text": "Trash — Trash แท้ๆ ต่อให้ double-suited ก็ตาม straight ที่ติดล้วนถูกdominate บน board 6 4 2 มันเป็นรอง 8 7 5 3 ที่ 58/42 ก่อนคิด suit เพราะ 5 หรือ 7 ทำให้คู่ต่อสู้ได้ straight ใหญ่กว่า ขณะที่มีแค่ 8 เท่านั้นที่ช่วยคุณได้"
+  },
+  {
+    "id": "classify-06-en",
+    "text": "Premium drawing hand. Flops J spades, T clubs, eight spades, for the nut straight with redraws, or J spades, T spades, x for a sixteen-card nut straight draw with the nut flush draw. High cards plus nut-flush potential."
+  },
+  {
+    "id": "classify-06-th",
+    "text": "Premium มือ draw ติด J โพดำ, T ดอกจิก, 8 โพดำ, ได้ nut straight พร้อม redraw, หรือ J โพดำ, T โพดำ, x ได้ nut straight draw 16 ใบพร้อม nut flush draw ไพ่สูงบวกศักยภาพ nut flush"
+  },
+  {
+    "id": "classify-07-en",
+    "text": "Speculative. Top set with the nut flush draw is a favorite over the biggest drawing hand against it, but it's a big-play hand, not a raise-first-in hand. A bigger pair might raise in late position."
+  },
+  {
+    "id": "classify-07-th",
+    "text": "Speculative top set พร้อม nut flush draw เป็นต่อมือ draw ที่ใหญ่ที่สุดที่มาสู้ แต่เป็นมือไว้ทำเงินก้อนใหญ่ ไม่ใช่มือไว้ raise เปิด pair ที่ใหญ่กว่านี้อาจ raise ในตำแหน่งหลังได้"
+  },
+  {
+    "id": "classify-08-en",
+    "text": "Trash. A pair of 6s can't flop top set without a straight already possible, and drawing at the second-nut flush only costs money. It's hard enough to flop a set with the nut flush draw, let alone this."
+  },
+  {
+    "id": "classify-08-th",
+    "text": "Trash pair 6 ติด top set ไม่ได้ถ้า board ยังไม่มีโอกาส straight และการ draw second-nut flush มีแต่เสียเงิน แค่จะติด set พร้อม nut flush draw ก็ยากแล้ว นี่ยิ่งไปกันใหญ่"
+  },
+  {
+    "id": "classify-09-en",
+    "text": "Premium. Makes thirteen-card nut straight draws, two pair with open-enders, and has serious freeroll potential with its suits. \"A real PLO hand.\""
+  },
+  {
+    "id": "classify-09-th",
+    "text": "Premium ทำ nut straight draw 13 ใบ, two pair พร้อม open-ender และมีโอกาส freeroll สูงจาก suit ทั้งสอง \"มือ PLO ของจริง\""
+  },
+  {
+    "id": "classify-10-en",
+    "text": "Speculative. Trash aces are a one-way hand that needs to catch an ace on the flop to continue. Without suits or connectors there's no multi-way potential."
+  },
+  {
+    "id": "classify-10-th",
+    "text": "Speculative trash aces เป็นมือทางเดียวที่ต้องติด ace บน flop จึงจะไปต่อได้ เมื่อไม่มี suit หรือ connector ก็ไม่มีศักยภาพเล่นหลายทาง"
+  },
+  {
+    "id": "classify-11-en",
+    "text": "Marginal. A top-gap hand is physically handicapped, though it does have some inside Broadway-wrap potential."
+  },
+  {
+    "id": "classify-11-th",
+    "text": "Marginal มือ top-gap เสียเปรียบเชิงโครงสร้าง แม้จะมีศักยภาพ inside Broadway wrap อยู่บ้าง"
+  },
+  {
+    "id": "classify-12-en",
+    "text": "Trash. Two hold'em hands don't make an Omaha hand. Q J and seven six are each fine as Hold'em holdings, but the big gap between them means they can never combine into one straight or wrap — and in Omaha you must use exactly two of your four cards, so a hand is only as strong as the best two-card piece it can pair with the board. A coordinated hand like J T nine eight always has cards working together for nut straight draws and wraps; Q J seven six splits into two isolated pieces, flops top pair at best, and has almost no big-play potential."
+  },
+  {
+    "id": "classify-12-th",
+    "text": "Trash Hold'em สองมือรวมกันไม่เป็นมือ Omaha — Q J และ 7 6 ต่างก็เป็นมือ Hold'em ที่ใช้ได้ แต่ช่องว่างที่ห่างกันมากทำให้รวมกันเป็น straight หรือ wrap เดียวไม่ได้เลย และใน Omaha คุณต้องใช้ไพ่ในมือ 2 ใบจาก 4 ใบพอดี มือจึงแข็งได้แค่เท่ากับ combination 2 ใบที่ดีที่สุดที่จับคู่กับ board ได้ มือที่เชื่อมกันอย่าง J T 9 8 มีไพ่ทำงานร่วมกันเสมอเพื่อทำ nut straight draw และ wrap แต่ Q J 7 6 แตกเป็นสองส่วนที่แยกขาดจากกัน อย่างมากก็ติดแค่ top pair จึงแทบไม่มีศักยภาพทำเงินก้อนใหญ่"
+  },
+  {
+    "id": "classify-13-en",
+    "text": "Premium drawing hand. Can make top set with the nut flush draw and a twelve-card Broadway wrap with the nut flush draw. The suited ace and the high pair both pull their weight."
+  },
+  {
+    "id": "classify-13-th",
+    "text": "Premium มือ draw ทำ top set พร้อม nut flush draw และ Broadway wrap 12 ใบพร้อม nut flush draw ได้ ทั้ง suited ace และ pair สูงต่างทำหน้าที่ของมัน"
+  },
+  {
+    "id": "classify-14-en",
+    "text": "Marginal. Basically a three-card hand, but three Broadway cards double-suited can be played for the minimum in late position — thirteen-card nut straight draw and inside-Broadway-wrap potential plus position."
+  },
+  {
+    "id": "classify-14-th",
+    "text": "Marginal โดยพื้นฐานคือมือสามใบ แต่ไพ่ Broadway สามใบแบบ double-suited เล่นแบบลงขั้นต่ำในตำแหน่งหลังได้ — มี nut straight draw 13 ใบ ศักยภาพ inside Broadway wrap บวกความได้เปรียบจากตำแหน่ง"
+  },
+  {
+    "id": "classify-15-en",
+    "text": "Speculative. Flops a thirteen-card nut straight draw with the nut flush draw, but one of its straight draws is a non-nut draw and its two-pair flops make sucker open-enders. That gap demotes it below the A nine eight seven version."
+  },
+  {
+    "id": "classify-15-th",
+    "text": "Speculative ติด nut straight draw 13 ใบพร้อม nut flush draw แต่ straight draw อันหนึ่งไม่ใช่ nut และ flop two pair ของมันทำ sucker open-ender ช่องว่างนั้นลดเกรดมันลงต่ำกว่าเวอร์ชัน A 9 8 7"
+  },
+  {
+    "id": "classify-16-en",
+    "text": "Premium — the Magnum. The highest-percentage, highest-potential multi-way hand: dominating straight draws, dual nut-flush draws, and top set potential all in one."
+  },
+  {
+    "id": "classify-16-th",
+    "text": "Premium — Magnum มือเล่นหลายทางที่เปอร์เซ็นต์สูงสุดและศักยภาพสูงสุด: straight draw ที่dominate, nut flush draw สองดอก และโอกาส top set ครบในมือเดียว"
+  },
+  {
+    "id": "situations-01-en",
+    "text": "Call (limp). This is a trashy AA hand. You still want to see the flop, but you don't want to raise with it."
+  },
+  {
+    "id": "situations-01-th",
+    "text": "Call (limp) นี่คือมือ AA แบบ trash คุณยังอยากเห็น flop แต่ไม่อยาก raise ด้วยมือนี้"
+  },
+  {
+    "id": "situations-02-en",
+    "text": "Raise. Double-suited aces are worth a raise from late position."
+  },
+  {
+    "id": "situations-02-th",
+    "text": "Raise double-suited aces คุ้มที่จะ raise จากตำแหน่งหลัง"
+  },
+  {
+    "id": "situations-03-en",
+    "text": "Call. Double-suited aces alone don't warrant a raise from up front, and this hand doesn't make a nut straight, which weakens it further. From the small blind with limpers already in, you're completing the bet — calling — not open-limping."
+  },
+  {
+    "id": "situations-03-th",
+    "text": "Call ลำพัง double-suited aces ยังไม่คู่ควรกับการ raise จากตำแหน่งหน้า และมือนี้ทำ nut straight ไม่ได้ ยิ่งทำให้อ่อนลงไปอีก — อยู่ SB และมีคน limp มาก่อนแล้ว จึงเป็นการ call/complete ไม่ใช่ open-limp"
+  },
+  {
+    "id": "situations-04-en",
+    "text": "Raise. Double-suited aces with connecting sidecards are worth a raise from any position."
+  },
+  {
+    "id": "situations-04-th",
+    "text": "Raise double-suited aces พร้อม sidecard ที่เชื่อมกันคุ้มที่จะ raise จากทุกตำแหน่ง"
+  },
+  {
+    "id": "situations-05-en",
+    "text": "Call. In a deep-stacked game you don't mind building a value pot, but facing a raise you don't want to reraise — that risks going heads-up out of position, a recipe for disaster."
+  },
+  {
+    "id": "situations-05-th",
+    "text": "Call ในเกม stack ลึก คุณไม่รังเกียจที่จะสร้าง value pot แต่เมื่อเจอ raise คุณไม่อยาก reraise — เพราะเสี่ยงจะเล่น heads-up โดยเสียตำแหน่ง ซึ่งเป็นสูตรหายนะ"
+  },
+  {
+    "id": "situations-06-en",
+    "text": "Reraise. The extra pair and being double-suited make this such a high-percentage hand you can afford to reraise — and catching a set with the other pair adds deception."
+  },
+  {
+    "id": "situations-06-th",
+    "text": "Reraise pair ที่สองและการเป็น double-suited ทำให้มือนี้เปอร์เซ็นต์สูงพอที่จะ reraise ได้ — และการติด set จาก pair อีกคู่ยังเพิ่มการอำพราง"
+  },
+  {
+    "id": "situations-07-en",
+    "text": "Just call. You could make it about two hundred dollars but with one thousand dollars stacks you'd give the field odds to outdraw your aces. You'd win callers, not the pot — let it stay multi-way and cheap."
+  },
+  {
+    "id": "situations-07-th",
+    "text": "แค่ Call คุณจะ raise เป็น ประมาณ $200 ก็ได้ แต่ด้วย stack $1,000 คุณจะให้ราคาคนอื่นมา outdraw aces ของคุณ คุณจะได้คน call ไม่ใช่ pot — ปล่อยให้เล่นหลายทางและถูกๆ ไว้"
+  },
+  {
+    "id": "situations-08-en",
+    "text": "Reraise. Make it about six hundred sixty-five dollars — two-thirds of your stack. Now the field is no longer getting implied odds to crack your aces, and you're a favorite against virtually any hand but another AA."
+  },
+  {
+    "id": "situations-08-th",
+    "text": "Reraise raise เป็น ประมาณ $665 — สองในสามของ stack ตอนนี้คนอื่นไม่ได้ implied odds มาทุบ aces ของคุณอีกแล้ว และคุณเป็นต่อแทบทุกมือยกเว้น AA อีกมือ"
+  },
+  {
+    "id": "situations-09-en",
+    "text": "Raise. This is a premium drawing hand, and three limpers assure you of a multi-way pot. Three to four times the big blind is adequate."
+  },
+  {
+    "id": "situations-09-th",
+    "text": "Raise นี่คือมือ draw แบบ premium และคน limp 3 คนรับรองว่า pot จะเล่นหลายทาง raise 3 4 เท่าของ big blind ก็พอ"
+  },
+  {
+    "id": "situations-10-en",
+    "text": "Call. With the dangler (the four) this is a speculative drawing hand — you run the risk of being dominated, so call rather than reraise."
+  },
+  {
+    "id": "situations-10-th",
+    "text": "Call เพราะมี dangler (เลข 4) มือนี้จึงเป็นมือ draw แบบ speculative — คุณเสี่ยงโดนdominate จึง call แทนที่จะ reraise"
+  },
+  {
+    "id": "situations-11-en",
+    "text": "Fold. You don't want to flop bottom set — and especially not from up front."
+  },
+  {
+    "id": "situations-11-th",
+    "text": "Fold คุณไม่อยากติด bottom set — โดยเฉพาะจากตำแหน่งหน้า"
+  },
+  {
+    "id": "situations-12-en",
+    "text": "Raise. Any four cards nine-and-higher headed by a suited ace are worth a raise."
+  },
+  {
+    "id": "situations-12-th",
+    "text": "Raise ไพ่สี่ใบที่เป็นเก้าขึ้นไปนำด้วย suited ace คุ้มที่จะ raise"
+  },
+  {
+    "id": "situations-13-en",
+    "text": "Raise. You'll see the flop with any three straight cards six five four and higher headed by a suited ace, and should often raise from late position — particularly the bigger ones."
+  },
+  {
+    "id": "situations-13-th",
+    "text": "Raise คุณจะเห็น flop ด้วยไพ่ straight สามใบตั้งแต่ 6 5 4 ขึ้นไปที่นำด้วย suited ace และควร raise บ่อยๆ จากตำแหน่งหลัง — โดยเฉพาะมือที่ใหญ่กว่า"
+  },
+  {
+    "id": "situations-14-en",
+    "text": "Limp. You don't want to raise a hand with a pair in it from up front — the occasional exceptions being aces or big double-paired hands like Q Q J J."
+  },
+  {
+    "id": "situations-14-th",
+    "text": "Limp คุณไม่อยาก raise มือที่มี pair อยู่จากตำแหน่งหน้า — ยกเว้นบางครั้งคือ aces หรือมือ big double pair อย่าง Q Q J J"
+  },
+  {
+    "id": "situations-15-en",
+    "text": "Fold. The gap being on the top marginalizes the hand — it can't make the nut wrap a true rundown would."
+  },
+  {
+    "id": "situations-15-th",
+    "text": "Fold ช่องว่างที่อยู่ด้านบนทำให้มือนี้ marginal — ทำ nut wrap แบบ rundown แท้ๆ ไม่ได้"
+  },
+  {
+    "id": "situations-16-en",
+    "text": "Fold. Although this is a big-play drawing hand, the raise-and-reraise screams aces, which dominate you. It doesn't pay to call two bets cold with a hand that has an ace in it."
+  },
+  {
+    "id": "situations-16-th",
+    "text": "Fold แม้นี่จะเป็นมือ draw ที่ทำเงินก้อนใหญ่ได้ แต่ raise และ reraise บ่งบอกชัดว่าเป็น aces ซึ่งdominateมือคุณ ไม่คุ้มที่จะ call สองเด้งทั้งที่ยังไม่ลงทุนด้วยมือที่มี ace อยู่"
+  },
+  {
+    "id": "situations-17-en",
+    "text": "Raise. Aces with two Broadway cards and a suited ace have enough multi-way potential to warrant a raise even from out of position."
+  },
+  {
+    "id": "situations-17-th",
+    "text": "Raise aces พร้อมไพ่ Broadway สองใบและ suited ace มีศักยภาพเล่นหลายทางมากพอที่จะ raise ได้แม้อยู่นอกตำแหน่ง"
+  },
+  {
+    "id": "situations-18-en",
+    "text": "Raise. Aces with a second pair and a single suit are a raising hand from any position."
+  },
+  {
+    "id": "situations-18-th",
+    "text": "Raise aces พร้อม pair ที่สองและ suit เดียว เป็นมือสำหรับ raise ได้จากทุกตำแหน่ง"
+  },
+  {
+    "id": "situations-19-en",
+    "text": "Raise. Aces with connectors and a single suit are good enough to raise from late position."
+  },
+  {
+    "id": "situations-19-th",
+    "text": "Raise aces พร้อม connectors และ suit เดียว ดีพอที่จะ raise จากตำแหน่งหลัง"
+  },
+  {
+    "id": "situations-20-en",
+    "text": "Call. Don't reveal your aces by reraising. Just calling keeps you disguised — if everyone checks to you on the flop it reads as weakness you can attack, whereas reraising only makes you a target."
+  },
+  {
+    "id": "situations-20-th",
+    "text": "Call อย่าเปิดเผยว่าถือ aces ด้วยการ reraise การแค่ call ช่วยอำพรางมือ — ถ้าทุกคน check มาหาคุณบน flop มันคือสัญญาณอ่อนที่คุณบุกได้ ส่วนการ reraise มีแต่ทำให้คุณตกเป็นเป้า"
+  },
+  {
+    "id": "situations-21-en",
+    "text": "Call. With the dangler (the four) this isn't enough of a hand to raise — just come along behind the limpers."
+  },
+  {
+    "id": "situations-21-th",
+    "text": "Call เพราะมี dangler (เลข 4) มือนี้ยังไม่พอจะ raise — แค่ตามเข้าไปหลัง limper ก็พอ"
+  },
+  {
+    "id": "situations-22-en",
+    "text": "Limp. A speculative double-suited drawing hand that can stand a raise when stacks are deep and pots play multi-way — but in a game full of preflop raises and short-handed pots it's often better off folded."
+  },
+  {
+    "id": "situations-22-th",
+    "text": "Limp มือ draw แบบ double-suited เชิงเก็งกำไรที่ทนการ raise ได้เมื่อ stack ลึกและ pot เล่นหลายทาง — แต่ในเกมที่ raise ก่อน flop บ่อยและเล่นกันคนน้อย มักทิ้งไปจะดีกว่า"
+  },
+  {
+    "id": "situations-23-en",
+    "text": "Call. Big-play potential but speculative — top set with the nut flush draw is a favorite over the biggest draw against it. A calling hand, not a raise."
+  },
+  {
+    "id": "situations-23-th",
+    "text": "Call มีศักยภาพทำเงินก้อนใหญ่แต่เก็งกำไร — top set พร้อม nut flush draw เป็นต่อมือ draw ที่ใหญ่ที่สุดที่มาสู้ เป็นมือไว้ call ไม่ใช่ raise"
+  },
+  {
+    "id": "situations-24-en",
+    "text": "Raise. A premium-structure double-suited rundown — premium drawing hands are raising hands from late position, especially multi-way."
+  },
+  {
+    "id": "situations-24-th",
+    "text": "Raise rundown แบบ double-suited โครงสร้าง premium — มือ draw แบบ premium เป็นมือไว้ raise จากตำแหน่งหลัง โดยเฉพาะ pot หลายทาง"
+  },
+  {
+    "id": "situations-25-en",
+    "text": "Call. Another speculative hand with big-play potential — come along, but it's not strong enough to raise."
+  },
+  {
+    "id": "situations-25-th",
+    "text": "Call อีกหนึ่งมือเก็งกำไรที่มีศักยภาพทำเงินก้อนใหญ่ — ตามเข้าไปได้ แต่ยังไม่แข็งพอจะ raise"
+  },
+  {
+    "id": "situations-26-en",
+    "text": "Raise. This hand has enough value to warrant a raise from late position."
+  },
+  {
+    "id": "situations-26-th",
+    "text": "Raise มือนี้มีคุณค่ามากพอที่จะ raise จากตำแหน่งหลัง"
+  },
+  {
+    "id": "situations-27-en",
+    "text": "Limp. A premium-structure drawing hand, but the small cards make it more speculative. An occasional raise adds deception."
+  },
+  {
+    "id": "situations-27-th",
+    "text": "Limp มือ draw โครงสร้าง premium แต่ไพ่ใบเล็กทำให้เก็งกำไรมากขึ้น การ raise สลับบ้างเป็นครั้งคราวช่วยเพิ่มการอำพราง"
+  },
+  {
+    "id": "situations-28-en",
+    "text": "Raise. Despite the gap, this double-suited rundown is good enough to raise from the button."
+  },
+  {
+    "id": "situations-28-th",
+    "text": "Raise แม้จะมีช่องว่าง rundown แบบ double-suited มือนี้ก็ดีพอจะ raise จาก button"
+  },
+  {
+    "id": "situations-29-en",
+    "text": "Call. A speculative drawing hand with big-play potential. Tighter players might fold from early position facing a raise, but the button improves its playability enough to come along."
+  },
+  {
+    "id": "situations-29-th",
+    "text": "Call มือ draw เก็งกำไรที่มีศักยภาพทำเงินก้อนใหญ่ ผู้เล่นที่ tight อาจ fold จากตำแหน่งหน้าเมื่อเจอ raise แต่การอยู่ button ทำให้เล่นง่ายขึ้นพอจะตามเข้าไป"
+  }
+]

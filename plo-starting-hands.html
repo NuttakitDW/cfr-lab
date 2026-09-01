@@ -264,6 +264,26 @@ table.facts tr:last-child td { border-bottom: none; }
 .explain.ok .verdict { color: var(--green); }
 .explain.no .verdict { color: var(--red); }
 
+.vo-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-size: 11.5px; font-weight: 700; letter-spacing: 0.4px;
+  margin-top: 10px; padding: 6px 13px; cursor: pointer;
+  border-radius: 6px; border: 1px solid rgba(0,217,95,0.35);
+  background: rgba(0,217,95,0.08); color: var(--accent);
+  transition: background .14s, border-color .14s, opacity .14s;
+}
+.vo-btn:hover { background: rgba(0,217,95,0.16); border-color: var(--accent); }
+.vo-btn:disabled { opacity: 0.45; cursor: default; }
+.vo-btn .vo-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.vo-btn.playing .vo-dot { animation: vo-pulse 0.9s ease-in-out infinite; }
+@keyframes vo-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.7); opacity: 0.45; }
+}
+
 .quiz-actions { display: flex; gap: 10px; margin-top: 18px; }
 .btn {
   font: inherit; font-size: 13px; font-weight: 600;
@@ -420,7 +440,10 @@ const UI = {
   next:    { en: 'Next →', th: 'ถัดไป →' },
   seeRes:  { en: 'See results →', th: 'ดูผล →' },
   retake:  { en: 'Retake', th: 'ทำใหม่' },
-  reviewPrimer: { en: 'Review primer', th: 'ทบทวนพื้นฐาน' }
+  reviewPrimer: { en: 'Review primer', th: 'ทบทวนพื้นฐาน' },
+  voPlay:  { en: 'Listen to the answer', th: 'ฟังเสียงเฉลย' },
+  voStop:  { en: 'Stop', th: 'หยุดเสียง' },
+  voMissing: { en: 'Voiceover unavailable', th: 'ไม่มีเสียงเฉลย' }
 };
 const TAB_LABELS = {
   primer:     { en: 'Primer', th: 'พื้นฐาน' },
@@ -759,6 +782,7 @@ function setTab(t) {
 tabBtns.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
 
 function render() {
+  stopVoiceover();
   if (currentTab === 'primer') renderPrimer();
   else renderQuiz();
 }
@@ -794,6 +818,47 @@ function renderPrimer() {
   bodyEl.innerHTML = html;
 }
 
+/* ---- solution voiceover (Paxa Labs TTS, voice: yoyo) ---- */
+let voAudio = null;
+
+function stopVoiceover() {
+  if (voAudio) {
+    voAudio.pause();
+    voAudio.src = '';
+    voAudio = null;
+  }
+  const btn = bodyEl.querySelector('.vo-btn.playing');
+  if (btn) {
+    btn.classList.remove('playing');
+    btn.querySelector('.vo-label').textContent = L(UI.voPlay);
+  }
+}
+
+function voiceoverSrc(idx) {
+  const n = String(idx + 1).padStart(2, '0');
+  return `/assets/audio/plo-starting-hands/${currentTab}-${n}-${LANG}.mp3`;
+}
+
+function toggleVoiceover(btn, idx) {
+  if (btn.classList.contains('playing')) { stopVoiceover(); return; }
+  stopVoiceover();
+  voAudio = new Audio(voiceoverSrc(idx));
+  const label = btn.querySelector('.vo-label');
+  voAudio.addEventListener('ended', stopVoiceover);
+  voAudio.addEventListener('error', () => {
+    stopVoiceover();
+    label.textContent = L(UI.voMissing);
+    btn.disabled = true;
+  });
+  voAudio.play().then(() => {
+    btn.classList.add('playing');
+    label.textContent = L(UI.voStop);
+  }).catch(() => {
+    label.textContent = L(UI.voMissing);
+    btn.disabled = true;
+  });
+}
+
 /* ---- quiz ---- */
 function getState(mode) {
   if (!quizState[mode]) quizState[mode] = { idx: 0, answers: [], done: false };
@@ -801,6 +866,7 @@ function getState(mode) {
 }
 
 function renderQuiz() {
+  stopVoiceover();
   const mode = MODES[currentTab];
   const qs = mode.data;
   const st = getState(currentTab);
@@ -847,7 +913,8 @@ function renderQuiz() {
   if (answered) {
     const ok = st.answers[st.idx] === item.a;
     html += `<div class="explain ${ok ? 'ok' : 'no'}">
-      <span class="verdict">${ok ? L(UI.correct) : L(UI.notquite)}</span> ${L(item.e)}</div>`;
+      <span class="verdict">${ok ? L(UI.correct) : L(UI.notquite)}</span> ${L(item.e)}
+      <br><button class="vo-btn" data-act="vo"><span class="vo-dot"></span><span class="vo-label">${L(UI.voPlay)}</span></button></div>`;
   }
 
   html += `<div class="quiz-actions">`;
@@ -864,6 +931,7 @@ function renderQuiz() {
   bodyEl.querySelectorAll('[data-act]').forEach(b =>
     b.addEventListener('click', () => {
       const a = b.dataset.act;
+      if (a === 'vo') { toggleVoiceover(b, st.idx); return; }
       if (a === 'next') st.idx++;
       else if (a === 'prev') st.idx--;
       else if (a === 'finish') st.done = true;
