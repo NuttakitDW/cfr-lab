@@ -818,10 +818,22 @@ function renderPrimer() {
   bodyEl.innerHTML = html;
 }
 
-/* ---- solution voiceover (Paxa Labs TTS, voice: yoyo) ---- */
+/* ---- voiceover (Paxa Labs TTS, voice: khanomkrok) ----
+   Clips: {tab}-q-NN = question narration, verdict-correct / verdict-incorrect
+   = shared verdicts, {tab}-NN = solution lesson. Played as chained sequences. */
 let voAudio = null;
+let voQueue = [];
+let voBtn = null;
+
+function voClipId(idx, question) {
+  return `${currentTab}${question ? '-q' : ''}-${String(idx + 1).padStart(2, '0')}`;
+}
+function voSrc(name) {
+  return `/assets/audio/plo-starting-hands/${name}-${LANG}.mp3`;
+}
 
 function stopVoiceover() {
+  voQueue = [];
   if (voAudio) {
     const a = voAudio;
     voAudio = null;
@@ -829,37 +841,44 @@ function stopVoiceover() {
     a.onerror = null;
     a.pause();
   }
-  const btn = bodyEl.querySelector('.vo-btn.playing');
-  if (btn) {
-    btn.classList.remove('playing');
-    btn.querySelector('.vo-label').textContent = L(UI.voPlay);
+  if (voBtn) {
+    const b = voBtn;
+    voBtn = null;
+    if (b.isConnected) {
+      b.classList.remove('playing');
+      b.querySelector('.vo-label').textContent = L(UI.voPlay);
+    }
   }
 }
 
-function voiceoverSrc(idx) {
-  const n = String(idx + 1).padStart(2, '0');
-  return `/assets/audio/plo-starting-hands/${currentTab}-${n}-${LANG}.mp3`;
+function playVoiceover(names, btn) {
+  stopVoiceover();
+  voQueue = names.slice();
+  voBtn = btn || null;
+  if (voBtn) {
+    voBtn.classList.add('playing');
+    voBtn.querySelector('.vo-label').textContent = L(UI.voStop);
+  }
+  voNext();
 }
 
-function toggleVoiceover(btn, idx) {
-  if (btn.classList.contains('playing')) { stopVoiceover(); return; }
-  stopVoiceover();
-  const a = new Audio(voiceoverSrc(idx));
+function voNext() {
+  if (!voQueue.length) { stopVoiceover(); return; }
+  const a = new Audio(voSrc(voQueue.shift()));
   voAudio = a;
-  const label = btn.querySelector('.vo-label');
-  const markMissing = () => {
+  const fail = () => {
     if (voAudio !== a) return;
+    if (voQueue.length) { voNext(); return; } // skip a missing clip mid-sequence
+    const b = voBtn;
     stopVoiceover();
-    label.textContent = L(UI.voMissing);
-    btn.disabled = true;
+    if (b && b.isConnected) {
+      b.querySelector('.vo-label').textContent = L(UI.voMissing);
+      b.disabled = true;
+    }
   };
-  a.onended = stopVoiceover;
-  a.onerror = markMissing;
-  a.play().then(() => {
-    if (voAudio !== a) return;
-    btn.classList.add('playing');
-    label.textContent = L(UI.voStop);
-  }).catch(markMissing);
+  a.onended = () => { if (voAudio === a) voNext(); };
+  a.onerror = fail;
+  a.play().catch(fail);
 }
 
 /* ---- quiz ---- */
@@ -932,19 +951,26 @@ function renderQuiz() {
   bodyEl.querySelectorAll('.opt:not(:disabled)').forEach(b =>
     b.addEventListener('click', () => {
       st.answers[st.idx] = +b.dataset.opt;
+      const ok = st.answers[st.idx] === item.a;
       renderQuiz();
-      const voBtn = bodyEl.querySelector('.vo-btn');
-      if (voBtn) toggleVoiceover(voBtn, st.idx);
+      const btn = bodyEl.querySelector('.vo-btn');
+      if (btn) playVoiceover([`verdict-${ok ? 'correct' : 'incorrect'}`, voClipId(st.idx)], btn);
     }));
   bodyEl.querySelectorAll('[data-act]').forEach(b =>
     b.addEventListener('click', () => {
       const a = b.dataset.act;
-      if (a === 'vo') { toggleVoiceover(b, st.idx); return; }
+      if (a === 'vo') {
+        if (b.classList.contains('playing')) stopVoiceover();
+        else playVoiceover([voClipId(st.idx)], b);
+        return;
+      }
       if (a === 'next') st.idx++;
       else if (a === 'prev') st.idx--;
       else if (a === 'finish') st.done = true;
       renderQuiz();
     }));
+
+  if (!answered) playVoiceover([voClipId(st.idx, true)]);
 }
 
 const VERDICTS = {

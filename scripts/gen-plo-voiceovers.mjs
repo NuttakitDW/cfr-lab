@@ -30,7 +30,7 @@ if (!API_KEY) {
 
 const PAGE = join(ROOT, 'plo-starting-hands.html');
 const OUT_DIR = join(ROOT, 'assets', 'audio', 'plo-starting-hands');
-const VOICE = 'yoyo';
+const VOICE = 'khanomkrok';
 const MODEL = 'paxa-tts-flash-v1';
 
 const src = readFileSync(PAGE, 'utf8');
