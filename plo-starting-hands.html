@@ -823,9 +823,11 @@ let voAudio = null;
 
 function stopVoiceover() {
   if (voAudio) {
-    voAudio.pause();
-    voAudio.src = '';
+    const a = voAudio;
     voAudio = null;
+    a.onended = null;
+    a.onerror = null;
+    a.pause();
   }
   const btn = bodyEl.querySelector('.vo-btn.playing');
   if (btn) {
@@ -842,21 +844,22 @@ function voiceoverSrc(idx) {
 function toggleVoiceover(btn, idx) {
   if (btn.classList.contains('playing')) { stopVoiceover(); return; }
   stopVoiceover();
-  voAudio = new Audio(voiceoverSrc(idx));
+  const a = new Audio(voiceoverSrc(idx));
+  voAudio = a;
   const label = btn.querySelector('.vo-label');
-  voAudio.addEventListener('ended', stopVoiceover);
-  voAudio.addEventListener('error', () => {
+  const markMissing = () => {
+    if (voAudio !== a) return;
     stopVoiceover();
     label.textContent = L(UI.voMissing);
     btn.disabled = true;
-  });
-  voAudio.play().then(() => {
+  };
+  a.onended = stopVoiceover;
+  a.onerror = markMissing;
+  a.play().then(() => {
+    if (voAudio !== a) return;
     btn.classList.add('playing');
     label.textContent = L(UI.voStop);
-  }).catch(() => {
-    label.textContent = L(UI.voMissing);
-    btn.disabled = true;
-  });
+  }).catch(markMissing);
 }
 
 /* ---- quiz ---- */
