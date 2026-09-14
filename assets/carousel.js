@@ -163,23 +163,32 @@
     const status = root.querySelector('[data-carousel-status]');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    /* distance between two card starts; 0 until the track is laid out as a row
+       (iOS Safari can run this before site.css applies, when cards still stack) */
     const step = () => {
       const [a, b] = track.children;
-      return b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+      if (!a || !b) return 0;
+      const s = b.getBoundingClientRect().left - a.getBoundingClientRect().left;
+      return Number.isFinite(s) && s > 0 ? s : 0;
     };
-    const perView = () => {
+    const perView = (s) => {
       const padInline = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      return Math.max(1, Math.floor((track.clientWidth - padInline * 2 + 16) / step()));
+      return Math.max(1, Math.floor((track.clientWidth - padInline * 2 + 16) / s));
     };
     const update = () => {
-      const first = Math.min(total - 1, Math.round(track.scrollLeft / step()));
-      const last = Math.min(total, first + perView());
-      const range = last > first + 1 ? `${pad(first + 1)}–${pad(last)}` : pad(first + 1);
-      status.textContent = `${range} / ${pad(total)}`;
       prev.disabled = track.scrollLeft <= 2;
       next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      const s = step();
+      const first = s ? Math.min(total - 1, Math.max(0, Math.round(track.scrollLeft / s))) : 0;
+      const last = s ? Math.min(total, first + perView(s)) : 1;
+      const range = last > first + 1 ? `${pad(first + 1)}–${pad(last)}` : pad(first + 1);
+      status.textContent = `${range} / ${pad(total)}`;
     };
-    const go = (dir) => track.scrollBy({ left: dir * perView() * step(), behavior: reduced ? 'auto' : 'smooth' });
+    const go = (dir) => {
+      const s = step();
+      if (!s) return;
+      track.scrollBy({ left: dir * perView(s) * s, behavior: reduced ? 'auto' : 'smooth' });
+    };
 
     let frame = 0;
     const schedule = () => {
@@ -196,6 +205,13 @@
       e.preventDefault();
       go(e.key === 'ArrowLeft' ? -1 : 1);
     });
+
+    /* re-measure whenever layout settles. `load` waits for every stylesheet, and
+       reading layout inside these callbacks forces a fresh layout, so update runs
+       directly rather than waiting on an animation frame. */
+    if ('ResizeObserver' in window) new ResizeObserver(() => update()).observe(track);
+    window.addEventListener('load', () => update());
+    document.fonts?.ready.then(() => update());
     update();
   };
 
