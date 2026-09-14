@@ -103,14 +103,62 @@ header.site-head {
 .hero-sub strong { font-weight: 500; color: var(--signal); }
 
 /* ----------------------------------------------------------- feature fan */
-.fan {
+/* ------------------------------------------------------- article carousel */
+.carousel[hidden] { display: none; }
+.carousel { display: flex; flex-direction: column; gap: .25rem; }
+.carousel-head {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1.5rem 0;
-  padding-block: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
 }
+.carousel-head h2 { margin: 0; font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.2; }
+.carousel-controls { display: flex; align-items: center; gap: .5rem; }
+.carousel-status {
+  margin-right: .5rem;
+  font-size: .75rem;
+  letter-spacing: var(--track-wider);
+  color: var(--ash);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.carousel-btn {
+  padding: .5rem 1rem;
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xl);
+  font-size: .9375rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.carousel-btn:hover:not(:disabled) { background: var(--ink); color: var(--paper-2); }
+.carousel-btn:disabled { opacity: .3; cursor: default; }
+
+.carousel-track {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 2.5rem var(--gutter) 3.5rem;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:focus-visible { outline-offset: -4px; }
+.carousel-item { flex: 0 0 auto; scroll-snap-align: start; }
+/* a tighter shadow than the fan: the scrolling track clips anything wider */
+.carousel-item .fan-card { margin-inline: 0; box-shadow: 0 12px 32px rgba(8, 11, 18, .14); }
+.carousel-item .fan-card:hover { box-shadow: 0 18px 36px rgba(8, 11, 18, .22); }
+.carousel-item .fc-name,
+.carousel-item .fc-claim { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.carousel-item .fc-name { -webkit-line-clamp: 3; }
+.carousel-item .fc-claim { -webkit-line-clamp: 2; min-height: 0; }
+.carousel-item .fc-img { min-height: 96px; }
 .fan-card {
   --tilt: 0deg;
   --fc-bg: var(--fill-mist);
@@ -279,12 +327,12 @@ footer.site-footer { margin: 0; padding: 0 0 1.5rem; border: 0; font-size: 1rem;
   .d3 { animation-delay: .22s; }
   .d4 { animation-delay: .3s; }
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
-  .fan .fan-card { animation: deal .8s var(--ease-out) backwards; }
-  .fan .fan-card:nth-child(1) { animation-delay: .18s; }
-  .fan .fan-card:nth-child(2) { animation-delay: .24s; }
-  .fan .fan-card:nth-child(3) { animation-delay: .3s; }
-  .fan .fan-card:nth-child(4) { animation-delay: .36s; }
-  .fan .fan-card:nth-child(5) { animation-delay: .42s; }
+  .carousel-item:nth-child(-n+6) .fan-card { animation: deal .8s var(--ease-out) backwards; }
+  .carousel-item:nth-child(2) .fan-card { animation-delay: .06s; }
+  .carousel-item:nth-child(3) .fan-card { animation-delay: .12s; }
+  .carousel-item:nth-child(4) .fan-card { animation-delay: .18s; }
+  .carousel-item:nth-child(5) .fan-card { animation-delay: .24s; }
+  .carousel-item:nth-child(6) .fan-card { animation-delay: .3s; }
   @keyframes deal { from { opacity: 0; transform: translateY(40px) rotate(0deg); } }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -299,8 +347,9 @@ footer.site-footer { margin: 0; padding: 0 0 1.5rem; border: 0; font-size: 1rem;
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
-  .fan { gap: 1.5rem; }
   .fan-card { width: min(100%, 320px); margin-inline: 0; --tilt: 0deg !important; }
+  .carousel-item .fan-card { width: min(72vw, 260px); }
+  .carousel-track { gap: 1rem; padding-block: 1.5rem 2.5rem; }
   .card-grid { grid-template-columns: minmax(0, 1fr); }
   .entry { min-height: 0; }
   .footer-grid { grid-template-columns: 1fr 1fr; }

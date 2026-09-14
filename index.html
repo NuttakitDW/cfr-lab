@@ -52,32 +52,10 @@
 }
 .notice p { flex: 1 1 32ch; margin: 0; font-size: .8125rem; line-height: 1.65; }
 </style>
+<script defer src="/assets/carousel.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-
-<svg width="0" height="0" aria-hidden="true" style="position:absolute">
-  <defs>
-    <filter id="grain-ink" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="37" stitchTiles="stitch" result="noise"/>
-      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.2 0 0 0 -0.25" result="noiseA"/>
-      <feComposite in="blur" in2="noiseA" operator="arithmetic" k2="0.95" k3="-1" result="diff"/>
-      <feComponentTransfer in="diff" result="stipple"><feFuncA type="linear" slope="12"/></feComponentTransfer>
-      <feFlood flood-color="#080B12" result="tone"/>
-      <feComposite in="tone" in2="stipple" operator="in"/>
-    </filter>
-    <filter id="grain-paper" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="41" stitchTiles="stitch" result="noise"/>
-      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.2 0 0 0 -0.25" result="noiseA"/>
-      <feComposite in="blur" in2="noiseA" operator="arithmetic" k2="0.95" k3="-1" result="diff"/>
-      <feComponentTransfer in="diff" result="stipple"><feFuncA type="linear" slope="12"/></feComponentTransfer>
-      <feFlood flood-color="#F1F3F8" result="tone"/>
-      <feComposite in="tone" in2="stipple" operator="in"/>
-    </filter>
-  </defs>
-</svg>
 
 <div class="page" id="top">
   <header class="site-head rise">
@@ -93,78 +71,16 @@
     </nav>
   </header>
 
-  <section class="fan rise d2" aria-label="Start here">
-    <a class="fan-card fc-sapphire" href="/cfr-simulation" style="--tilt:-4.8deg">
-      <div class="fc-head">
-        <span class="fc-tag">Solver</span>
-        <span class="fc-name">Kuhn CFR</span>
-        <p class="fc-claim">Three cards, twelve info sets, one Nash.</p>
+  <section class="carousel rise d2" data-carousel hidden aria-roledescription="carousel" aria-label="Every article">
+    <div class="carousel-head">
+      <h2>Every article.</h2>
+      <div class="carousel-controls">
+        <span class="carousel-status" data-carousel-status aria-live="polite"></span>
+        <button class="carousel-btn" type="button" data-dir="-1" aria-label="Previous articles">Prev</button>
+        <button class="carousel-btn" type="button" data-dir="1" aria-label="Next articles">Next</button>
       </div>
-      <div class="fc-img">
-        <svg viewBox="0 0 252 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <text x="30" y="182" font-family="Inclusive Sans, sans-serif" font-weight="600" font-size="190" letter-spacing="-10" fill="#F1F3F8" filter="url(#grain-paper)">K</text>
-          <circle cx="196" cy="70" r="16" fill="#F1F3F8" filter="url(#grain-paper)"/>
-        </svg>
-      </div>
-    </a>
-
-    <a class="fan-card" href="/plo-starting-hands" style="--tilt:2deg">
-      <div class="fc-head">
-        <span class="fc-tag">Quiz</span>
-        <span class="fc-name">PLO hands</span>
-        <p class="fc-claim">Four tiers, two quizzes, English and Thai.</p>
-      </div>
-      <div class="fc-img">
-        <svg viewBox="0 0 252 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <g transform="rotate(-10 62 120)"><rect x="34" y="78" width="54" height="84" rx="10" fill="#080B12" filter="url(#grain-ink)"/></g>
-          <g transform="rotate(3 126 108)"><rect x="99" y="62" width="54" height="84" rx="10" fill="#080B12" filter="url(#grain-ink)"/></g>
-          <g transform="rotate(12 192 122)"><rect x="165" y="80" width="54" height="84" rx="10" fill="#080B12" filter="url(#grain-ink)"/></g>
-        </svg>
-      </div>
-    </a>
-
-    <a class="fan-card fc-midnight" href="#quant" style="--tilt:-2.6deg">
-      <div class="fc-head">
-        <span class="fc-tag">Papers</span>
-        <span class="fc-name">Quant notes</span>
-        <p class="fc-claim">Six papers, one signal each.</p>
-      </div>
-      <div class="fc-img">
-        <svg viewBox="0 0 252 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <rect x="40" y="132" width="30" height="46" rx="6" fill="#F1F3F8" filter="url(#grain-paper)"/>
-          <rect x="84" y="106" width="30" height="72" rx="6" fill="#F1F3F8" filter="url(#grain-paper)"/>
-          <rect x="128" y="84" width="30" height="94" rx="6" fill="#F1F3F8" filter="url(#grain-paper)"/>
-          <rect x="172" y="48" width="30" height="130" rx="6" fill="#F1F3F8" filter="url(#grain-paper)"/>
-        </svg>
-      </div>
-    </a>
-
-    <a class="fan-card fc-tan" href="/outs-drill" style="--tilt:3.2deg">
-      <div class="fc-head">
-        <span class="fc-tag">Drill</span>
-        <span class="fc-name">Counting outs</span>
-        <p class="fc-claim">Nine games, deck-accurate answers.</p>
-      </div>
-      <div class="fc-img">
-        <svg viewBox="0 0 252 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <text x="126" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="500" font-size="150" fill="#080B12" filter="url(#grain-ink)">9</text>
-        </svg>
-      </div>
-    </a>
-
-    <a class="fan-card fc-slate" href="/leduc-nl-resolver" style="--tilt:-1.2deg">
-      <div class="fc-head">
-        <span class="fc-tag">Engine</span>
-        <span class="fc-name">Re-solver</span>
-        <p class="fc-claim">Bet sizes the blueprint never saw.</p>
-      </div>
-      <div class="fc-img">
-        <svg viewBox="0 0 252 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <path d="M28 52 C 60 150, 92 150, 118 132 S 176 118, 226 122" fill="none" stroke="#080B12" stroke-width="12" stroke-linecap="round" filter="url(#grain-ink)"/>
-          <circle cx="226" cy="122" r="12" fill="#080B12" filter="url(#grain-ink)"/>
-        </svg>
-      </div>
-    </a>
+    </div>
+    <ul class="carousel-track" tabindex="0" aria-label="Articles"></ul>
   </section>
 
   <nav class="shelves rise d3" aria-label="Sections">
