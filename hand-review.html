@@ -5,33 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PLO Preflop Review — Hwang Method</title>
 <style>
-:root {
-  --bg: #050706;
-  --bg-2: #080c09;
-  --panel: #0b0f0c;
-  --panel-2: #111714;
-  --panel-3: #18201a;
-  --border: #1f2a22;
-  --text: #e8f2ea;
-  --muted: #8a9990;
-  --dim: #55635b;
-  --accent: #00d95f;
-  --green: #8fe64a;
-  --red: #ff4b5c;
-  --yellow: #f2b01e;
-  --purple: #9d7cff;
-  --orange: #ff8a3d;
-  --gold: #ffc53d;
-  --cyan: #35cfe0;
-}
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: "Familjen Grotesk", -apple-system, system-ui, sans-serif;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(0,217,95,0.10), transparent 60%),
-    radial-gradient(ellipse at 80% 100%, rgba(157,124,255,0.10), transparent 60%),
-    var(--bg);
+  font-family: var(--font-mono);
+  background: var(--bg);
   background-attachment: fixed;
   color: var(--text);
   line-height: 1.5;
@@ -40,23 +18,22 @@ body {
 header {
   padding: 18px 28px;
   border-bottom: 1px solid var(--border);
-  background: rgba(5,7,6, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--paper);
+  backdrop-filter: none;
   position: sticky; top: 0; z-index: 20;
 }
 .title-row { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
 header h1 {
   margin: 0; font-size: 22px; font-weight: 700;
-  background: linear-gradient(120deg, var(--accent), var(--purple) 60%, var(--gold));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-family: var(--font-display); color: var(--ink);
+  
   letter-spacing: -0.3px;
 }
 header .sub { color: var(--muted); font-size: 12px; }
 .head-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 a.home {
   color: var(--muted); text-decoration: none; font-size: 12px;
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px;
   transition: color .14s, border-color .14s;
 }
@@ -65,11 +42,11 @@ a.home:hover { color: var(--accent); border-color: var(--accent); }
 main { padding: 32px 28px; max-width: 1100px; margin: 0 auto; }
 
 section.panel {
-  background: linear-gradient(180deg, var(--panel) 0%, var(--bg-2) 100%);
+  background: var(--paper-2);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 22px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: none;
 }
 section.panel h2 {
   margin: 0 0 4px; font-size: 13px; font-weight: 700; color: var(--muted);
@@ -83,7 +60,7 @@ section.panel h3 { margin: 0 0 18px; font-size: 18px; font-weight: 600; color: v
 p.body { font-size: 13.5px; color: var(--muted); line-height: 1.65; margin: 0 0 12px; }
 p.body strong { color: var(--text); font-weight: 600; }
 p.body:last-child { margin-bottom: 0; }
-code, .mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; }
+code, .mono { font-family: var(--font-mono); }
 code {
   background: var(--panel-3); color: var(--text);
   padding: 1px 5px; border-radius: 4px; font-size: 12px;
@@ -95,67 +72,66 @@ code {
   padding: 4px 0 18px; border-bottom: 1px solid var(--border); margin-bottom: 18px;
 }
 .score-big {
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 54px; font-weight: 700; line-height: 1;
   color: var(--green);
-  text-shadow: 0 0 26px rgba(143,230,74,0.35);
 }
 .score-meta { display: flex; gap: 26px; flex-wrap: wrap; }
 .stat .k {
   font-size: 9.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
-  color: var(--muted); font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; display: block; margin-bottom: 3px;
+  color: var(--muted); font-family: var(--font-mono); display: block; margin-bottom: 3px;
 }
 .stat .v {
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 19px; font-weight: 700; color: var(--text);
 }
 .stat .v.sm { font-size: 15px; }
 
 /* ---- bars ---- */
 .bar-row { display: grid; grid-template-columns: 78px 1fr 96px; align-items: center; gap: 12px; margin-bottom: 9px; }
-.bar-lab { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--muted); }
-.bar-track { display: block; height: 9px; border-radius: 5px; background: rgba(255,255,255,0.04); overflow: hidden; }
+.bar-lab { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); }
+.bar-track { display: block; height: 9px; border-radius: 5px; background: var(--paper-4); overflow: hidden; }
 .bar-fill {
   display: block; height: 100%; border-radius: 5px; width: 0;
   transition: width 1.1s cubic-bezier(.16,1,.3,1);
-  background: linear-gradient(90deg, var(--signal-deep), var(--signal) 55%, var(--lime));
+  background: var(--signal);
 }
-.bar-fill.good { background: linear-gradient(90deg, var(--green), var(--cyan)); }
-.bar-fill.warn { background: linear-gradient(90deg, var(--orange), var(--gold)); }
-.bar-fill.bad  { background: linear-gradient(90deg, var(--red), var(--orange)); }
-.bar-val { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text); text-align: right; }
+.bar-fill.good { background: var(--green); }
+.bar-fill.warn { background: var(--yellow); }
+.bar-fill.bad  { background: var(--red); }
+.bar-val { font-family: var(--font-mono); font-size: 11.5px; color: var(--text); text-align: right; }
 .bar-val span { color: var(--dim); }
 
 /* ---- tables ---- */
 .tbl-wrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 th {
-  text-align: left; font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  text-align: left; font-family: var(--font-mono);
   font-size: 9.5px; letter-spacing: 0.7px; text-transform: uppercase;
   color: var(--muted); font-weight: 700;
   padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap;
 }
-td { padding: 8px 10px; border-bottom: 1px solid rgba(31,42,34,0.5); vertical-align: middle; white-space: nowrap; }
-tbody tr:hover { background: rgba(0,217,95,0.05); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--edge); vertical-align: middle; white-space: nowrap; }
+tbody tr:hover { background: var(--ink-05); }
 
-.cards { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 12.5px; letter-spacing: 0.5px; }
-.c-s { color: #e8f2ea; } .c-h { color: var(--red); } .c-d { color: var(--accent); } .c-c { color: var(--green); }
+.cards { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.5px; }
+.c-s { color: var(--suit-s); } .c-h { color: var(--red); } .c-d { color: var(--accent); } .c-c { color: var(--green); }
 
 .tag {
-  display: inline-block; font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  display: inline-block; font-family: var(--font-mono);
   font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
   padding: 2px 6px; border-radius: 3px;
 }
-.tag.t1 { background: rgba(255,197,61,0.15);  color: var(--gold); }
-.tag.t2 { background: rgba(143,230,74,0.15);  color: var(--green); }
-.tag.t3 { background: rgba(0,217,95,0.15);  color: var(--accent); }
-.tag.t4 { background: rgba(157,124,255,0.15); color: var(--purple); }
-.tag.t5 { background: rgba(138,153,144,0.15); color: var(--muted); }
-.tag.loose { background: rgba(255,75,92,0.15); color: var(--red); }
-.tag.tight { background: rgba(242,176,30,0.15); color: var(--yellow); }
-.tag.passive { background: rgba(255,138,61,0.15); color: var(--orange); }
-.tag.ok { background: rgba(143,230,74,0.13); color: var(--green); }
-.act { font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 11.5px; }
+.tag.t1 { background: var(--bronze); color: var(--paper-2); }
+.tag.t2 { background: var(--green); color: var(--paper-2); }
+.tag.t3 { background: var(--fill-mist); color: var(--ink); }
+.tag.t4 { background: var(--fill-slate); color: var(--ink); }
+.tag.t5 { background: var(--paper-4); color: var(--ash); }
+.tag.loose { background: var(--red); color: var(--paper-2); }
+.tag.tight { background: var(--fill-tan); color: var(--ink); }
+.tag.passive { background: var(--fill-tan); color: var(--ink); }
+.tag.ok { background: var(--green); color: var(--paper-2); }
+.act { font-family: var(--font-mono); font-size: 11.5px; }
 .act.folds { color: var(--muted); } .act.calls { color: var(--yellow); }
 .act.raises { color: var(--green); } .act.checks { color: var(--dim); }
 .note-cell { color: var(--muted); font-size: 11.5px; white-space: normal; min-width: 190px; }
@@ -165,40 +141,41 @@ tbody tr:hover { background: rgba(0,217,95,0.05); }
 .pill-group { display: inline-flex; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .pill-group button {
   background: none; border: none; color: var(--muted); cursor: pointer;
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
   padding: 6px 11px; transition: background .14s, color .14s;
 }
 .pill-group button:hover { color: var(--text); }
-.pill-group button.active { background: var(--accent); color: #060c08; }
+.pill-group button.active { background: var(--ink); color: var(--paper-2); }
 .ctl-label {
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 9.5px; letter-spacing: 0.7px;
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.7px;
   text-transform: uppercase; color: var(--dim); margin-right: 2px;
 }
-.count { margin-left: auto; font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace; font-size: 11px; color: var(--muted); }
+.count { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 
 /* ---- callouts ---- */
 .callout {
   display: flex; align-items: flex-start; gap: 12px;
   border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
-  background: rgba(255,75,92,0.06); border: 1px solid rgba(255,75,92,0.30);
+  background: var(--fill-tan); border: 1px solid transparent;
 }
-.callout.info { background: rgba(0,217,95,0.06); border-color: rgba(0,217,95,0.30); }
+.callout.info { background: var(--paper-3); }
 .callout .badge {
-  font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 9.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
   padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
-  background: rgba(255,75,92,0.18); color: #ff8590;
+  background: var(--red); color: var(--paper-2);
 }
-.callout.info .badge { background: rgba(0,217,95,0.18); color: var(--accent); }
-.callout .text { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.callout.info .badge { background: var(--ink); color: var(--paper-2); }
+.callout .text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
 .callout .text strong { color: var(--text); font-weight: 600; }
 
 .tier-list { margin: 0; padding: 0; list-style: none; }
 .tier-list li {
   display: grid; grid-template-columns: 44px 1fr; gap: 12px;
-  padding: 9px 0; border-bottom: 1px solid rgba(31,42,34,0.5); font-size: 12.5px;
+  padding: 9px 0; border-bottom: 1px solid var(--edge); font-size: 12.5px;
 }
 .tier-list li:last-child { border-bottom: none; }
+.tier-list .tag { align-self: start; justify-self: start; margin-top: 2px; }
 .tier-list .d { color: var(--muted); line-height: 1.5; }
 .tier-list .d b { color: var(--text); font-weight: 600; }
 
@@ -209,9 +186,9 @@ footer a:hover { color: var(--accent); }
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
-<meta name="theme-color" content="#050706">
+<meta name="theme-color" content="#E8EBF2">
 </head>
 
 <body>

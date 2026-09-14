@@ -5,678 +5,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About — Nuttakit Kundum</title>
 <meta name="description" content="Nuttakit Kundum — I came to finance through poker. Research on counterfactual regret minimization, cross-sectional alphas, and the software that carries both.">
-<meta name="theme-color" content="#050706">
+<meta name="theme-color" content="#E8EBF2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script defer src="/assets/particle-text.js"></script>
 <style>
-html { scroll-behavior: smooth; }
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  line-height: 1.5;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ---------------------------------------------------------------- topbar */
-header.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  padding: 0 clamp(16px, 4vw, 42px);
-  height: 54px;
-  border-bottom: 1px solid var(--edge-line);
-  background: linear-gradient(180deg, rgba(5,7,6,0.95), rgba(5,7,6,0.82));
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  box-shadow: 0 1px 0 rgba(0,217,95,0.14);
-}
-header.topbar .mark {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2.4px;
-  text-transform: uppercase;
-  color: var(--pale);
-  text-decoration: none;
-  white-space: nowrap;
-}
-header.topbar .mark b { color: var(--signal); font-weight: 700; }
-
-nav.jump {
-  display: flex;
-  gap: 2px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  margin-right: auto;
-  min-width: 0;
-  -webkit-mask-image: linear-gradient(90deg, #000 97%, transparent);
-  mask-image: linear-gradient(90deg, #000 97%, transparent);
-}
-nav.jump::-webkit-scrollbar { display: none; }
-nav.jump a {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 1.1px;
-  text-transform: uppercase;
-  color: var(--ash-1);
-  text-decoration: none;
-  padding: 7px 10px;
-  border-radius: 5px;
-  white-space: nowrap;
-  transition: color 0.16s, background 0.16s;
-}
-nav.jump a:hover { color: var(--signal); background: rgba(0,217,95,0.08); }
-nav.jump a.here {
-  color: var(--signal);
-  background: rgba(0,217,95,0.10);
-  box-shadow: inset 0 0 0 1px rgba(0,217,95,0.24);
-}
-header.topbar .est {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 1.4px;
-  color: var(--ash-2);
-  white-space: nowrap;
-}
-
 /* ------------------------------------------------------------------ hero */
 .hero {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: clamp(46px, 9vw, 92px) clamp(16px, 4vw, 42px) clamp(30px, 5vw, 50px);
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.85fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: start;
-}
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-  color: var(--signal);
-  margin: 0 0 22px;
-  display: flex;
+  grid-template-columns: minmax(0, 1.5fr) minmax(240px, .8fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
   align-items: center;
-  gap: 12px;
 }
-.eyebrow::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  max-width: 220px;
-  background: linear-gradient(90deg, var(--signal), transparent);
-}
-.hero h1 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(38px, 6.4vw, 72px);
-  line-height: 1.03;
-  letter-spacing: -0.5px;
-  margin: 0 0 24px;
-  color: var(--pale);
-}
-.hero h1 em {
-  font-style: italic;
-  color: var(--signal);
-  text-shadow: 0 0 42px rgba(0,217,95,0.35);
-}
-.hero .lede {
-  font-size: clamp(14.5px, 1.5vw, 16.5px);
-  color: var(--ash-1);
-  max-width: 60ch;
-  margin: 0 0 18px;
-  line-height: 1.68;
-}
-.hero .lede strong { color: var(--pale); font-weight: 600; }
+.hero-copy { display: flex; flex-direction: column; gap: 1.5rem; }
+.hero-h1 { font-size: clamp(3.25rem, 9vw, 6.5rem); }
+.hero-copy .hero-sub { max-width: 52ch; font-size: 1.0625rem; line-height: 1.65; }
 
-/* --------------------------------------------------------------- portrait */
 figure.portrait {
+  --tilt: 2.4deg;
+  justify-self: center;
+  width: min(100%, 320px);
   margin: 0;
-  position: relative;
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  background: var(--ink-3);
   padding: 10px 10px 0;
-  box-shadow: 0 26px 60px -34px rgba(0,0,0,0.95);
+  background: var(--fill-midnight);
+  color: var(--paper-2);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-card);
+  transform: rotate(var(--tilt));
+  transition: transform .34s var(--ease-out);
 }
-figure.portrait::before,
-figure.portrait::after {
-  content: "";
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 1px solid var(--signal);
-  opacity: 0.55;
-}
-figure.portrait::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
-figure.portrait::after  { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
-
-.portrait .frame {
-  position: relative;
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--ink-2);
-  aspect-ratio: 3 / 4;
-}
+figure.portrait:hover { transform: rotate(calc(var(--tilt) * .5)) translateY(-6px); }
+.portrait .frame { border-radius: 24px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--fill-slate); }
 .portrait img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 16%;
-  filter: grayscale(1) contrast(1.18) brightness(0.58) sepia(0.30) hue-rotate(80deg) saturate(1.15);
-}
-/* phosphor wash — the plate reads as a terminal capture, not a stock headshot */
-.portrait .frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(5,7,6,0.30) 0px,
-      rgba(5,7,6,0.30) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-    linear-gradient(196deg, rgba(0,217,95,0.16) 0%, transparent 48%),
-    radial-gradient(ellipse 88% 68% at 50% 28%, transparent 26%, rgba(5,7,6,0.94) 100%);
-  opacity: 0.9;
 }
 .portrait figcaption {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-  color: var(--ash-2);
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  padding: 10px 2px 11px;
-}
-.portrait figcaption b { color: var(--signal); font-weight: 600; }
-
-/* -------------------------------------------------------------- sections */
-main {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 clamp(16px, 4vw, 42px) 40px;
-}
-
-section.ledger { margin-bottom: 54px; scroll-margin-top: 68px; }
-
-.ledger-head {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding-bottom: 14px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--edge-line);
-  position: relative;
-}
-.ledger-head::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 56px;
-  height: 1px;
-  background: var(--signal);
-  box-shadow: 0 0 12px rgba(0,217,95,0.7);
-}
-.ledger-head .idx {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  color: var(--signal);
-  padding-top: 6px;
-}
-.ledger-head h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(24px, 3.2vw, 33px);
-  letter-spacing: 0.1px;
-  color: var(--pale);
-  margin: 0;
-  line-height: 1.15;
-}
-.ledger-head .sub {
-  font-size: 13px;
-  color: var(--ash-1);
-  margin: 4px 0 0;
-}
-.ledger-head .count {
-  margin-left: auto;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 1.2px;
+  gap: .75rem;
+  padding: .8rem .6rem 1rem;
+  font-size: .6875rem;
+  letter-spacing: var(--track-wider);
   text-transform: uppercase;
-  color: var(--ash-2);
-  white-space: nowrap;
 }
 
 /* ----------------------------------------------------------------- prose */
-.prose {
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  background: var(--ink-3);
-  padding: clamp(20px, 3vw, 30px) clamp(20px, 3.4vw, 34px);
-}
-.prose p {
-  font-size: 14.5px;
-  line-height: 1.75;
-  color: var(--ash-1);
-  margin: 0 0 16px;
-  max-width: 78ch;
-}
-.prose p:last-child { margin-bottom: 0; }
-.prose p strong { color: var(--pale); font-weight: 600; }
-.prose p em { color: var(--pale); }
+.prose { display: flex; flex-direction: column; gap: 1.25rem; max-width: 70ch; }
+.prose p { margin: 0; font-size: .9375rem; line-height: 1.8; }
+.prose strong { font-weight: 500; color: var(--signal); }
 .prose .drop::first-letter {
-  font-family: var(--display);
   float: left;
-  font-size: 58px;
-  line-height: 0.82;
-  padding: 6px 12px 0 0;
+  padding: .35rem .7rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 4.25rem;
+  line-height: .78;
   color: var(--signal);
 }
 
-/* ----------------------------------------------------------------- cards */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.cell {
-  background: var(--ink-3);
-  padding: 20px 22px 22px;
-  box-shadow: 0 0 0 1px var(--edge-line);
-}
-.cell h3 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: 21px;
-  line-height: 1.2;
-  color: var(--pale);
-  margin: 0 0 8px;
-}
-.cell p {
-  font-size: 12.8px;
-  line-height: 1.62;
-  color: var(--ash-1);
-  margin: 0;
-}
-.cell p strong { color: var(--pale); font-weight: 600; }
-.cell .tag {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  padding: 3px 7px;
-  border-radius: 3px;
-  margin-bottom: 12px;
-  border: 1px solid;
-  color: var(--signal);
-  border-color: rgba(0,217,95,0.32);
-  background: rgba(0,217,95,0.08);
-}
-.cell .tag.b { color: var(--lime);   border-color: rgba(143,230,74,0.32); background: rgba(143,230,74,0.08); }
-.cell .tag.c { color: var(--cyan);   border-color: rgba(53,207,224,0.30); background: rgba(53,207,224,0.07); }
-.cell .tag.d { color: var(--gold);   border-color: rgba(255,197,61,0.30); background: rgba(255,197,61,0.07); }
+.card-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.entry.channel { min-height: 11rem; }
+.entry .handle { font-size: .9375rem; font-weight: 500; overflow-wrap: anywhere; }
 
 /* ---------------------------------------------------------------- skills */
-.skills {
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--ink-3);
-}
+.skills { margin: 0; border-top: 1px solid var(--edge); }
 .skills .row {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  gap: 18px;
-  padding: 15px 22px;
-  border-bottom: 1px solid var(--edge-line);
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: .75rem 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--edge);
   align-items: baseline;
 }
-.skills .row:last-child { border-bottom: 0; }
 .skills dt {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 1.3px;
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: var(--track-wider);
   text-transform: uppercase;
-  color: var(--signal);
-  margin: 0;
+  color: var(--bronze);
 }
-.skills dd {
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.skills dd { margin: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
 .skills dd span {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: 0.2px;
-  color: var(--ash-1);
-  border: 1px solid var(--edge-line);
-  background: var(--ink-4);
-  border-radius: 4px;
-  padding: 3px 8px;
+  padding: .25rem .7rem;
+  border-radius: var(--radius-pill);
+  background: var(--ink-05);
+  font-size: .8125rem;
 }
 
 /* ----------------------------------------------------------- credentials */
-.certs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 1px;
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  overflow: hidden;
-}
+.certs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 a.cert {
-  position: relative;
   display: flex;
   flex-direction: column;
+  gap: .6rem;
+  padding: .75rem .75rem 1.5rem;
+  background: var(--paper-2);
+  color: var(--ink);
+  border-radius: var(--radius-2xl);
   text-decoration: none;
-  background: var(--ink-3);
-  padding: 16px 16px 20px;
-  box-shadow: 0 0 0 1px var(--edge-line);
-  transition: background 0.2s ease;
+  transition: background-color .22s var(--ease-standard);
 }
-a.cert::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: var(--signal);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.28s cubic-bezier(0.2,0.75,0.3,1);
-}
-a.cert:hover {
-  background:
-    linear-gradient(120deg, rgba(0,217,95,0.05), transparent 55%),
-    var(--ink-4);
-}
-a.cert:hover::before { transform: scaleY(1); }
-
-.cert .plate {
-  position: relative;
-  border: 1px solid var(--edge-line);
-  border-radius: 6px;
-  overflow: hidden;
-  background: #000;
-  aspect-ratio: 16 / 9;
-  margin-bottom: 16px;
-}
-.cert .plate img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* the award is the evidence — held near true colour, only slightly banked
-     down so it sits on the ground instead of glaring off it */
-  filter: brightness(0.86) saturate(0.9);
-  transition: filter 0.28s ease, transform 0.4s cubic-bezier(0.2,0.75,0.3,1);
-}
-a.cert:hover .plate img { filter: none; transform: scale(1.015); }
-.cert .plate::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(5,7,6,0.16) 0px,
-    rgba(5,7,6,0.16) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
+a.cert:hover { background: var(--fill-mist); color: var(--ink); }
+.cert .plate { border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 16 / 9; background: var(--paper-3); margin-bottom: .5rem; }
+.cert .plate img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .34s var(--ease-out); }
+a.cert:hover .plate img { transform: scale(1.015); }
+.cert .issuer, .cert h3, .cert dl, .cert .path { margin-inline: .75rem; }
 .cert .issuer {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 1.3px;
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: var(--track-wider);
   text-transform: uppercase;
-  color: var(--ash-2);
-  display: block;
-  margin-bottom: 8px;
+  color: var(--bronze);
 }
-.cert h3 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: 21px;
-  line-height: 1.2;
-  color: var(--pale);
-  margin: 0 0 12px;
-}
-a.cert:hover h3 { color: var(--signal); }
-.cert dl {
-  display: flex;
-  gap: 26px;
-  margin: 0 0 16px;
-  flex: 1;
-}
-.cert dt {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--ash-2);
-  margin: 0 0 4px;
-}
-.cert dd {
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--pale);
-  margin: 0;
-  font-variant-numeric: tabular-nums;
-}
+.cert h3 { margin-block: 0; font-size: 1.375rem; line-height: 1.2; }
+.cert dl { display: flex; gap: 2rem; margin-block: .25rem .5rem; flex: 1; }
+.cert dt { font-size: .6875rem; letter-spacing: var(--track-wider); text-transform: uppercase; color: var(--ash-2); }
+.cert dd { margin: 0; font-size: 1rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .cert dd.lit { color: var(--signal); }
-.cert .path {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.4px;
-  color: var(--ash-2);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  transition: color 0.2s, gap 0.2s;
-}
-a.cert:hover .path { color: var(--signal); gap: 12px; }
+.cert .path { font-size: .75rem; color: var(--ash); }
 
-/* --------------------------------------------------------------- contact */
-.contact {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1px;
-  border: 1px solid var(--edge-line);
-  border-radius: 10px;
-  overflow: hidden;
+@media (max-width: 1000px) {
+  .card-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-a.channel {
-  position: relative;
-  display: block;
-  text-decoration: none;
-  background: var(--ink-3);
-  padding: 20px 22px;
-  box-shadow: 0 0 0 1px var(--edge-line);
-  transition: background 0.2s ease;
-  overflow: hidden;
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  figure.portrait { justify-self: start; width: min(100%, 300px); }
+  .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-a.channel::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: var(--signal);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.28s cubic-bezier(0.2,0.75,0.3,1);
-}
-a.channel:hover {
-  background:
-    linear-gradient(120deg, rgba(0,217,95,0.055), transparent 55%),
-    var(--ink-4);
-}
-a.channel:hover::before { transform: scaleY(1); }
-a.channel .net {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--ash-2);
-  display: block;
-  margin-bottom: 9px;
-}
-a.channel .handle {
-  font-family: var(--mono);
-  font-size: 14.5px;
-  color: var(--pale);
-  display: block;
-  margin-bottom: 6px;
-  word-break: break-all;
-}
-a.channel:hover .handle { color: var(--signal); }
-a.channel .what {
-  font-size: 12.4px;
-  line-height: 1.55;
-  color: var(--ash-1);
-  display: block;
-}
-
-/* ---------------------------------------------------------------- footer */
-footer.site {
-  border-top: 1px solid var(--edge-line);
-  padding: 30px clamp(16px, 4vw, 42px) 48px;
-  max-width: 1180px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: baseline;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.5px;
-  color: var(--ash-2);
-}
-footer.site a { color: var(--ash-1); text-decoration: none; }
-footer.site a:hover { color: var(--signal); }
-footer.site .rule {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--signal), transparent 40%);
-  margin-bottom: 22px;
-  opacity: 0.5;
-}
-
-/* ---------------------------------------------------------------- motion */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
-}
-.hero > *, section.ledger {
-  animation: rise 0.6s cubic-bezier(0.2,0.75,0.3,1) backwards;
-}
-.hero > *:nth-child(1) { animation-delay: 0.05s; }
-.hero > *:nth-child(2) { animation-delay: 0.16s; }
-section.ledger { animation-delay: 0.3s; }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .hero > *, section.ledger { animation: none; }
-}
-
-@media (max-width: 940px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  figure.portrait { max-width: 340px; }
-}
-
-@media (max-width: 860px) {
-  header.topbar .est { display: none; }
-}
-
-@media (max-width: 780px) {
-  .grid { grid-template-columns: 1fr; }
-}
-
 @media (max-width: 640px) {
-  .contact, .certs { grid-template-columns: 1fr; }
-  .skills .row { grid-template-columns: 1fr; gap: 10px; }
-  .ledger-head { flex-wrap: wrap; }
-  .ledger-head .count { margin-left: 0; width: 100%; }
+  figure.portrait { --tilt: 0deg; }
+  .card-grid.two, .card-grid.four, .certs { grid-template-columns: minmax(0, 1fr); }
+  .skills .row { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<header class="topbar">
-  <a class="mark" href="/">NK<b>.</b></a>
-  <nav class="jump">
-    <a class="here" href="/about">About</a>
-    <a href="/#quant">Quant</a>
-    <a href="/#trainers">Trainers</a>
-    <a href="/#tabular">Tabular CFR</a>
-    <a href="/#neural">Neural</a>
-    <a href="#credentials">Credentials</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <span class="est">nuttakitkundum.com</span>
-</header>
+<div class="page" id="top">
+  <header class="site-head rise">
+    <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
+      <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
+      <span>Nuttakit Kundum</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a class="wide" href="/#quant">Quant</a>
+      <a class="wide" href="/#tabular">Solvers</a>
+      <a class="wide" href="#credentials">Credentials</a>
+      <a href="/about" aria-current="page">About</a>
+    </nav>
+  </header>
 
-<div class="hero">
-  <div>
-    <p class="eyebrow">About</p>
-    <h1>Nuttakit <em>Kundum</em></h1>
-    <p class="lede">I came to finance through poker, where you never know exactly what the other players hold. Markets are far bigger and messier than a poker table — but the same uncertainty is what pulled me in.</p>
-    <p class="lede">What I want from them is to understand <strong>how data connects to price movement</strong>, not to treat them as a shortcut to money or a place to gamble. This site is the working notebook for that: solvers, drills, and paper notes, all of it running in the browser.</p>
-  </div>
-
-  <figure class="portrait">
-    <div class="frame">
-      <img src="/assets/nuttakit.jpg" alt="Portrait of Nuttakit Kundum" width="666" height="1000">
+  <section class="hero rise d1" aria-label="About">
+    <div class="hero-copy">
+      <h1 class="hero-h1"><em class="particle-text lead" data-particle-text>Nuttakit</em> Kundum.</h1>
+      <p class="hero-sub">I came to finance through poker, where you never know exactly what the other players hold. Markets are far bigger and messier than a poker table — but the same uncertainty is what pulled me in.</p>
+      <p class="hero-sub">What I want from them is to understand <strong>how data connects to price movement</strong>, not to treat them as a shortcut to money or a place to gamble. This site is the working notebook for that: solvers, drills, and paper notes, all of it running in the browser.</p>
     </div>
-    <figcaption>
-      <span>Bangkok <b>·</b> Thailand</span>
-      <span>NK<b>.</b></span>
-    </figcaption>
-  </figure>
-</div>
 
-<main>
-
-  <!-- 01 --------------------------------------------------------------->
-  <section class="ledger" id="story">
-    <div class="ledger-head">
-      <span class="idx">01</span>
-      <div>
-        <h2>How I got here</h2>
-        <p class="sub">Poker first, then the part of finance that looks like poker</p>
+    <figure class="portrait">
+      <div class="frame">
+        <img src="/assets/nuttakit.jpg" alt="Portrait of Nuttakit Kundum" width="666" height="1000">
       </div>
+      <figcaption>
+        <span>Bangkok, Thailand</span>
+        <span>NK</span>
+      </figcaption>
+    </figure>
+  </section>
+
+<main class="rise d2">
+
+  <section class="shelf" id="story">
+    <div class="shelf-head">
+      <h2>How I got here</h2>
+      <p class="sub">Poker first, then the part of finance that looks like poker</p>
     </div>
 
     <div class="prose">
@@ -687,49 +198,41 @@ section.ledger { animation-delay: 0.3s; }
     </div>
   </section>
 
-  <!-- 02 --------------------------------------------------------------->
-  <section class="ledger" id="focus">
-    <div class="ledger-head">
-      <span class="idx">02</span>
-      <div>
-        <h2>What I work on</h2>
-        <p class="sub">Four threads, one question — how data connects to price</p>
-      </div>
+  <section class="shelf" id="focus">
+    <div class="shelf-head">
+      <h2>What I work on</h2>
+      <p class="sub">Four threads, one question — how data connects to price</p>
       <span class="count">4 threads</span>
     </div>
 
-    <div class="grid">
-      <div class="cell">
-        <span class="tag d">Quant</span>
+    <div class="card-grid two">
+      <div class="entry k-note">
+        <span class="kind">Quant</span>
         <h3>Cross-sectional alpha research</h3>
         <p>Signal construction and backtesting on WorldQuant BRAIN — ranking, neutralization, turnover control, correlation screening, and simulation pipelines that test candidates continuously instead of by hand. <strong>Expert level, 2026 Q2</strong>, with over 300 alphas accepted into the submitted pool.</p>
       </div>
-      <div class="cell">
-        <span class="tag">CFR</span>
+      <div class="entry k-cfr">
+        <span class="kind">CFR</span>
         <h3>Counterfactual regret minimization</h3>
         <p>Benchmarking CFR variants — <strong>CFR+, Discounted CFR, MCCFR</strong> — on Kuhn and Leduc hold'em, plus Deep CFR and DeepStack-style depth-limited resolving. Every solver on this site trains in the browser so the convergence is watchable rather than asserted.</p>
       </div>
-      <div class="cell">
-        <span class="tag b">Poker</span>
+      <div class="entry k-drill">
+        <span class="kind">Poker</span>
         <h3>Mixed-game study tools</h3>
         <p>Self-grading drills for the nine-game rotation, PLO preflop and post-flop trainers built on the Hwang framework, and exact 2-7 triple draw equity and EV work. Solver output turned into ranges, charts, and drills a human can actually practise against.</p>
       </div>
-      <div class="cell">
-        <span class="tag c">Engineering</span>
+      <div class="entry k-deep">
+        <span class="kind">Engineering</span>
         <h3>The software underneath</h3>
         <p>Research is only as good as the harness around it. I build the pipelines, APIs, and interfaces that make results reproducible — and I keep rules encoded rather than remembered, so the work stays correct as the constraints move.</p>
       </div>
     </div>
   </section>
 
-  <!-- 03 --------------------------------------------------------------->
-  <section class="ledger" id="toolkit">
-    <div class="ledger-head">
-      <span class="idx">03</span>
-      <div>
-        <h2>Toolkit</h2>
-        <p class="sub">What I reach for</p>
-      </div>
+  <section class="shelf" id="toolkit">
+    <div class="shelf-head">
+      <h2>Toolkit</h2>
+      <p class="sub">What I reach for</p>
     </div>
 
     <dl class="skills">
@@ -776,14 +279,10 @@ section.ledger { animation-delay: 0.3s; }
     </dl>
   </section>
 
-  <!-- 04 --------------------------------------------------------------->
-  <section class="ledger" id="credentials">
-    <div class="ledger-head">
-      <span class="idx">04</span>
-      <div>
-        <h2>Credentials</h2>
-        <p class="sub">WorldQuant BRAIN — level and competition certificates</p>
-      </div>
+  <section class="shelf" id="credentials">
+    <div class="shelf-head">
+      <h2>Credentials</h2>
+      <p class="sub">WorldQuant BRAIN — level and competition certificates</p>
       <span class="count">3 certificates</span>
     </div>
 
@@ -835,55 +334,76 @@ section.ledger { animation-delay: 0.3s; }
     </div>
   </section>
 
-  <!-- 05 --------------------------------------------------------------->
-  <section class="ledger" id="contact">
-    <div class="ledger-head">
-      <span class="idx">05</span>
-      <div>
-        <h2>Contact</h2>
-        <p class="sub">Where to find me</p>
-      </div>
+  <section class="shelf" id="contact">
+    <div class="shelf-head">
+      <h2>Contact</h2>
+      <p class="sub">Where to find me</p>
       <span class="count">4 channels</span>
     </div>
 
-    <div class="contact">
-      <a class="channel" href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">
-        <span class="net">GitHub</span>
+    <div class="card-grid four">
+      <a class="entry channel k-cfr" href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">
+        <span class="kind">GitHub</span>
         <span class="handle">@NuttakitDW</span>
-        <span class="what">Solvers, engines, and the source behind the pages on this site.</span>
+        <p>Solvers, engines, and the source behind the pages on this site.</p>
       </a>
 
-      <a class="channel" href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">
-        <span class="net">LinkedIn</span>
+      <a class="entry channel k-drill" href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">
+        <span class="kind">LinkedIn</span>
         <span class="handle">in/nuttakit-kundum</span>
-        <span class="what">Professional background and the longer-form version of what I'm working on.</span>
+        <p>Professional background and the longer-form version of what I'm working on.</p>
       </a>
 
-      <a class="channel" href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">
-        <span class="net">Medium</span>
+      <a class="entry channel k-note" href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">
+        <span class="kind">Medium</span>
         <span class="handle">@nuttakitkundum</span>
-        <span class="what">Writing on quant research, poker theory, and blockchain technology.</span>
+        <p>Writing on quant research, poker theory, and blockchain technology.</p>
       </a>
 
-      <a class="channel" href="mailto:nuttakitkundum@gmail.com">
-        <span class="net">Email</span>
+      <a class="entry channel k-deep" href="mailto:nuttakitkundum@gmail.com">
+        <span class="kind">Email</span>
         <span class="handle">nuttakitkundum@gmail.com</span>
-        <span class="what">Best for research questions, collaboration, and anything long-form.</span>
+        <p>Best for research questions, collaboration, and anything long-form.</p>
       </a>
     </div>
   </section>
 
-</main>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
+          <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
+          <span>Nuttakit Kundum</span>
+        </a>
+        <p class="note">Built in the browser. No trackers beyond page counts.</p>
+      </div>
+      <div>
+        <p class="eyebrow">Site</p>
+        <ul class="footer-list">
+          <li><a href="/">Index</a></li>
+          <li><a href="/#quant">Quant</a></li>
+          <li><a href="/#trainers">Trainers</a></li>
+          <li><a href="/#tabular">Solvers</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Elsewhere</p>
+        <ul class="footer-list">
+          <li><a href="https://github.com/NuttakitDW" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://medium.com/@nuttakitkundum" target="_blank" rel="noopener">Medium</a></li>
+          <li><a href="mailto:nuttakitkundum@gmail.com">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>nuttakitkundum.com</span>
+      <span>Copyright &copy; 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a>. All rights reserved.</span>
+    </div>
+  </footer>
 
-<footer class="site">
-  <div class="rule"></div>
-  <span>Copyright © 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a> — All rights reserved.</span>
-  <span>
-    <a href="https://github.com/NuttakitDW" target="_blank" rel="noopener">GitHub</a> ·
-    <a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="noopener">LinkedIn</a> ·
-    <a href="https://medium.com/@nuttakitkundum" target="_blank" rel="noopener">Medium</a>
-  </span>
-</footer>
+</main>
+</div>
 
 </body>
 </html>
