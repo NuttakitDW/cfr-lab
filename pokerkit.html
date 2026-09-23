@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PokerKit — the poker dealer you can import</title>
+<style>
+:root { /* tokens come from /assets/theme.css */ }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-mono);
+  background: transparent;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+header {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+header .sub { color: var(--muted); font-size: 12px; order: 3; flex-basis: 100%; }
+.nav-link {
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  transition: background .2s;
+}
+.nav-link:hover { background: var(--ink-05); }
+
+.stat-row { display: flex; gap: 28px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat .label {
+  font-size: 10px; letter-spacing: 1.2px; color: var(--muted);
+  text-transform: uppercase; font-weight: 600;
+}
+.stat .value { font-size: 14px; font-weight: 600; }
+.stat .value.accent { color: var(--accent); }
+.stat .value.gold { color: var(--gold); }
+
+main {
+  padding: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+}
+.panel h2 {
+  margin: 0 0 4px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+}
+.panel h3 {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.panel h4 {
+  margin: 18px 0 8px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.panel p { margin: 0 0 12px; font-size: 14px; }
+.panel p.muted { color: var(--muted); font-size: 13px; }
+.panel ul, .panel ol { font-size: 14px; margin: 0 0 12px; padding-left: 20px; }
+.panel li { margin-bottom: 6px; }
+.panel li::marker { color: var(--dim); }
+.panel a { color: var(--accent); }
+code {
+  font-family: var(--font-mono);
+  font-size: .9em;
+  color: var(--accent);
+  background: rgba(22,64,143,0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+}
+
+/* ---- the one sentence ---- */
+.aha {
+  background: var(--fill-midnight);
+  color: var(--paper-2);
+  border-radius: 24px;
+  padding: 30px 28px;
+  box-shadow: var(--shadow-card);
+}
+.aha .tag {
+  font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--fill-tan); margin-bottom: 10px;
+}
+.aha .headline {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4.4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.aha .headline em { font-style: normal; color: var(--signal-lit); }
+.aha .body { font-size: 14px; margin: 0; max-width: 62ch; color: var(--fill-mist); }
+
+/* ---- reading plan ---- */
+.reps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.rep {
+  background: var(--panel-2);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.rep .when { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gold); }
+.rep .what { font-family: var(--font-display); font-size: 17px; font-weight: 600; letter-spacing: -0.02em; margin: 4px 0 6px; }
+.rep p { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+/* ---- four jobs ---- */
+.jobs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.job {
+  border-radius: 20px;
+  padding: 18px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform .3s var(--ease-out);
+}
+.job:hover { transform: rotate(0deg) translateY(-4px); }
+.job.j1 { background: var(--fill-sapphire); color: var(--paper-2); }
+.job.j2 { background: var(--fill-mist); }
+.job.j3 { background: var(--fill-tan); }
+.job.j4 { background: var(--fill-slate); }
+.job .role { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.04em; }
+.job .does { font-size: 12.5px; line-height: 1.5; }
+.job .file {
+  margin-top: auto;
+  font-size: 11px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(8,11,18,.18);
+}
+.job.j1 .file { border-top-color: var(--paper-14); }
+
+/* ---- loop diagram ---- */
+.loop {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 8px;
+  margin: 6px 0 14px;
+}
+.loop .box {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+}
+.loop .box b { display: block; font-family: var(--font-display); font-size: 14px; margin-bottom: 4px; }
+.loop .box.hot { border-color: var(--accent); background: rgba(22,64,143,0.06); }
+.loop .arrow { align-self: center; color: var(--dim); font-size: 16px; }
+.loop-back {
+  font-size: 12px; color: var(--muted);
+  border-left: 2px solid var(--accent);
+  padding-left: 12px;
+}
+
+.phases { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 12px; }
+.phases span {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+}
+.phases span.you { background: var(--fill-sapphire); color: var(--paper-2); border-color: transparent; }
+
+/* ---- rules to remember ---- */
+.rules { display: grid; gap: 10px; counter-reset: rule; }
+.rule {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  background: var(--panel-2);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.rule::before {
+  counter-increment: rule;
+  content: counter(rule);
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+}
+.rule .hook { font-family: var(--font-display); font-size: 16px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 4px; }
+.rule p { font-size: 13px; color: var(--muted); margin: 0; }
+
+/* ---- labs ---- */
+.lab-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.lab-head .num {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  color: var(--paper-2); background: var(--fill-sapphire);
+  padding: 3px 10px; border-radius: var(--radius-pill);
+}
+.lab-head .time { font-size: 11px; color: var(--dim); }
+
+.code {
+  position: relative;
+  background: var(--fill-midnight);
+  color: #E8ECF5;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+.code pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.code .fname {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #9AA6BC;
+  padding: 10px 16px 0;
+}
+.code .c { color: #8C97AD; }
+.code .k { color: var(--signal-lit); }
+.code .s { color: var(--fill-tan); }
+.copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: transparent;
+  color: #C6D0E3;
+  border: 1px solid rgba(198,208,227,.3);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.copy-btn:hover { border-color: var(--signal-lit); color: #fff; }
+.copy-btn:focus-visible { outline: 2px solid var(--signal-lit); outline-offset: 2px; }
+
+.out {
+  background: var(--panel-3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  margin: 0 0 12px;
+}
+.out::before {
+  content: "Output (real run, pokerkit 0.7.6)";
+  display: block;
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 4px;
+}
+
+.predict {
+  border: 1px dashed var(--edge-2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+.predict .lbl {
+  font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 4px;
+}
+details.reveal { margin-top: 8px; }
+details.reveal summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+details.reveal summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details.reveal p { margin: 8px 0 0; font-size: 13px; color: var(--text); }
+
+.try {
+  background: rgba(122,90,38,0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.try b { color: var(--gold); }
+
+/* ---- tables ---- */
+table.t {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 6px 0 12px;
+}
+table.t th, table.t td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+table.t th {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); font-weight: 600;
+}
+table.t td:first-child { font-family: var(--font-mono); color: var(--accent); white-space: nowrap; }
+table.t td.num { font-variant-numeric: tabular-nums; }
+
+/* ---- is / is not ---- */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.split > div { background: var(--panel-2); border-radius: 14px; padding: 14px 16px; }
+.split .yes h4 { color: var(--green); margin-top: 0; }
+.split .no h4 { color: var(--red); margin-top: 0; }
+.split ul { margin: 0; }
+
+/* ---- recall cards ---- */
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.card {
+  background: var(--panel-2);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.card summary {
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+  list-style: none;
+}
+.card summary::-webkit-details-marker { display: none; }
+.card summary::after {
+  content: "Show answer";
+  display: block;
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--accent); margin-top: 6px; font-weight: 500;
+}
+.card[open] summary::after { content: "Hide"; }
+.card summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card p { font-size: 13px; margin: 8px 0 0; color: var(--muted); }
+
+.refs { display: grid; gap: 8px; }
+.refs a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.refs a:hover { text-decoration: underline; }
+.refs div { font-size: 13px; }
+.refs span { color: var(--muted); }
+
+footer {
+  padding: 24px 32px 36px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  main > * { animation: rise .6s var(--ease-out) both; }
+  main > *:nth-child(2) { animation-delay: .06s; }
+  main > *:nth-child(3) { animation-delay: .12s; }
+  main > *:nth-child(4) { animation-delay: .18s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+}
+
+@media (max-width: 900px) {
+  .jobs { grid-template-columns: repeat(2, 1fr); }
+  .loop { grid-template-columns: 1fr; }
+  .loop .arrow { transform: rotate(90deg); justify-self: center; }
+}
+@media (max-width: 640px) {
+  header { padding: 14px 16px; }
+  main { padding: 16px 16px 32px; }
+  .panel { padding: 18px 16px; }
+  .aha { padding: 22px 18px; }
+  .reps, .split, .cards, .jobs { grid-template-columns: 1fr; }
+  .job { transform: none; }
+  table.t { display: block; overflow-x: auto; }
+}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<meta name="theme-color" content="#E8EBF2">
+</head>
+<body>
+<header>
+  <div class="title-row">
+    <h1>PokerKit, hands-on</h1>
+    <span class="sub">What the library is, the five rules that trip people up, and seven labs you run on your own laptop</span>
+    <a class="nav-link" href="/">Back to index</a>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><span class="label">Language</span><span class="value accent">Pure Python 3.11+</span></div>
+    <div class="stat"><span class="label">Install</span><span class="value">pip install pokerkit</span></div>
+    <div class="stat"><span class="label">Variants built in</span><span class="value">15</span></div>
+    <div class="stat"><span class="label">Source</span><span class="value">~15k lines</span></div>
+    <div class="stat"><span class="label">License</span><span class="value">MIT</span></div>
+    <div class="stat"><span class="label">From</span><span class="value gold">U of T CPRG</span></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= THE ONE SENTENCE ================= -->
+  <div class="aha">
+    <div class="tag">If you remember one thing</div>
+    <p class="headline">PokerKit is the <em>dealer</em>, not the player.</p>
+    <p class="body">It knows every rule of poker: whose turn it is, what raise is legal, who wins the pot, where the chips go. It never decides <em style="font-style:normal;color:var(--paper-2)">what to do</em>. That part is you, or the bot you write. Everything on this page is a consequence of that one sentence.</p>
+  </div>
+
+  <!-- ================= HOW TO READ ================= -->
+  <section class="panel">
+    <h2>Before you start</h2>
+    <h3>Read this page three times, differently each time</h3>
+    <div class="reps">
+      <div class="rep">
+        <div class="when">Read 1 · 5 min</div>
+        <div class="what">Skim the shape</div>
+        <p>Read only the headings, the four jobs, and the five rules. Skip every code block. You are building the map.</p>
+      </div>
+      <div class="rep">
+        <div class="when">Read 2 · 45 min</div>
+        <div class="what">Run the labs</div>
+        <p>Type each lab yourself, do not paste. Answer the "Predict first" box before you run it. Being wrong once is what makes it stick.</p>
+      </div>
+      <div class="rep">
+        <div class="when">Read 3 · next day</div>
+        <div class="what">Close it and recall</div>
+        <p>Jump to the recall cards at the bottom. Answer out loud before you open each one. Anything you miss, redo that lab.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOUR JOBS ================= -->
+  <section class="panel">
+    <h2>Section 1 · The map</h2>
+    <h3>One library, four jobs</h3>
+    <p>Picture a real card room. PokerKit ships four people you would find there. Every class you will ever import belongs to one of them.</p>
+    <div class="jobs">
+      <div class="job j1" style="--tilt:-1.6deg">
+        <div class="role">Dealer</div>
+        <div class="does">Runs one hand from blinds to payout and refuses illegal moves.</div>
+        <div class="file">state.py · games.py<br>State, NoLimitTexasHoldem</div>
+      </div>
+      <div class="job j2" style="--tilt:1.1deg">
+        <div class="role">Judge</div>
+        <div class="does">Looks at cards and says which hand is stronger.</div>
+        <div class="file">hands.py · lookups.py<br>StandardHighHand</div>
+      </div>
+      <div class="job j3" style="--tilt:-0.8deg">
+        <div class="role">Calculator</div>
+        <div class="does">Turns ranges into combos and estimates equity by simulation.</div>
+        <div class="file">analysis.py<br>parse_range, calculate_equities</div>
+      </div>
+      <div class="job j4" style="--tilt:1.9deg">
+        <div class="role">Scribe</div>
+        <div class="does">Writes hands down as text and replays them later.</div>
+        <div class="file">notation.py<br>HandHistory (.phh)</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:16px;">Line counts from the repo: <code>state.py</code> 6,439 · <code>notation.py</code> 2,720 · <code>games.py</code> 2,442 · <code>hands.py</code> 851 · <code>analysis.py</code> 555. The Dealer is almost half the library, because poker rules have many corner cases (side pots, all-in runouts, stud bring-ins, draw games).</p>
+  </section>
+
+  <!-- ================= THE LOOP ================= -->
+  <section class="panel">
+    <h2>Section 2 · How you talk to the Dealer</h2>
+    <h3>Every program is the same four-step loop</h3>
+    <div class="loop">
+      <div class="box"><b>1. Create</b><code>game(stacks, players)</code> gives you a fresh <code>state</code>: one hand of poker.</div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="box"><b>2. Ask</b><code>state.actor_index</code> says whose turn. <code>state.can_fold()</code> etc. say what is legal.</div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="box hot"><b>3. Act</b><code>fold()</code>, <code>check_or_call()</code>, <code>complete_bet_or_raise_to(x)</code>, <code>deal_hole(...)</code></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="box"><b>4. Read</b><code>state.stacks</code>, <code>state.board_cards</code>, and at the end <code>state.payoffs</code>.</div>
+    </div>
+    <p class="loop-back">Repeat steps 2 and 3 <code>while state.status:</code>. When <code>status</code> turns <code>False</code>, the hand is over.</p>
+
+    <h4>What "Automation" means</h4>
+    <p>A hand has many small chores. Each blue pill below is something <strong>you</strong> must always do. Each grey pill is a chore you can hand to the Dealer by listing it in <code>automations</code>.</p>
+    <div class="phases">
+      <span>post antes</span><span>post blinds</span><span>burn card</span><span>deal hole</span><span>deal board</span>
+      <span class="you">fold · check/call · bet/raise</span><span class="you">discard (draw games)</span>
+      <span>collect bets</span><span>show / muck</span><span>kill losing hands</span><span>push chips</span><span>pull chips</span>
+    </div>
+    <p class="muted">Poker bot? Automate every grey pill. Want to choose the cards (to test one specific spot)? Leave <code>HOLE_DEALING</code> and <code>BOARD_DEALING</code> out, then call <code>deal_hole('AsKs')</code> yourself. Building a real online table? Automate nothing and animate every step.</p>
+  </section>
+
+  <!-- ================= FIVE RULES ================= -->
+  <section class="panel">
+    <h2>Section 3 · The rules that trip people up</h2>
+    <h3>Five things to remember</h3>
+    <div class="rules">
+      <div class="rule"><div>
+        <p class="hook">Raise TO, never raise BY.</p>
+        <p><code>complete_bet_or_raise_to(6)</code> means "my total bet this street becomes 6", not "add 6". One method covers complete, bet and raise.</p>
+      </div></div>
+      <div class="rule"><div>
+        <p class="hook">Index = position, not seat. Heads-up flips it.</p>
+        <p>With 3+ players: 0 = small blind, 1 = big blind, last = button. With 2 players: <strong>0 = big blind, 1 = button/small blind</strong>, so player 1 acts first preflop. Lab 2 shows this.</p>
+      </div></div>
+      <div class="rule"><div>
+        <p class="hook">Every action comes in threes.</p>
+        <p><code>verify_folding()</code> raises an error, <code>can_fold()</code> returns True/False, <code>fold()</code> does it. An illegal action raises <code>ValueError</code> and leaves the state untouched.</p>
+      </div></div>
+      <div class="rule"><div>
+        <p class="hook">Cards are plain strings.</p>
+        <p><code>'AsKs'</code> is two cards. Ranks <code>23456789TJQKA</code>, suits <code>cdhs</code>. <code>'??'</code> is an unknown card, handy for hands where you never saw the cards.</p>
+      </div></div>
+      <div class="rule"><div>
+        <p class="hook">Python counts from 0, hand histories from 1.</p>
+        <p>In code, the first player is <code>0</code>. In a saved <code>.phh</code> file the same player is <code>p1</code>. Also, <code>board_cards</code> is a list of lists (one list per card slot) because PokerKit supports multiple boards and run-it-twice.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ================= LAB 0 ================= -->
+  <section class="panel">
+    <h2>Section 4 · Labs</h2>
+    <div class="lab-head"><span class="num">LAB 0</span><h3 style="margin:0">Set up a sandbox</h3><span class="time">3 min</span></div>
+    <p style="margin-top:12px;">PokerKit needs Python 3.11 or newer and has no other dependencies. Use a virtual environment so nothing touches your system Python.</p>
+    <div class="code"><span class="fname">terminal</span><pre>python3 --version            <span class="c"># must say 3.11 or higher</span>
+mkdir pokerkit-lab &amp;&amp; cd pokerkit-lab
+python3 -m venv .venv
+source .venv/bin/activate    <span class="c"># Windows: .venv\Scripts\activate</span>
+pip install pokerkit
+python -c "import pokerkit; print('ready')"</pre></div>
+    <p class="muted">Every lab below is one file. Save it inside <code>pokerkit-lab/</code> and run <code>python lab1.py</code>. All outputs shown were produced by actually running the code.</p>
+  </section>
+
+  <!-- ================= LAB 1 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 1</span><h3 style="margin:0">Meet the Judge</h3><span class="time">5 min</span></div>
+    <p style="margin-top:12px;">Start with the smallest piece. <code>from_game(hole, board)</code> finds the best 5-card hand, and hands compare like numbers.</p>
+    <div class="code"><span class="fname">lab1.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> StandardHighHand
+
+mine  = StandardHighHand.from_game(<span class="s">'AsKs'</span>, <span class="s">'QsJsTs2c3d'</span>)
+yours = StandardHighHand.from_game(<span class="s">'AhAd'</span>, <span class="s">'QsJsTs2c3d'</span>)
+
+print(mine)          <span class="c"># the best 5 cards it found</span>
+print(yours)
+print(mine &gt; yours)  <span class="c"># compare like numbers</span></pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>What hand does <code>mine</code> make, and what does <code>yours</code> make? Write both down.
+      <details class="reveal"><summary>Check yourself</summary><p>A royal (reported as straight flush) against one pair of aces. The Judge picked the best 5 of 7 cards on its own.</p></details>
+    </div>
+    <pre class="out">Straight flush (AsKsQsJsTs)
+One pair (AhAdQsJsTs)
+True</pre>
+    <div class="try"><b>Try it:</b> compare <code>StandardHighHand('7c5d4h3s2c') &gt; StandardHighHand('AcAd9h8s2c')</code>, then the same two hands as <code>StandardLowHand</code> (2-7 lowball). The first is <code>False</code>, the second <code>True</code>. In PokerKit "greater" always means "wins", even in low games.</div>
+  </section>
+
+  <!-- ================= LAB 2 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 2</span><h3 style="margin:0">Play one hand with the Dealer</h3><span class="time">10 min</span></div>
+    <p style="margin-top:12px;">Heads-up No-Limit Hold'em, blinds 1/2, 200 chips each. We leave dealing out of <code>automations</code> so we pick the cards.</p>
+    <div class="code"><span class="fname">lab2.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> Automation, NoLimitTexasHoldem
+
+state = NoLimitTexasHoldem.create_state(
+    (
+        Automation.ANTE_POSTING,
+        Automation.BET_COLLECTION,
+        Automation.BLIND_OR_STRADDLE_POSTING,
+        Automation.CARD_BURNING,
+        Automation.HOLE_CARDS_SHOWING_OR_MUCKING,
+        Automation.HAND_KILLING,
+        Automation.CHIPS_PUSHING,
+        Automation.CHIPS_PULLING,
+    ),
+    True,     <span class="c"># uniform antes?</span>
+    0,        <span class="c"># antes</span>
+    (1, 2),   <span class="c"># blinds</span>
+    2,        <span class="c"># min-bet</span>
+    200,      <span class="c"># every stack = 200</span>
+    2,        <span class="c"># players</span>
+)
+
+state.deal_hole(<span class="s">'AsKs'</span>)   <span class="c"># player 0</span>
+state.deal_hole(<span class="s">'7h7d'</span>)   <span class="c"># player 1</span>
+print(<span class="s">'stacks  :'</span>, state.stacks)
+print(<span class="s">'to act  :'</span>, state.actor_index)
+
+state.complete_bet_or_raise_to(6)   <span class="c"># player 1 raises TO 6</span>
+state.check_or_call()               <span class="c"># player 0 calls</span>
+state.deal_board(<span class="s">'Qs Js 2c'</span>)        <span class="c"># flop</span>
+
+state.check_or_call()               <span class="c"># player 0 checks</span>
+state.complete_bet_or_raise_to(8)   <span class="c"># player 1 bets 8</span>
+state.fold()                        <span class="c"># player 0 folds</span>
+
+print(<span class="s">'running?:'</span>, state.status)
+print(<span class="s">'stacks  :'</span>, state.stacks)
+print(<span class="s">'payoffs :'</span>, state.payoffs)</pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>Before anyone acts, the first print shows the stacks. Who paid 2 and who paid 1? And who acts first?
+      <details class="reveal"><summary>Check yourself</summary><p><code>[198, 199]</code> and <code>to act: 1</code>. Heads-up, player 0 is the big blind and player 1 is the button, who posts the small blind and acts first preflop. That is rule 2.</p></details>
+    </div>
+    <pre class="out">stacks  : [198, 199]
+to act  : 1
+running?: False
+stacks  : [194, 206]
+payoffs : [-6, 6]</pre>
+    <p>Notice the payoff is 6, not 14. Player 1's flop bet of 8 was never called, so the Dealer handed it back. You wrote zero lines of code for that.</p>
+    <div class="try"><b>Try it:</b> replace <code>state.fold()</code> with <code>state.check_or_call()</code>. Now <code>status</code> stays <code>True</code>. Print <code>state.street_index</code>, deal a turn with <code>state.deal_board('9d')</code>, and keep playing to showdown.</div>
+  </section>
+
+  <!-- ================= LAB 3 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 3</span><h3 style="margin:0">Try to break the rules</h3><span class="time">5 min</span></div>
+    <p style="margin-top:12px;">Good referees say no. Ask before acting, then act illegally on purpose.</p>
+    <div class="code"><span class="fname">lab3.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> Automation, NoLimitTexasHoldem
+
+state = NoLimitTexasHoldem.create_state(
+    (Automation.ANTE_POSTING, Automation.BET_COLLECTION,
+     Automation.BLIND_OR_STRADDLE_POSTING, Automation.CARD_BURNING,
+     Automation.HOLE_DEALING, Automation.BOARD_DEALING,
+     Automation.HOLE_CARDS_SHOWING_OR_MUCKING, Automation.HAND_KILLING,
+     Automation.CHIPS_PUSHING, Automation.CHIPS_PULLING),
+    True, 0, (1, 2), 2, 200, 2,
+)
+
+print(state.can_complete_bet_or_raise_to(3))
+print(state.min_completion_betting_or_raising_to_amount)
+<span class="k">try</span>:
+    state.complete_bet_or_raise_to(3)
+<span class="k">except</span> ValueError <span class="k">as</span> e:
+    print(<span class="s">'ValueError:'</span>, e)
+print(state.stacks)</pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>Big blind is 2. What is the smallest legal raise-to? Do the stacks change after the failed raise?
+      <details class="reveal"><summary>Check yourself</summary><p>Minimum raise-to is 4 (call 2, raise by at least 2). The failed raise leaves stacks exactly as before. This time the Dealer dealt random hole cards, because <code>HOLE_DEALING</code> is automated.</p></details>
+    </div>
+    <pre class="out">False
+4
+ValueError: The amount 3 is below the minimum allowed 4.
+[198, 199]</pre>
+    <div class="try"><b>Try it:</b> print <code>state.max_completion_betting_or_raising_to_amount</code>. In no-limit it is your whole stack. Change the game to <code>PotLimitOmahaHoldem</code> (deal 4 hole cards) and watch the max shrink to the pot.</div>
+  </section>
+
+  <!-- ================= LAB 4 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 4</span><h3 style="margin:0">Use the Calculator</h3><span class="time">5 min</span></div>
+    <p style="margin-top:12px;">Take the flop from Lab 2. Should player 0 really have folded AsKs there?</p>
+    <div class="code"><span class="fname">lab4.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> (
+    Card, Deck, StandardHighHand, calculate_equities, parse_range,
+)
+
+print(len(parse_range(<span class="s">'AKs'</span>)), <span class="s">'combos of AKs'</span>)
+print(len(parse_range(<span class="s">'AK'</span>)),  <span class="s">'combos of AK'</span>)
+print(len(parse_range(<span class="s">'22'</span>)),  <span class="s">'combos of 22'</span>)
+
+eq = calculate_equities(
+    (parse_range(<span class="s">'AsKs'</span>), parse_range(<span class="s">'7h7d'</span>)),  <span class="c"># the two hands</span>
+    Card.parse(<span class="s">'QsJs2c'</span>),                        <span class="c"># board so far</span>
+    2,                    <span class="c"># hole cards per player</span>
+    5,                    <span class="c"># board cards at the end</span>
+    Deck.STANDARD,
+    (StandardHighHand,),
+    sample_count=20000,
+)
+print(<span class="s">'AsKs vs 7h7d on QsJs2c:'</span>, eq)</pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>AsKs has two overcards, a flush draw and a gutshot. Guess its equity against 77 before you run it.
+      <details class="reveal"><summary>Check yourself</summary><p>About 63%. The fold in Lab 2 threw away a favourite. The Dealer allowed it because the Dealer never judges decisions, only legality.</p></details>
+    </div>
+    <pre class="out">4 combos of AKs
+16 combos of AK
+6 combos of 22
+AsKs vs 7h7d on QsJs2c: [0.6321, 0.3679]</pre>
+    <p class="muted">It is a Monte Carlo estimate, so your last digits will differ. 20,000 samples took about 5 seconds on one core. Pass <code>executor=ProcessPoolExecutor()</code> to use every core.</p>
+    <div class="try"><b>Try it:</b> ranges are Python sets. <code>parse_range('AK') - parse_range('AKs')</code> gives the 12 offsuit combos. Run AK against <code>parse_range('22-99')</code> preflop (board <code>()</code>).</div>
+  </section>
+
+  <!-- ================= LAB 5 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 5</span><h3 style="margin:0">1,000 hands of random bots</h3><span class="time">10 min</span></div>
+    <p style="margin-top:12px;">This is where PokerKit earns its place. Automate every chore, write a bot that picks any legal action, and let three of them play. The <code>while state.status</code> loop is the whole engine.</p>
+    <div class="code"><span class="fname">lab5.py</span><pre><span class="k">import</span> random
+<span class="k">from</span> pokerkit <span class="k">import</span> Automation, NoLimitTexasHoldem
+
+AUTO = (
+    Automation.ANTE_POSTING, Automation.BET_COLLECTION,
+    Automation.BLIND_OR_STRADDLE_POSTING, Automation.CARD_BURNING,
+    Automation.HOLE_DEALING, Automation.BOARD_DEALING,
+    Automation.RUNOUT_COUNT_SELECTION,
+    Automation.HOLE_CARDS_SHOWING_OR_MUCKING, Automation.HAND_KILLING,
+    Automation.CHIPS_PUSHING, Automation.CHIPS_PULLING,
+)
+game = NoLimitTexasHoldem(AUTO, True, 0, (1, 2), 2)   <span class="c"># a factory</span>
+
+<span class="k">def</span> random_bot(state):
+    choices = []
+    <span class="k">if</span> state.can_fold():
+        choices.append(<span class="s">'fold'</span>)
+    <span class="k">if</span> state.can_check_or_call():
+        choices.append(<span class="s">'call'</span>)
+    <span class="k">if</span> state.can_complete_bet_or_raise_to():
+        choices.append(<span class="s">'raise'</span>)
+    pick = random.choice(choices)
+    <span class="k">if</span> pick == <span class="s">'fold'</span>:
+        state.fold()
+    <span class="k">elif</span> pick == <span class="s">'call'</span>:
+        state.check_or_call()
+    <span class="k">else</span>:
+        lo = state.min_completion_betting_or_raising_to_amount
+        hi = state.max_completion_betting_or_raising_to_amount
+        state.complete_bet_or_raise_to(random.randint(lo, hi))
+
+random.seed(1)
+totals = [0, 0, 0]
+<span class="k">for</span> _ <span class="k">in</span> range(1000):
+    state = game(100, 3)            <span class="c"># fresh hand: 3 players, 100 chips</span>
+    <span class="k">while</span> state.status:
+        random_bot(state)
+    <span class="k">assert</span> sum(state.payoffs) == 0
+    totals = [t + p <span class="k">for</span> t, p <span class="k">in</span> zip(totals, state.payoffs)]
+
+print(<span class="s">'net chips after 1000 hands:'</span>, totals)
+print(<span class="s">'sum:'</span>, sum(totals))</pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>Could the <code>assert</code> ever fail? What must <code>sum</code> be?
+      <details class="reveal"><summary>Check yourself</summary><p>Poker is zero-sum with no rake, so the sum is always 0. If it ever failed you would have found a bug in the Dealer. This check is the cheapest test you can put in any bot project.</p></details>
+    </div>
+    <pre class="out">net chips after 1000 hands: [692, 3739, -4431]
+sum: 0</pre>
+    <p class="muted">1,000 full hands ran in under a second. Notice <code>game</code> is created once and called like a function for each new hand: game = the rules, state = one hand.</p>
+    <div class="try"><b>Try it:</b> write <code>calling_station(state)</code> that always calls when it can, give it seat 0, and keep the random bots in seats 1 and 2. Who wins over 5,000 hands? This is your first bot experiment.</div>
+  </section>
+
+  <!-- ================= LAB 6 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 6</span><h3 style="margin:0">Kuhn poker, the game from this site's CFR pages</h3><span class="time">5 min</span></div>
+    <p style="margin-top:12px;">PokerKit ships <code>KuhnPoker</code>: three cards (J, Q, K), ante 1, one bet of 1. It is the same toy game used in the <a href="/cfr-simulation">CFR simulation</a>, so you can use PokerKit as the rules engine for your own CFR.</p>
+    <div class="code"><span class="fname">lab6.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> Automation, KuhnPoker
+
+state = KuhnPoker.create_state(
+    (
+        Automation.ANTE_POSTING, Automation.BET_COLLECTION,
+        Automation.BLIND_OR_STRADDLE_POSTING, Automation.CARD_BURNING,
+        Automation.HOLE_CARDS_SHOWING_OR_MUCKING, Automation.HAND_KILLING,
+        Automation.CHIPS_PUSHING, Automation.CHIPS_PULLING,
+    ),
+)
+state.deal_hole(<span class="s">'Js'</span>)     <span class="c"># player 0 gets the Jack</span>
+state.deal_hole(<span class="s">'Ks'</span>)     <span class="c"># player 1 gets the King</span>
+
+state.complete_bet_or_raise_to()   <span class="c"># P0 bluffs with J</span>
+state.check_or_call()              <span class="c"># P1 calls with K</span>
+
+print(<span class="s">'payoffs:'</span>, state.payoffs)</pre></div>
+    <div class="predict"><span class="lbl">Predict first</span>How many chips does the bluff lose?
+      <details class="reveal"><summary>Check yourself</summary><p>2: the ante of 1 plus the bet of 1. In fixed-limit games <code>complete_bet_or_raise_to()</code> needs no amount, the size is fixed.</p></details>
+    </div>
+    <pre class="out">payoffs: [-2, 2]</pre>
+    <div class="try"><b>Try it:</b> loop over all 6 deals of (J, Q, K) and every action sequence, and print the payoff table. That table is exactly what vanilla CFR walks each iteration.</div>
+  </section>
+
+  <!-- ================= LAB 7 ================= -->
+  <section class="panel">
+    <div class="lab-head"><span class="num">LAB 7</span><h3 style="margin:0">Let the Scribe write it down</h3><span class="time">5 min</span></div>
+    <p style="margin-top:12px;">Replay Lab 2, save it as a <code>.phh</code> file (Poker Hand History, a plain-text format), then load it back and step through it.</p>
+    <div class="code"><span class="fname">lab7.py</span><pre><span class="k">from</span> pokerkit <span class="k">import</span> Automation, HandHistory, NoLimitTexasHoldem
+
+game = NoLimitTexasHoldem(
+    (Automation.ANTE_POSTING, Automation.BET_COLLECTION,
+     Automation.BLIND_OR_STRADDLE_POSTING, Automation.CARD_BURNING,
+     Automation.HOLE_CARDS_SHOWING_OR_MUCKING, Automation.HAND_KILLING,
+     Automation.CHIPS_PUSHING, Automation.CHIPS_PULLING),
+    True, 0, (1, 2), 2,
+)
+state = game(200, 2)
+state.deal_hole(<span class="s">'AsKs'</span>)
+state.deal_hole(<span class="s">'7h7d'</span>)
+state.complete_bet_or_raise_to(6)
+state.check_or_call()
+state.deal_board(<span class="s">'QsJs2c'</span>)
+state.check_or_call()
+state.complete_bet_or_raise_to(8)
+state.fold()
+
+hh = HandHistory.from_game_state(game, state)
+hh.players = [<span class="s">'Nut'</span>, <span class="s">'Bot'</span>]
+<span class="k">with</span> open(<span class="s">'my_hand.phh'</span>, <span class="s">'wb'</span>) <span class="k">as</span> f:
+    hh.dump(f)
+print(open(<span class="s">'my_hand.phh'</span>).read())
+
+<span class="k">with</span> open(<span class="s">'my_hand.phh'</span>, <span class="s">'rb'</span>) <span class="k">as</span> f:
+    replay = HandHistory.load(f)
+<span class="k">for</span> i, s <span class="k">in</span> enumerate(replay):   <span class="c"># one state per action</span>
+    print(i, s.stacks)</pre></div>
+    <pre class="out">variant = 'NT'
+ante_trimming_status = false
+antes = [0, 0]
+blinds_or_straddles = [1, 2]
+min_bet = 2
+starting_stacks = [200, 200]
+actions = ['d dh p1 AsKs', 'd dh p2 7h7d', 'p2 cbr 6', 'p1 cc', 'd db QsJs2c', 'p1 cc', 'p2 cbr 8', 'p1 f']
+players = ['Nut', 'Bot']
+
+0 [198, 199]
+1 [198, 199]
+2 [198, 199]
+3 [198, 194]
+4 [194, 194]
+5 [194, 194]
+6 [194, 194]
+7 [194, 186]
+8 [194, 206]</pre>
+    <h4>Read the action codes once and you can read any .phh file</h4>
+    <table class="t">
+      <thead><tr><th>Code</th><th>Meaning</th><th>Python call</th></tr></thead>
+      <tbody>
+        <tr><td>d dh p1 AsKs</td><td>dealer deals hole cards to player 1</td><td><code>deal_hole('AsKs')</code></td></tr>
+        <tr><td>d db QsJs2c</td><td>dealer deals board</td><td><code>deal_board('QsJs2c')</code></td></tr>
+        <tr><td>p2 cbr 6</td><td>player 2 completes / bets / raises to 6</td><td><code>complete_bet_or_raise_to(6)</code></td></tr>
+        <tr><td>p1 cc</td><td>player 1 checks or calls</td><td><code>check_or_call()</code></td></tr>
+        <tr><td>p1 f</td><td>player 1 folds</td><td><code>fold()</code></td></tr>
+        <tr><td>p1 sd</td><td>stand pat / discard (draw games)</td><td><code>stand_pat_or_discard()</code></td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Note <code>p1</code> in the file is player <code>0</code> in Python (rule 5). The Scribe can also import PokerStars, Full Tilt, PartyPoker, iPoker, OnGame, Absolute and ACPC logs with <code>HandHistory.from_pokerstars(...)</code> and friends.</p>
+  </section>
+
+  <!-- ================= WHERE IT FITS ================= -->
+  <section class="panel">
+    <h2>Section 5 · Where it fits</h2>
+    <h3>What PokerKit is for, and what it is not</h3>
+    <div class="split">
+      <div class="yes">
+        <h4>Use it for</h4>
+        <ul>
+          <li>The environment a poker bot plays inside</li>
+          <li>Checking your own engine's rules against a trusted one</li>
+          <li>Parsing and replaying hand histories</li>
+          <li>Quick equity checks and range math</li>
+          <li>Odd variants: 2-7 triple draw, badugi, stud, short deck, PLO</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>It is not</h4>
+        <ul>
+          <li>A solver. It computes no strategy, no GTO, no EV of a decision</li>
+          <li>Fast enough for billions of hands. Pure Python by design</li>
+          <li>A UI. It is a library; you draw the table yourself</li>
+        </ul>
+      </div>
+    </div>
+    <h4>Speed, from the project's own benchmark (one core, i7-1255U)</h4>
+    <table class="t">
+      <thead><tr><th>Task</th><th>PokerKit</th><th>Compare</th></tr></thead>
+      <tbody>
+        <tr><td>Full hands simulated</td><td class="num">847 / s</td><td>fine for testing and replay, slow for CFR on Hold'em</td></tr>
+        <tr><td>5-card hand evaluations</td><td class="num">1,016,741 / s</td><td><code>treys</code>: 3,230,966 / s</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Rule of thumb: prototype with PokerKit, and when a solver needs raw speed, keep PokerKit as the referee that checks your fast engine gives the same payoffs.</p>
+  </section>
+
+  <!-- ================= RECALL ================= -->
+  <section class="panel">
+    <h2>Section 6 · Read 3</h2>
+    <h3>Recall cards: answer out loud, then open</h3>
+    <div class="cards">
+      <details class="card"><summary>In one sentence, what is PokerKit?</summary><p>The dealer, not the player. It enforces the rules and moves the chips; it never chooses actions.</p></details>
+      <details class="card"><summary>Name the four jobs and one class for each.</summary><p>Dealer (<code>NoLimitTexasHoldem</code> / <code>State</code>), Judge (<code>StandardHighHand</code>), Calculator (<code>calculate_equities</code>), Scribe (<code>HandHistory</code>).</p></details>
+      <details class="card"><summary>What four steps does every PokerKit program repeat?</summary><p>Create a state, ask (<code>actor_index</code>, <code>can_*</code>), act, read (<code>stacks</code>, <code>payoffs</code>). Loop while <code>state.status</code>.</p></details>
+      <details class="card"><summary>Blinds 1/2. Player raises to 6. What do you call?</summary><p><code>complete_bet_or_raise_to(6)</code>. The amount is the total, not the increment.</p></details>
+      <details class="card"><summary>Heads-up: who is player 0, and who acts first preflop?</summary><p>Player 0 is the big blind. Player 1 is the button/small blind and acts first preflop.</p></details>
+      <details class="card"><summary>What happens when you make an illegal move?</summary><p><code>ValueError</code>, and the state does not change. Use <code>can_*</code> to check first.</p></details>
+      <details class="card"><summary>You want to choose the hole cards yourself. What do you change?</summary><p>Remove <code>Automation.HOLE_DEALING</code> (and <code>BOARD_DEALING</code>) from the automations, then call <code>deal_hole('AsKs')</code>.</p></details>
+      <details class="card"><summary>Which one-line test catches most engine bugs?</summary><p><code>assert sum(state.payoffs) == 0</code> after every hand (no rake).</p></details>
+      <details class="card"><summary>What is the difference between <code>game</code> and <code>state</code>?</summary><p><code>game</code> holds the rules and blinds; calling <code>game(stacks, players)</code> makes a new <code>state</code>, which is one hand.</p></details>
+      <details class="card"><summary>In a .phh file, what does <code>p2 cbr 8</code> mean?</summary><p>Player 2 (Python index 1) completes, bets or raises to 8.</p></details>
+    </div>
+  </section>
+
+  <!-- ================= NEXT ================= -->
+  <section class="panel">
+    <h2>Section 7 · Homework</h2>
+    <h3>Three experiments, in order of difficulty</h3>
+    <ol>
+      <li><strong>Bot league.</strong> From Lab 5, write three bots: random, calling station, and "raise with a pair or better, else check/fold" (use <code>StandardHighHand.from_game</code> on <code>state.hole_cards[i]</code> plus the board). Play 10,000 hands and rank them.</li>
+      <li><strong>Import your own hands.</strong> Export a session from a poker site, load it with the matching <code>HandHistory.from_*</code>, and compute your net result with <code>Statistics.from_hand_history(...)</code>.</li>
+      <li><strong>CFR on Kuhn, with PokerKit as the referee.</strong> Write vanilla CFR where every terminal payoff comes from a PokerKit <code>KuhnPoker</code> state. Compare your average strategy with the <a href="/cfr-simulation">CFR simulation</a> page.</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>Sources</h2>
+    <h3>Where to go deeper</h3>
+    <div class="refs">
+      <div><a href="https://github.com/uoftcprg/pokerkit" target="_blank" rel="noopener">github.com/uoftcprg/pokerkit</a> <span>· source, README with famous televised hands replayed in code</span></div>
+      <div><a href="https://pokerkit.readthedocs.io/" target="_blank" rel="noopener">pokerkit.readthedocs.io</a> <span>· simulation, evaluation, analysis and notation guides</span></div>
+      <div><a href="https://phh.readthedocs.io/" target="_blank" rel="noopener">phh.readthedocs.io</a> <span>· the Poker Hand History file format spec</span></div>
+      <div><a href="https://doi.org/10.1109/TG.2023.3325637" target="_blank" rel="noopener">Kim, J. PokerKit (IEEE Transactions on Games, 2025)</a> <span>· the paper, if you ever need to cite it</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Copyright © 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a> All rights reserved.
+</footer>
+
+<script>
+document.querySelectorAll('.code').forEach(function (block) {
+  var pre = block.querySelector('pre');
+  var btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.type = 'button';
+  btn.textContent = 'Copy';
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText(pre.innerText).then(function () {
+      btn.textContent = 'Copied';
+    }, function () {
+      btn.textContent = 'Select and copy';
+    });
+    setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+  });
+  block.appendChild(btn);
+});
+</script>
+</body>
+</html>
