@@ -5,105 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>nuttakitkundum.com</title>
 <meta name="description" content="Nuttakit Kundum — quant research notes, counterfactual regret minimization, and poker theory. Interactive solvers, self-grading drills, and paper summaries that run in the browser.">
-<meta name="theme-color" content="#E8EBF2">
+<meta name="theme-color" content="#09090B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
 <link rel="stylesheet" href="/assets/site.css">
-<style>
-/* ------------------------------------------------------------ shelf index */
-.shelves { display: flex; flex-direction: column; gap: 1rem; }
-.shelf-nav { display: flex; flex-wrap: wrap; gap: .5rem; }
-.shelf-nav a {
-  padding: .375rem .8rem;
-  border-radius: var(--radius-pill);
-  background: var(--ink-05);
-  color: var(--ink);
-  font-size: .75rem;
-  letter-spacing: var(--track-wider);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background-color .22s var(--ease-standard), color .22s var(--ease-standard);
-}
-.shelf-nav a:hover { background: var(--ink); color: var(--paper-2); }
-
-/* ---------------------------------------------------------------- notice */
-.notice {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: .75rem 1rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: var(--radius-2xl);
-  background: var(--fill-tan);
-  color: var(--ink);
-}
-.notice .badge {
-  flex: none;
-  padding: .3rem .7rem;
-  border-radius: var(--radius-pill);
-  background: var(--ink);
-  color: var(--paper-2);
-  font-size: .6875rem;
-  line-height: 1.3;
-  letter-spacing: var(--track-wider);
-  text-transform: uppercase;
-}
-.notice p { flex: 1 1 32ch; margin: 0; font-size: .8125rem; line-height: 1.65; }
-</style>
-<script defer src="/assets/carousel.js"></script>
+<script defer src="/assets/palette.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<div class="page" id="top">
-  <header class="site-head rise">
-    <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
-      <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
-      <span>Nuttakit Kundum</span>
-    </a>
-    <nav class="site-nav" aria-label="Main">
-      <a class="wide" href="#quant">Quant</a>
-      <a class="wide" href="#trainers">Poker</a>
-      <a class="wide" href="#tabular">Solvers</a>
+<header class="site-head wrap">
+  <nav aria-label="Main navigation">
+    <a class="wordmark" href="/"><span class="prompt">~$</span> nuttakit</a>
+    <div class="nav-links">
+      <a class="wide" href="/#quant">Quant</a>
+      <a class="wide" href="/#trainers">Poker</a>
+      <a href="/#tabular">Solvers</a>
       <a href="/about">About</a>
-    </nav>
-  </header>
-
-  <section class="carousel rise d2" data-carousel hidden aria-roledescription="carousel" aria-label="Every article">
-    <div class="carousel-head">
-      <h2>Every article.</h2>
-      <div class="carousel-controls">
-        <span class="carousel-status" data-carousel-status aria-live="polite"></span>
-        <button class="carousel-btn" type="button" data-dir="-1" aria-label="Previous articles">Prev</button>
-        <button class="carousel-btn" type="button" data-dir="1" aria-label="Next articles">Next</button>
-      </div>
-    </div>
-    <ul class="carousel-track" tabindex="0" aria-label="Articles"></ul>
-  </section>
-
-  <nav class="shelves rise d3" aria-label="Sections">
-    <h2>Fourteen shelves.</h2>
-    <div class="shelf-nav">
-      <a href="#quant">Quant</a>
-      <a href="#trainers">Trainers</a>
-      <a href="#mixed">Mixed games</a>
-      <a href="#deuce">2-7</a>
-      <a href="#review">Review</a>
-      <a href="#tabular">Tabular CFR</a>
-      <a href="#leduc">Leduc</a>
-      <a href="#neural">Neural</a>
-      <a href="#unreviewed">Unreviewed</a>
-      <a href="#notes">Notes</a>
-      <a href="#systems">Systems</a>
-      <a href="#lessons">Lessons</a>
-      <a href="#music">Music</a>
-      <a href="#external">Further reading</a>
+      <button class="search-btn" id="cp-trigger" type="button" aria-label="Search articles">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+        <kbd>&#8984;K</kbd>
+      </button>
     </div>
   </nav>
+</header>
 
-<main class="rise d4">
+<main id="main-content" class="wrap">
+  <section class="intro rise">
+    <img src="/assets/nuttakit.jpg" alt="Nuttakit Kundum" width="112" height="112" decoding="async" fetchpriority="high">
+    <div>
+      <h1>Nuttakit Kundum</h1>
+      <p>Quant research and poker theory. Solvers, drills and paper notes that run in the browser.</p>
+    </div>
+  </section>
+
+  <nav class="jump rise d1" aria-label="Sections">
+    <a href="#quant">quant</a>
+    <a href="#trainers">trainers</a>
+    <a href="#mixed">mixed</a>
+    <a href="#deuce">2-7</a>
+    <a href="#review">review</a>
+    <a href="#tabular">tabular-cfr</a>
+    <a href="#leduc">leduc</a>
+    <a href="#neural">neural</a>
+    <a href="#unreviewed">unreviewed</a>
+    <a href="#notes">notes</a>
+    <a href="#systems">systems</a>
+    <a href="#lessons">lessons</a>
+    <a href="#music">music</a>
+    <a href="#external">further-reading</a>
+  </nav>
+
 
   <section class="shelf" id="quant">
     <div class="shelf-head">
@@ -117,42 +71,42 @@
         <span class="kind">Paper</span>
         <h3>Boardroom Centrality &amp; Firm Performance — the graph hiding in the director list</h3>
         <p>Larcker, So &amp; Wang 2013 — link two boards whenever they share a director and the resulting network prices assets. Most-central minus least-central earns 4.68% a year; the predictor is a position, not an accounting line.</p>
-        <span class="path">/boardroom-centrality-paper -&gt;</span>
+        <span class="path">boardroom-centrality-paper</span>
       </a>
 
       <a class="entry k-paper" href="/rd-investments-paper">
         <span class="kind">Paper</span>
         <h3>R&amp;D Investments &amp; Past Returns</h3>
         <p>Maletic 2019 — the same R&amp;D number means opposite things depending on whether the stock has just won or lost. Level and change interact with past returns in opposite directions.</p>
-        <span class="path">/rd-investments-paper -&gt;</span>
+        <span class="path">rd-investments-paper</span>
       </a>
 
       <a class="entry k-paper" href="/profit-trend-paper">
         <span class="kind">Paper</span>
         <h3>The Trend in Firm Profitability</h3>
         <p>Akbas, Jiang &amp; Koch 2017 — every level signal hides a slope signal. Keep the trend coefficient instead of the mean and two equally profitable firms land at opposite ends of the book.</p>
-        <span class="path">/profit-trend-paper -&gt;</span>
+        <span class="path">profit-trend-paper</span>
       </a>
 
       <a class="entry k-paper" href="/owners-earnings-paper">
         <span class="kind">Paper</span>
         <h3>Owner's Earnings — Buffett's metric, rebuilt from asset-pricing parts</h3>
         <p>Vyas 2024 — the profitability literature is one long subtraction and it stopped one line early. Subtract capex and you get Buffett's owner's earnings.</p>
-        <span class="path">/owners-earnings-paper -&gt;</span>
+        <span class="path">owners-earnings-paper</span>
       </a>
 
       <a class="entry k-paper" href="/insider-density-paper">
         <span class="kind">Paper</span>
         <h3>When Insiders Trade Less — density and return predictability</h3>
         <p>Wang, Wang, Chiah &amp; Bai 2025 — condition on the trader, not the trade. Insiders who rarely trade are the ones whose trades carry abnormal returns.</p>
-        <span class="path">/insider-density-paper -&gt;</span>
+        <span class="path">insider-density-paper</span>
       </a>
 
       <a class="entry k-paper" href="/eig-premium-paper">
         <span class="kind">Paper</span>
         <h3>The Expected Investment Growth Premium — sorting on the capex a firm is about to do</h3>
         <p>Li, Wang &amp; Yu 2021 — forecast next year's capex growth instead of measuring last year's and the investment effect changes sign. A committed but unspent outlay is leverage.</p>
-        <span class="path">/eig-premium-paper -&gt;</span>
+        <span class="path">eig-premium-paper</span>
       </a>
     </div>
   </section>
@@ -169,35 +123,35 @@
         <span class="kind">Drill</span>
         <h3>Counting Outs Drill</h3>
         <p>Practice counting outs across the 9-game mix — Hold'em, Omaha (Hi-Lo), Stud, Razz, and 2-7 Draw. Exact deck-accurate answers, live-card discounting in Stud/Razz, the two-hole-card rule in Omaha, and per-game accuracy tracking.</p>
-        <span class="path">/outs-drill -&gt;</span>
+        <span class="path">outs-drill</span>
       </a>
 
       <a class="entry k-drill" href="/stack-journey">
         <span class="kind">Drill</span>
         <h3>Stack Journey</h3>
         <p>Live stack-tracking the way it happens at the table — action streams one card at a time, no rewinding, and the run never stops. Keep a running count through bets, calls, wins, and losses; gold checkpoints test the number you've been holding. Chips and big-blind modes.</p>
-        <span class="path">/stack-journey -&gt;</span>
+        <span class="path">stack-journey</span>
       </a>
 
       <a class="entry k-quiz" href="/plo-starting-hands">
         <span class="kind">Quiz</span>
         <h3>PLO Starting Hands</h3>
         <p>Classify Pot-Limit Omaha hands as premium, speculative, marginal, or trash, then make preflop decisions in a $2/$5 game — built on Jeff Hwang's "Big Play" framework. Two self-grading quizzes with full explanations, rendered poker cards, and a primer on the four tiers and the structural flaws (danglers, top gaps, non-nut draws) that demote a hand. Bilingual: English / ไทย.</p>
-        <span class="path">/plo-starting-hands -&gt;</span>
+        <span class="path">plo-starting-hands</span>
       </a>
 
       <a class="entry k-quiz" href="/plo-situations">
         <span class="kind">Quiz</span>
         <h3>PLO Post-Flop Situations</h3>
         <p>32 post-flop decision spots — sets, wraps, nut flush draws, two pair, full houses — where you read the hand, board, and action, then choose your play. Drills the core Chapter-6 skills: don't slow-play monsters, get big draws in, and fold the second-best to pressure. Bilingual: English / ไทย.</p>
-        <span class="path">/plo-situations -&gt;</span>
+        <span class="path">plo-situations</span>
       </a>
 
       <a class="entry k-quiz" href="/plo-hilo">
         <span class="kind">Quiz</span>
         <h3>PLO Hi/Lo Split</h3>
         <p>24 questions on Pot-Limit Omaha Hi/Lo strategy and starting hands — scoop-or-fold, suited-ace two-way hands, position, "fold the nuts" spots, and which hand values shift from limit. Built on the key concepts from Chapter 9. Bilingual: English / ไทย.</p>
-        <span class="path">/plo-hilo -&gt;</span>
+        <span class="path">plo-hilo</span>
       </a>
     </div>
   </section>
@@ -214,21 +168,21 @@
         <span class="kind">Learn</span>
         <h3>Mixed Game Quizzes</h3>
         <p>Tutorials and self-grading quizzes for all 14 games in the WSOP mixed-event rotations — Hold'em (NL/Limit), Pot-Limit Omaha, Omaha Hi-Lo, Big O, Stud, Stud Hi-Lo, Razz, 2-7 (single + triple draw), A-5 Triple Draw, Badugi, and 5-Card Double Draw. Pick a game, read the rules, then quiz yourself tournament-ready. Includes a hand-rankings reference for high, A-5 low, and 2-7 low.</p>
-        <span class="path">/mixed-game-quizzes -&gt;</span>
+        <span class="path">mixed-game-quizzes</span>
       </a>
 
       <a class="entry k-quiz" href="/triple-draw-hands">
         <span class="kind">Learn</span>
         <h3>Triple Draw Starting Hands</h3>
         <p>Pre-draw strategy for Ace-to-Five Triple Draw — the probability of strong starting hands, first-in open ranges by position, 3-bet/call/fold responses, BB defense, and facing a 3-bet, all on log-scaled charts and tables. Then a self-grading quiz, plus a keep-or-toss draw drill across A-5, 2-7, and Badugi that grades every discard against the optimal play.</p>
-        <span class="path">/triple-draw-hands -&gt;</span>
+        <span class="path">triple-draw-hands</span>
       </a>
 
       <a class="entry k-quiz" href="/badugi">
         <span class="kind">Poker</span>
         <h3>Badugi Tutorial</h3>
         <p>Rules, strategy, and hand rankings for Badugi — a four-card lowball draw game.</p>
-        <span class="path">/badugi -&gt;</span>
+        <span class="path">badugi</span>
       </a>
     </div>
   </section>
@@ -245,21 +199,21 @@
         <span class="kind">Tool</span>
         <h3>2-7 Triple Draw EV Calculator</h3>
         <p>Win, tie and equity for a deuce-to-seven spot, with the three draws actually played out rather than frozen at showdown &mdash; so a pat eight and a live one-card draw are priced against each other honestly. Then the part a hold&rsquo;em calculator has no room for: what the hand can still <em>become</em>, priced side by side with <strong>three, two and one</strong> draw remaining. Holding 5-4-3-2, the nut is <strong>19.3%</strong> away with three draws and only <strong>8.5%</strong> with one. The last-draw column is exact by enumeration; the evaluator is the same 7,462 classes as the table below. Runs in a worker, no server.</p>
-        <span class="path">/deuce-ev -&gt;</span>
+        <span class="path">deuce-ev</span>
       </a>
 
       <a class="entry k-metric" href="/deuce-equity">
         <span class="kind">Table</span>
         <h3>2-7 Class Equity Table</h3>
         <p>All <strong>7,462</strong> deuce-to-seven value classes — rank multiset plus flush flag — each with its exact percentile equity against a uniform random hand. Built by full enumeration of all <strong>2,598,960</strong> five-card hands, no sampling. Filter by category and ranks, page through the table, and read the equity distribution histogram; median sits at <code>0.500</code>. Generated by <code>poker-bot equity-json</code>.</p>
-        <span class="path">/deuce-equity -&gt;</span>
+        <span class="path">deuce-equity</span>
       </a>
 
       <a class="entry k-metric" href="/deuce-tree">
         <span class="kind">Tree</span>
         <h3>2-7 Triple Draw — True Game Tree</h3>
         <p>The exact public game of heads-up fixed-limit 2-7 Triple Draw: every betting line, every discard count, nothing truncated. Click outcomes and draw cells to walk a line, then switch lenses to watch each abstraction merge the true game — terminal lines, decision points, and infosets at 50 buckets — with the history class your line collapses into shown per row. An abstraction ladder from the true game to a solvable one, counts exact by enumeration. Generated by <code>poker-bot tree-json</code>.</p>
-        <span class="path">/deuce-tree -&gt;</span>
+        <span class="path">deuce-tree</span>
       </a>
     </div>
   </section>
@@ -276,7 +230,7 @@
         <span class="kind">Review</span>
         <h3>PLO Preflop — Hwang Method</h3>
         <p>355 hands of GG PLO micro, every preflop decision scored against Jeff Hwang&rsquo;s <em>Big Play Strategy</em> tiers. Hand valuation from pair, nut-suit and wrap equity; accuracy split by effective seat and action faced; all 346 spots filterable by leak type. Verdict: <strong>90.5%</strong> — sound selection, too passive with big pairs, too loose in the small blind.</p>
-        <span class="path">/hand-review -&gt;</span>
+        <span class="path">hand-review</span>
       </a>
     </div>
   </section>
@@ -293,42 +247,42 @@
         <span class="kind">CFR</span>
         <h3>CFR Simulation</h3>
         <p>Watch a poker bot learn Kuhn poker from scratch via vanilla Counterfactual Regret Minimization. Includes a glossary and live math walkthrough.</p>
-        <span class="path">/cfr-simulation -&gt;</span>
+        <span class="path">cfr-simulation</span>
       </a>
 
       <a class="entry k-cfr" href="/cfr-plus">
         <span class="kind">CFR+</span>
         <h3>CFR+ on Kuhn Poker</h3>
         <p>Floor cumulative regret at zero and use weighted strategy averaging — converges roughly an order of magnitude faster than vanilla CFR. Tammelin, 2014.</p>
-        <span class="path">/cfr-plus -&gt;</span>
+        <span class="path">cfr-plus</span>
       </a>
 
       <a class="entry k-cfr" href="/dcfr">
         <span class="kind">DCFR</span>
         <h3>Discounted CFR</h3>
         <p>Discount past regret and strategy contributions with α/β/γ weights. The modern default for tabular CFR. Brown &amp; Sandholm, 2019.</p>
-        <span class="path">/dcfr -&gt;</span>
+        <span class="path">dcfr</span>
       </a>
 
       <a class="entry k-mccfr" href="/mccfr">
         <span class="kind">MCCFR</span>
         <h3>External Sampling MCCFR</h3>
         <p>Sample a single chance outcome per iteration instead of walking all 6 deals. Trades variance for speed. Lanctot et al., 2009.</p>
-        <span class="path">/mccfr -&gt;</span>
+        <span class="path">mccfr</span>
       </a>
 
       <a class="entry k-mccfr" href="/mccfr-variants">
         <span class="kind">Sampling</span>
         <h3>MCCFR Variants</h3>
         <p>Side-by-side comparison of Chance, External, and Outcome sampling — three ways to sample the tree, one clear winner in practice.</p>
-        <span class="path">/mccfr-variants -&gt;</span>
+        <span class="path">mccfr-variants</span>
       </a>
 
       <a class="entry k-metric" href="/convergence-metrics">
         <span class="kind">Metrics</span>
         <h3>Convergence Metrics</h3>
         <p>Exploitability, average-strategy distance, and other indicators of how CFR approaches Nash equilibrium.</p>
-        <span class="path">/convergence-metrics -&gt;</span>
+        <span class="path">convergence-metrics</span>
       </a>
     </div>
   </section>
@@ -345,28 +299,28 @@
         <span class="kind">Leduc</span>
         <h3>Leduc Hold'em — Tabular CFR</h3>
         <p>One rung above Kuhn — 6 cards, public board, two betting rounds. Same CFR algorithm; converges to ε &lt; 10 mbb/g in seconds. The standard research stepping stone toward NLH.</p>
-        <span class="path">/leduc-cfr -&gt;</span>
+        <span class="path">leduc-cfr</span>
       </a>
 
       <a class="entry k-cfr" href="/leduc-nl-cfr">
         <span class="kind">Leduc-NL</span>
         <h3>Leduc-NL — Custom Bet Sizes</h3>
         <p>Same Leduc engine, but bets come from a menu of pot fractions (½ pot, pot, 2× pot, all-in). Action abstraction at toy scale — the first place the NL bet-sizing problem actually appears.</p>
-        <span class="path">/leduc-nl-cfr -&gt;</span>
+        <span class="path">leduc-nl-cfr</span>
       </a>
 
       <a class="entry k-deep" href="/leduc-nl-resolver">
         <span class="kind">Resolver</span>
         <h3>Leduc-NL Re-solver</h3>
         <p>Pick a spot, pick a custom bet menu (with sizes that don't exist in the blueprint), click solve. Watch the strategy and EV change. The architecture Pluribus and DeepStack run every decision — at toy scale.</p>
-        <span class="path">/leduc-nl-resolver -&gt;</span>
+        <span class="path">leduc-nl-resolver</span>
       </a>
 
       <a class="entry k-deep" href="/isomorphism">
         <span class="kind">Concept</span>
         <h3>Card Isomorphism</h3>
         <p>Why suits don't matter (until they do) and how poker solvers exploit suit symmetry for a free 24× speedup. Includes an interactive canonicalizer — type any hand+board and see its equivalence class size live.</p>
-        <span class="path">/isomorphism -&gt;</span>
+        <span class="path">isomorphism</span>
       </a>
     </div>
   </section>
@@ -383,28 +337,28 @@
         <span class="kind">Concept</span>
         <h3>Deep CFR Explained</h3>
         <p>Conceptual walkthrough of how CFR drops its lookup table for a neural-network function approximator — and why that lets it scale beyond toy games.</p>
-        <span class="path">/deep-cfr-explained -&gt;</span>
+        <span class="path">deep-cfr-explained</span>
       </a>
 
       <a class="entry k-deep" href="/deep-cfr">
         <span class="kind">Deep CFR</span>
         <h3>Deep CFR on Kuhn Poker</h3>
         <p>Tabular regret tables replaced by a neural network. Same convergence guarantees, no per-info-set bookkeeping. Brown, Lerer, Gross, Sandholm — ICML 2019.</p>
-        <span class="path">/deep-cfr -&gt;</span>
+        <span class="path">deep-cfr</span>
       </a>
 
       <a class="entry k-deep" href="/leduc-deepstack">
         <span class="kind">DeepStack</span>
         <h3>Leduc DeepStack — Value Network</h3>
         <p>Train a small MLP to predict round-2 counterfactual values, replacing the blueprint entirely. Compare neural-net predictions against an exact CFR solver. Validates DeepStack-style depth-limited solving at toy scale.</p>
-        <span class="path">/leduc-deepstack -&gt;</span>
+        <span class="path">leduc-deepstack</span>
       </a>
 
       <a class="entry k-deep" href="/postflop-solver">
         <span class="kind">Engine</span>
         <h3>Inside postflop-solver</h3>
         <p>Code walk through the open-source Rust NLH solver that the author claims beats PioSOLVER and GTO+. Customized DCFR (α=1.5, β=0, γ=3, with a power-of-4 strategy reset), no card abstraction, SIMD-tuned. ~10k lines.</p>
-        <span class="path">/postflop-solver -&gt;</span>
+        <span class="path">postflop-solver</span>
       </a>
     </div>
   </section>
@@ -426,7 +380,7 @@
         <span class="kind">Drill</span>
         <h3>Odds Calculation Drill</h3>
         <p>Master pot odds, outs, and equity by working the math, not memorizing it. Self-grading drills across nine reference charts — odds⇄percentage conversion, the Rule of 2 &amp; 4, exact outs-to-equity, pot odds by bet size, bluff and hero-call break-evens, preflop matchups, and SPR commitment. Every answer shows the formula and the exact book value, with per-topic mastery tracking. <strong>Chart values pending review against the source.</strong></p>
-        <span class="path">/odds-drill -&gt;</span>
+        <span class="path">odds-drill</span>
       </a>
     </div>
   </section>
@@ -448,7 +402,7 @@
         <span class="kind">Note</span>
         <h3>Building a Custom Bet-Size Solver</h3>
         <p>Why a Deep CFR blueprint alone can't handle arbitrary bet sizes — and how Pluribus/DeepStack add action translation and depth-limited re-solving to get there. Personal summary, unverified.</p>
-        <span class="path">/custom-bet-solver -&gt;</span>
+        <span class="path">custom-bet-solver</span>
       </a>
     </div>
   </section>
@@ -465,14 +419,14 @@
         <span class="kind">Study</span>
         <h3>kHold'em — Architecture &amp; Integration</h3>
         <p>Read-only teardown of the kHold'em poker-room suite (eShark / LiPoker): the client&nbsp;↔&nbsp;server WCF model where the server owns every write, the SQL Server system of record (145 tables), cloud sync, DPAPI-locked secrets, and the native Bounty/PKO schema. Ends with four ranked integration surfaces — from the .kpl addon SDK to why you should never write raw SQL.</p>
-        <span class="path">/kholdem -&gt;</span>
+        <span class="path">kholdem</span>
       </a>
 
       <a class="entry k-tool" href="/pokerkit">
         <span class="kind">Hands-on</span>
         <h3>PokerKit, hands-on</h3>
         <p>The pure-Python poker library from U of T, taught as four jobs: Dealer, Judge, Calculator, Scribe. Five rules that trip people up (raise TO, heads-up position flip, verify/can/do) and seven verified labs, from comparing two hands to 1,000 hands of random bots and a Kuhn poker referee for your own CFR.</p>
-        <span class="path">/pokerkit -&gt;</span>
+        <span class="path">pokerkit</span>
       </a>
     </div>
   </section>
@@ -489,7 +443,7 @@
         <span class="kind">Lesson</span>
         <h3>Mock an API — the whole idea in five minutes</h3>
         <p>How to build a demo that feels real before any database exists. An app is a restaurant: the frontend is the dining room, the API is the waiter, the backend is the kitchen — and mocking means opening with a fake kitchen. Edit the fake study data in a live editor and watch the screen re-fetch instead of hardcoding what it shows. Ends with a reusable prompt for asking an AI tool to build the same way.</p>
-        <span class="path">/mock-api -&gt;</span>
+        <span class="path">mock-api</span>
       </a>
     </div>
   </section>
@@ -506,7 +460,7 @@
         <span class="kind">IME</span>
         <h3>Thai Music IME</h3>
         <p>An input method editor for Thai classical music notation — type Thai music symbols directly with a custom keyboard mapping.</p>
-        <span class="path">/thai-music-ime -&gt;</span>
+        <span class="path">thai-music-ime</span>
       </a>
     </div>
   </section>
@@ -523,46 +477,41 @@
         <span class="kind">Deep CFR</span>
         <h3>Hearts via Deep CFR</h3>
         <p>Brian Berns's interactive Hearts bot trained with Deep CFR — a much larger game than Kuhn poker. Useful concrete reference for how Deep CFR scales beyond toy domains.</p>
-        <span class="path">brianberns.github.io/Hearts -&gt;</span>
+        <span class="path">brianberns.github.io/Hearts</span>
       </a>
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div>
-        <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
-          <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
-          <span>Nuttakit Kundum</span>
-        </a>
-        <p class="note">Built in the browser. No trackers beyond page counts.</p>
-      </div>
-      <div>
-        <p class="eyebrow">Site</p>
-        <ul class="footer-list">
-          <li><a href="/about">About</a></li>
-          <li><a href="#quant">Quant</a></li>
-          <li><a href="#trainers">Trainers</a></li>
-          <li><a href="#tabular">Solvers</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow">Elsewhere</p>
-        <ul class="footer-list">
-          <li><a href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">LinkedIn</a></li>
-          <li><a href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">Medium</a></li>
-          <li><a href="mailto:nuttakitkundum@gmail.com">Email</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bar">
-      <span>nuttakitkundum.com</span>
-      <span>Copyright &copy; 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a>. All rights reserved.</span>
-    </div>
-  </footer>
-
 </main>
+
+<footer class="site-footer">
+  <span>Copyright &copy; 2026 Nuttakit Kundum. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">LinkedIn</a>
+    <a href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">Medium</a>
+    <a href="mailto:nuttakitkundum@gmail.com">Email</a>
+  </div>
+</footer>
+
+<div class="cp" id="cp" hidden role="dialog" aria-modal="true" aria-label="Search articles">
+  <div class="cp-backdrop"></div>
+  <div class="cp-panel">
+    <div class="cp-box">
+      <div class="cp-field">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+        <input type="text" placeholder="Search articles&hellip;" aria-label="Search articles" autocomplete="off">
+        <kbd>esc</kbd>
+      </div>
+      <ul class="cp-results" role="listbox" aria-label="Results"></ul>
+      <div class="cp-empty" hidden>No results found.</div>
+      <div class="cp-foot">
+        <span><kbd>&uarr;&darr;</kbd>navigate</span>
+        <span><kbd>&crarr;</kbd>open</span>
+        <span><kbd>esc</kbd>close</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>

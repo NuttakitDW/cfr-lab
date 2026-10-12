@@ -5,207 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About — Nuttakit Kundum</title>
 <meta name="description" content="Nuttakit Kundum — I came to finance through poker. Research on counterfactual regret minimization, cross-sectional alphas, and the software that carries both.">
-<meta name="theme-color" content="#E8EBF2">
+<meta name="theme-color" content="#09090B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
 <link rel="stylesheet" href="/assets/site.css">
-<script defer src="/assets/particle-text.js"></script>
 <style>
-/* ------------------------------------------------------------------ hero */
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(240px, .8fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-}
-.hero-copy { display: flex; flex-direction: column; gap: 1.5rem; }
-.hero-h1 { font-size: clamp(3.25rem, 9vw, 6.5rem); }
-.hero-copy .hero-sub { max-width: 52ch; font-size: 1.0625rem; line-height: 1.65; }
+.prose { display: flex; flex-direction: column; gap: 1.25rem; }
+.prose p { margin: 0; font-size: 1rem; line-height: 1.75; color: var(--ash); }
+.prose strong { font-weight: 500; color: #e4e4e7; }
+.prose em { color: #d4d4d8; }
 
-figure.portrait {
-  --tilt: 2.4deg;
-  justify-self: center;
-  width: min(100%, 320px);
-  margin: 0;
-  padding: 10px 10px 0;
-  background: var(--fill-midnight);
-  color: var(--paper-2);
-  border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-card);
-  transform: rotate(var(--tilt));
-  transition: transform .34s var(--ease-out);
-}
-figure.portrait:hover { transform: rotate(calc(var(--tilt) * .5)) translateY(-6px); }
-.portrait .frame { border-radius: 24px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--fill-slate); }
-.portrait img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 16%;
-}
-.portrait figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: .75rem;
-  padding: .8rem .6rem 1rem;
-  font-size: .6875rem;
-  letter-spacing: var(--track-wider);
-  text-transform: uppercase;
-}
+.skills { margin: 0; }
+.skills .row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: .25rem 1.5rem; padding: .75rem 0; border-top: 1px solid rgba(39, 39, 42, .6); }
+.skills .row:last-child { border-bottom: 1px solid rgba(39, 39, 42, .6); }
+.skills dt { font-family: var(--font-mono); font-size: .75rem; letter-spacing: var(--track-wider); text-transform: uppercase; color: var(--ash-2); padding-top: .15rem; }
+.skills dd { margin: 0; font-size: .875rem; color: #d4d4d8; }
+.skills dd i { font-style: normal; color: #52525b; }
 
-/* ----------------------------------------------------------------- prose */
-.prose { display: flex; flex-direction: column; gap: 1.25rem; max-width: 70ch; }
-.prose p { margin: 0; font-size: .9375rem; line-height: 1.8; }
-.prose strong { font-weight: 500; color: var(--signal); }
-.prose .drop::first-letter {
-  float: left;
-  padding: .35rem .7rem 0 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 4.25rem;
-  line-height: .78;
-  color: var(--signal);
-}
+.entry .stats { grid-column: 1 / -1; display: flex; gap: 1.5rem; margin-top: .375rem; font-family: var(--font-mono); font-size: .75rem; color: var(--ash-2); }
+.entry .stats b { font-weight: 500; color: var(--signal); }
 
-.card-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.card-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.entry.channel { min-height: 11rem; }
-.entry .handle { font-size: .9375rem; font-weight: 500; overflow-wrap: anywhere; }
-
-/* ---------------------------------------------------------------- skills */
-.skills { margin: 0; border-top: 1px solid var(--edge); }
-.skills .row {
-  display: grid;
-  grid-template-columns: 11rem minmax(0, 1fr);
-  gap: .75rem 1.5rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--edge);
-  align-items: baseline;
-}
-.skills dt {
-  font-size: .6875rem;
-  font-weight: 500;
-  letter-spacing: var(--track-wider);
-  text-transform: uppercase;
-  color: var(--bronze);
-}
-.skills dd { margin: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
-.skills dd span {
-  padding: .25rem .7rem;
-  border-radius: var(--radius-pill);
-  background: var(--ink-05);
-  font-size: .8125rem;
-}
-
-/* ----------------------------------------------------------- credentials */
-.certs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-a.cert {
-  display: flex;
-  flex-direction: column;
-  gap: .6rem;
-  padding: .75rem .75rem 1.5rem;
-  background: var(--paper-2);
-  color: var(--ink);
-  border-radius: var(--radius-2xl);
-  text-decoration: none;
-  transition: background-color .22s var(--ease-standard);
-}
-a.cert:hover { background: var(--fill-mist); color: var(--ink); }
-.cert .plate { border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 16 / 9; background: var(--paper-3); margin-bottom: .5rem; }
-.cert .plate img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .34s var(--ease-out); }
-a.cert:hover .plate img { transform: scale(1.015); }
-.cert .issuer, .cert h3, .cert dl, .cert .path { margin-inline: .75rem; }
-.cert .issuer {
-  font-size: .6875rem;
-  font-weight: 500;
-  letter-spacing: var(--track-wider);
-  text-transform: uppercase;
-  color: var(--bronze);
-}
-.cert h3 { margin-block: 0; font-size: 1.375rem; line-height: 1.2; }
-.cert dl { display: flex; gap: 2rem; margin-block: .25rem .5rem; flex: 1; }
-.cert dt { font-size: .6875rem; letter-spacing: var(--track-wider); text-transform: uppercase; color: var(--ash-2); }
-.cert dd { margin: 0; font-size: 1rem; font-weight: 500; font-variant-numeric: tabular-nums; }
-.cert dd.lit { color: var(--signal); }
-.cert .path { font-size: .75rem; color: var(--ash); }
-
-@media (max-width: 1000px) {
-  .card-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 900px) {
-  .hero { grid-template-columns: minmax(0, 1fr); }
-  figure.portrait { justify-self: start; width: min(100%, 300px); }
-  .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 640px) {
-  figure.portrait { --tilt: 0deg; }
-  .card-grid.two, .card-grid.four, .certs { grid-template-columns: minmax(0, 1fr); }
   .skills .row { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
+<script defer src="/assets/palette.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<div class="page" id="top">
-  <header class="site-head rise">
-    <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
-      <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
-      <span>Nuttakit Kundum</span>
-    </a>
-    <nav class="site-nav" aria-label="Main">
+<header class="site-head wrap">
+  <nav aria-label="Main navigation">
+    <a class="wordmark" href="/"><span class="prompt">~$</span> nuttakit</a>
+    <div class="nav-links">
       <a class="wide" href="/#quant">Quant</a>
-      <a class="wide" href="/#tabular">Solvers</a>
-      <a class="wide" href="#credentials">Credentials</a>
+      <a class="wide" href="/#trainers">Poker</a>
+      <a href="/#tabular">Solvers</a>
       <a href="/about" aria-current="page">About</a>
-    </nav>
-  </header>
-
-  <section class="hero rise d1" aria-label="About">
-    <div class="hero-copy">
-      <h1 class="hero-h1"><em class="particle-text lead" data-particle-text>Nuttakit</em> Kundum.</h1>
-      <p class="hero-sub">I came to finance through poker, where you never know exactly what the other players hold. Markets are far bigger and messier than a poker table — but the same uncertainty is what pulled me in.</p>
-      <p class="hero-sub">What I want from them is to understand <strong>how data connects to price movement</strong>, not to treat them as a shortcut to money or a place to gamble. This site is the working notebook for that: solvers, drills, and paper notes, all of it running in the browser.</p>
+      <button class="search-btn" id="cp-trigger" type="button" aria-label="Search articles">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+        <kbd>&#8984;K</kbd>
+      </button>
     </div>
+  </nav>
+</header>
 
-    <figure class="portrait">
-      <div class="frame">
-        <img src="/assets/nuttakit.jpg" alt="Portrait of Nuttakit Kundum" width="666" height="1000">
-      </div>
-      <figcaption>
-        <span>Bangkok, Thailand</span>
-        <span>NK</span>
-      </figcaption>
-    </figure>
+<main id="main-content" class="wrap">
+  <section class="intro rise">
+    <img src="/assets/nuttakit.jpg" alt="Nuttakit Kundum" width="112" height="112" decoding="async" fetchpriority="high">
+    <div>
+      <h1>About</h1>
+      <p>I came to finance through poker. What I want from markets is to understand <strong>how data connects to price movement</strong>.</p>
+    </div>
   </section>
 
-<main class="rise d2">
-
-  <section class="shelf" id="story">
-    <div class="shelf-head">
-      <h2>How I got here</h2>
-      <p class="sub">Poker first, then the part of finance that looks like poker</p>
-    </div>
-
+  <section class="shelf rise d1" id="story">
+    <div class="shelf-head"><h2>How I got here</h2></div>
     <div class="prose">
-      <p class="drop">Poker taught me to reason about hidden information before I had a name for it. You act on a distribution, not a fact — and the discipline of separating a good decision from a good outcome is the same discipline a research process needs. Counterfactual regret minimization is the formal version of that instinct, which is why so much of this site is spent taking it apart: Kuhn, then Leduc, then the neural variants, each one small enough to hold in your head and watch converge.</p>
+      <p>Poker taught me to reason about hidden information before I had a name for it. You act on a distribution, not a fact — and the discipline of separating a good decision from a good outcome is the same discipline a research process needs. Counterfactual regret minimization is the formal version of that instinct, which is why so much of this site is spent taking it apart: Kuhn, then Leduc, then the neural variants, each one small enough to hold in your head and watch converge.</p>
       <p>Markets were the natural next table. I research alphas on <strong>WorldQuant BRAIN</strong>, where I reached <strong>Expert</strong> level in 2026 Q2 — cross-sectional ranking, neutralization, turnover control, and the automated pipelines that keep candidate signals flowing instead of arriving in batches whenever I think one up. The bottleneck stopped being ideas and became how carefully I screen them. Two BRAIN competitions have placed me <strong>1st in Thailand</strong>.</p>
       <p>Along the way I have joined BRAIN roadshows at Khon Kaen and Chulalongkorn, helped run quant research nights, and mentored a friend from software engineering into quant, who now represents Thailand at IQC. Teaching the material is the fastest way I know to find out which parts of it I only <em>thought</em> I understood.</p>
       <p>Everything published here is a study artifact rather than a product. The solvers are real and the numbers are computed live, but the notes are mine and the mistakes are too — where a page is unverified, it says so at the top.</p>
     </div>
   </section>
 
-  <section class="shelf" id="focus">
-    <div class="shelf-head">
-      <h2>What I work on</h2>
-      <p class="sub">Four threads, one question — how data connects to price</p>
-      <span class="count">4 threads</span>
-    </div>
-
-    <div class="card-grid two">
+  <section class="shelf rise d2" id="focus">
+    <div class="shelf-head"><h2>What I work on</h2><span class="count">4 threads</span></div>
+    <div class="card-grid">
       <div class="entry k-note">
         <span class="kind">Quant</span>
         <h3>Cross-sectional alpha research</h3>
@@ -230,179 +98,99 @@ a.cert:hover .plate img { transform: scale(1.015); }
   </section>
 
   <section class="shelf" id="toolkit">
-    <div class="shelf-head">
-      <h2>Toolkit</h2>
-      <p class="sub">What I reach for</p>
-    </div>
-
-    <dl class="skills">
-      <div class="row">
-        <dt>Languages</dt>
-        <dd>
-          <span>TypeScript</span><span>JavaScript</span><span>Python</span>
-          <span>Go</span><span>Rust</span><span>SQL</span>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Quant research</dt>
-        <dd>
-          <span>WorldQuant BRAIN</span><span>cross-sectional ranking</span><span>neutralization</span>
-          <span>turnover control</span><span>correlation screening</span><span>backtesting</span>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Product &amp; web</dt>
-        <dd>
-          <span>Next.js</span><span>React</span><span>Node.js</span>
-          <span>REST</span><span>GraphQL</span><span>Firebase</span><span>Stripe</span>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Infrastructure</dt>
-        <dd>
-          <span>AWS</span><span>Cloudflare</span><span>Docker</span><span>CI/CD</span>
-          <span>APISIX</span><span>Temporal</span><span>PostgreSQL</span><span>MySQL</span><span>MongoDB</span>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Spoken</dt>
-        <dd>
-          <span>Thai — native</span><span>English — professional</span><span>Chinese</span>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Education</dt>
-        <dd>
-          <span>Chulalongkorn University</span><span>Automotive Engineering</span><span>2018–2022</span>
-        </dd>
-      </div>
+    <div class="shelf-head"><h2>Toolkit</h2></div>
+    <dl class="skills"> 
+      <div class="row"> <dt>Languages</dt> <dd>TypeScript <i>·</i> JavaScript <i>·</i> Python <i>·</i> Go <i>·</i> Rust <i>·</i> SQL</dd> </div> 
+      <div class="row"> <dt>Quant research</dt> <dd>WorldQuant BRAIN <i>·</i> cross-sectional ranking <i>·</i> neutralization <i>·</i> turnover control <i>·</i> correlation screening <i>·</i> backtesting</dd> </div> 
+      <div class="row"> <dt>Product &amp; web</dt> <dd>Next.js <i>·</i> React <i>·</i> Node.js <i>·</i> REST <i>·</i> GraphQL <i>·</i> Firebase <i>·</i> Stripe</dd> </div> 
+      <div class="row"> <dt>Infrastructure</dt> <dd>AWS <i>·</i> Cloudflare <i>·</i> Docker <i>·</i> CI/CD <i>·</i> APISIX <i>·</i> Temporal <i>·</i> PostgreSQL <i>·</i> MySQL <i>·</i> MongoDB</dd> </div> 
+      <div class="row"> <dt>Spoken</dt> <dd>Thai — native <i>·</i> English — professional <i>·</i> Chinese</dd> </div> 
+      <div class="row"> <dt>Education</dt> <dd>Chulalongkorn University <i>·</i> Automotive Engineering <i>·</i> 2018–2022</dd> </div> 
     </dl>
   </section>
 
   <section class="shelf" id="credentials">
-    <div class="shelf-head">
-      <h2>Credentials</h2>
-      <p class="sub">WorldQuant BRAIN — level and competition certificates</p>
-      <span class="count">3 certificates</span>
-    </div>
-
-    <div class="certs">
-      <a class="cert" href="/assets/certificates/worldquant-genius-expert.pdf" target="_blank" rel="noopener">
-        <div class="plate">
-          <img src="/assets/certificates/worldquant-genius-expert.jpg"
-               alt="WorldQuant BRAIN Genius Program level certificate — Expert Level, 2026 Quarter 2, awarded to Nuttakit Kundum"
-               width="1000" height="563" loading="lazy">
-        </div>
-        <span class="issuer">WorldQuant BRAIN · Genius Program</span>
+    <div class="shelf-head"><h2>Credentials</h2><span class="count">3 certificates</span></div>
+    <div class="card-grid">
+      <a class="entry k-cfr" href="/assets/certificates/worldquant-genius-expert.pdf" target="_blank" rel="noopener">
+        <span class="kind">Level</span>
+        <span class="path">WorldQuant BRAIN Genius Program</span>
         <h3>Expert Level</h3>
-        <dl>
-          <div><dt>Level</dt><dd class="lit">Expert</dd></div>
-          <div><dt>Quarter</dt><dd>2026 Q2</dd></div>
-        </dl>
-        <span class="path">View certificate -&gt;</span>
+        <span class="stats"><span>level <b>Expert</b></span><span>quarter 2026 Q2</span></span>
       </a>
-
-      <a class="cert" href="/assets/certificates/worldquant-aiac.pdf" target="_blank" rel="noopener">
-        <div class="plate">
-          <img src="/assets/certificates/worldquant-aiac.jpg"
-               alt="WorldQuant BRAIN AI Alpha Competition 2.0 certificate of accomplishment — Region Rank 1st, Thailand, awarded to Nuttakit Kundum"
-               width="1000" height="563" loading="lazy">
-        </div>
-        <span class="issuer">WorldQuant BRAIN · Competition</span>
+      <a class="entry k-drill" href="/assets/certificates/worldquant-aiac.pdf" target="_blank" rel="noopener">
+        <span class="kind">Competition</span>
+        <span class="path">WorldQuant BRAIN</span>
         <h3>AI Alpha Competition 2.0</h3>
-        <dl>
-          <div><dt>Region rank</dt><dd class="lit">1st</dd></div>
-          <div><dt>Region</dt><dd>Thailand</dd></div>
-        </dl>
-        <span class="path">View certificate -&gt;</span>
+        <span class="stats"><span>region rank <b>1st</b></span><span>Thailand</span></span>
       </a>
-
-      <a class="cert" href="/assets/certificates/worldquant-osmosis.pdf" target="_blank" rel="noopener">
-        <div class="plate">
-          <img src="/assets/certificates/worldquant-osmosis.jpg"
-               alt="WorldQuant BRAIN Alpha OSMOSIS 2025-26 certificate of accomplishment — Region Rank 1st, Thailand, awarded to Nuttakit Kundum"
-               width="1000" height="563" loading="lazy">
-        </div>
-        <span class="issuer">WorldQuant BRAIN · Competition</span>
+      <a class="entry k-drill" href="/assets/certificates/worldquant-osmosis.pdf" target="_blank" rel="noopener">
+        <span class="kind">Competition</span>
+        <span class="path">WorldQuant BRAIN</span>
         <h3>Alpha OSMOSIS 2025&ndash;26</h3>
-        <dl>
-          <div><dt>Region rank</dt><dd class="lit">1st</dd></div>
-          <div><dt>Region</dt><dd>Thailand</dd></div>
-        </dl>
-        <span class="path">View certificate -&gt;</span>
+        <span class="stats"><span>region rank <b>1st</b></span><span>Thailand</span></span>
       </a>
     </div>
   </section>
 
   <section class="shelf" id="contact">
-    <div class="shelf-head">
-      <h2>Contact</h2>
-      <p class="sub">Where to find me</p>
-      <span class="count">4 channels</span>
-    </div>
-
-    <div class="card-grid four">
-      <a class="entry channel k-cfr" href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">
+    <div class="shelf-head"><h2>Contact</h2></div>
+    <div class="card-grid">
+      <a class="entry k-cfr" href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">
         <span class="kind">GitHub</span>
         <span class="handle">@NuttakitDW</span>
         <p>Solvers, engines, and the source behind the pages on this site.</p>
       </a>
 
-      <a class="entry channel k-drill" href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">
+      <a class="entry k-drill" href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">
         <span class="kind">LinkedIn</span>
         <span class="handle">in/nuttakit-kundum</span>
         <p>Professional background and the longer-form version of what I'm working on.</p>
       </a>
 
-      <a class="entry channel k-note" href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">
+      <a class="entry k-note" href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">
         <span class="kind">Medium</span>
         <span class="handle">@nuttakitkundum</span>
         <p>Writing on quant research, poker theory, and blockchain technology.</p>
       </a>
 
-      <a class="entry channel k-deep" href="mailto:nuttakitkundum@gmail.com">
+      <a class="entry k-deep" href="mailto:nuttakitkundum@gmail.com">
         <span class="kind">Email</span>
         <span class="handle">nuttakitkundum@gmail.com</span>
         <p>Best for research questions, collaboration, and anything long-form.</p>
       </a>
     </div>
   </section>
-
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div>
-        <a class="brandmark" href="/" aria-label="nuttakitkundum.com home">
-          <svg viewBox="0 0 40 38" aria-hidden="true"><rect width="40" height="38" rx="9" fill="#080B12"/><path d="M11 29V9h4.4l9.2 12.4V9H29v20h-4.4l-9.2-12.4V29z" fill="#F1F3F8"/></svg>
-          <span>Nuttakit Kundum</span>
-        </a>
-        <p class="note">Built in the browser. No trackers beyond page counts.</p>
-      </div>
-      <div>
-        <p class="eyebrow">Site</p>
-        <ul class="footer-list">
-          <li><a href="/">Index</a></li>
-          <li><a href="/#quant">Quant</a></li>
-          <li><a href="/#trainers">Trainers</a></li>
-          <li><a href="/#tabular">Solvers</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow">Elsewhere</p>
-        <ul class="footer-list">
-          <li><a href="https://github.com/NuttakitDW" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://medium.com/@nuttakitkundum" target="_blank" rel="noopener">Medium</a></li>
-          <li><a href="mailto:nuttakitkundum@gmail.com">Email</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bar">
-      <span>nuttakitkundum.com</span>
-      <span>Copyright &copy; 2026 <a href="http://nuttakitkundum.com">nuttakitkundum.com</a>. All rights reserved.</span>
-    </div>
-  </footer>
-
 </main>
+
+<footer class="site-footer">
+  <span>Copyright &copy; 2026 Nuttakit Kundum. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="https://github.com/NuttakitDW" target="_blank" rel="me noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/nuttakit-kundum-265111192/" target="_blank" rel="me noopener">LinkedIn</a>
+    <a href="https://medium.com/@nuttakitkundum" target="_blank" rel="me noopener">Medium</a>
+    <a href="mailto:nuttakitkundum@gmail.com">Email</a>
+  </div>
+</footer>
+
+<div class="cp" id="cp" hidden role="dialog" aria-modal="true" aria-label="Search articles">
+  <div class="cp-backdrop"></div>
+  <div class="cp-panel">
+    <div class="cp-box">
+      <div class="cp-field">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+        <input type="text" placeholder="Search articles&hellip;" aria-label="Search articles" autocomplete="off">
+        <kbd>esc</kbd>
+      </div>
+      <ul class="cp-results" role="listbox" aria-label="Results"></ul>
+      <div class="cp-empty" hidden>No results found.</div>
+      <div class="cp-foot">
+        <span><kbd>&uarr;&darr;</kbd>navigate</span>
+        <span><kbd>&crarr;</kbd>open</span>
+        <span><kbd>esc</kbd>close</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>

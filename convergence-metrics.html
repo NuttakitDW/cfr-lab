@@ -344,9 +344,9 @@ main { grid-template-columns: minmax(0, 1fr); }
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
-<meta name="theme-color" content="#E8EBF2">
+<meta name="theme-color" content="#09090B">
 </head>
 
 <body>
@@ -1034,7 +1034,7 @@ class Sparkline {
     const { ctx, W, H } = this;
     ctx.clearRect(0, 0, W, H);
     if (this.data.length === 0) {
-      ctx.fillStyle = '#5E6A80';
+      ctx.fillStyle = '#71717A';
       ctx.font = '11px "JetBrains Mono", ui-monospace, Menlo, monospace';
       ctx.textAlign = 'center';
       ctx.fillText('press Play', W / 2, H / 2);
@@ -1124,7 +1124,7 @@ class CombinedChart {
     // Grid + Y labels
     ctx.strokeStyle = 'rgba(8,11,18,0.08)';
     ctx.font = '10px "JetBrains Mono", ui-monospace, Menlo, monospace';
-    ctx.fillStyle = '#49556B';
+    ctx.fillStyle = '#A1A1AA';
     for (let exp = Math.floor(lLo); exp <= Math.ceil(lHi); exp++) {
       const v = Math.pow(10, exp);
       const y = padT + (1 - (Math.log10(v) - lLo) / (lHi - lLo)) * plotH;
@@ -1141,7 +1141,7 @@ class CombinedChart {
     ctx.setLineDash([]);
 
     if (this.data.length === 0) {
-      ctx.fillStyle = '#5E6A80';
+      ctx.fillStyle = '#71717A';
       ctx.font = '12px "JetBrains Mono", ui-monospace, Menlo, monospace';
       ctx.textAlign = 'center';
       ctx.fillText('No data — press Play', W / 2, H / 2);
@@ -1152,7 +1152,7 @@ class CombinedChart {
     // X labels
     const minIter = this.data[0].iter;
     const maxIter = Math.max(this.data[this.data.length - 1].iter, minIter + 1);
-    ctx.fillStyle = '#49556B';
+    ctx.fillStyle = '#A1A1AA';
     ctx.textAlign = 'center';
     for (let i = 0; i <= 4; i++) {
       const x = padL + (plotW * i) / 4;
@@ -1164,7 +1164,7 @@ class CombinedChart {
       ctx.fillText(s, x, H - 8);
     }
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#5E6A80';
+    ctx.fillStyle = '#71717A';
     ctx.fillText('iter →', padL + plotW, H - 8);
     ctx.textAlign = 'start';
 
@@ -1183,7 +1183,7 @@ class CombinedChart {
       }
       ctx.stroke();
     };
-    drawSeries('normExploit', '#16408F');
+    drawSeries('normExploit', '#5D9BFF');
     drawSeries('normCI',      '#1E6A3F');
     drawSeries('normRegret',  '#9A4613');
 
@@ -1202,7 +1202,7 @@ class App {
     this.trainer = new CFRTrainer();
     this.ciMon = new CIMonitor();
 
-    this.sparkExploit = new Sparkline(document.getElementById('spark-exploit'), '#16408F', TH_EXPLOIT);
+    this.sparkExploit = new Sparkline(document.getElementById('spark-exploit'), '#5D9BFF', TH_EXPLOIT);
     this.sparkCI      = new Sparkline(document.getElementById('spark-ci'),      '#1E6A3F', TH_CI);
     this.sparkRegret  = new Sparkline(document.getElementById('spark-regret'),  '#9A4613', TH_REGRET);
     this.combined     = new CombinedChart(document.getElementById('chart-combined'));

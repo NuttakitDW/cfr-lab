@@ -144,9 +144,9 @@ main { grid-template-columns: minmax(0, 1fr); }
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/theme.css">
-<meta name="theme-color" content="#E8EBF2">
+<meta name="theme-color" content="#09090B">
 </head>
 
 <body>
@@ -693,7 +693,7 @@ class LossChart {
     const ctx = this.ctx, W = this.W, H = this.H;
     ctx.clearRect(0, 0, W, H);
     if (this.points.length < 2) {
-      ctx.fillStyle = '#49556B';
+      ctx.fillStyle = '#A1A1AA';
       ctx.font = '12px "JetBrains Mono", ui-monospace, Menlo, monospace';
       ctx.textAlign = 'center';
       ctx.fillText('Click "Train value net" to start. Loss will plot here on a log scale.', W / 2, H / 2);
@@ -712,16 +712,16 @@ class LossChart {
     const logLo = Math.log10(Math.max(1e-3, lo * 0.5));
     const logHi = Math.log10(Math.max(hi * 1.2, lo * 2));
 
-    ctx.strokeStyle = '#C2C9D8'; ctx.lineWidth = 1;
+    ctx.strokeStyle = '#27272A'; ctx.lineWidth = 1;
     for (let g = Math.floor(logLo); g <= Math.ceil(logHi); g++) {
       const y = padT + (1 - (g - logLo) / (logHi - logLo)) * innerH;
       ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
-      ctx.fillStyle = '#49556B';
+      ctx.fillStyle = '#A1A1AA';
       ctx.font = '11px "JetBrains Mono", ui-monospace, Menlo, monospace';
       ctx.textAlign = 'right';
       ctx.fillText(`10^${g}`, padL - 6, y + 4);
     }
-    ctx.fillStyle = '#49556B'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#A1A1AA'; ctx.textAlign = 'center';
     const xTicks = 5;
     for (let i = 0; i <= xTicks; i++) {
       const s = Math.round((maxStep) * (i / xTicks));
@@ -729,7 +729,7 @@ class LossChart {
       ctx.fillText(s.toLocaleString(), x, H - padB + 18);
     }
 
-    ctx.strokeStyle = '#7A5A26'; ctx.lineWidth = 2;
+    ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = 2;
     ctx.beginPath();
     for (let i = 0; i < this.points.length; i++) {
       const p = this.points[i];
