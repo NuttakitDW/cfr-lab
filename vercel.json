@@ -9,6 +9,8 @@
     { "source": "/deuce-equity",          "destination": "https://deuce-equity.vercel.app/" },
     { "source": "/deuce-equity/:path*",   "destination": "https://deuce-equity.vercel.app/:path*" },
     { "source": "/deuce-tree",            "destination": "https://deuce-equity.vercel.app/tree.html" },
+    { "source": "/aob",                   "destination": "https://aob.nuttakitkundum.workers.dev/aob" },
+    { "source": "/aob/:path*",            "destination": "https://aob.nuttakitkundum.workers.dev/aob/:path*" },
     { "source": "/mock-api",              "destination": "https://mockup-lesson.vercel.app/" },
     { "source": "/mock-api/:path*",       "destination": "https://mockup-lesson.vercel.app/:path*" },
     { "source": "/cfr-simulation",        "destination": "/cfr-simulation.html" },
