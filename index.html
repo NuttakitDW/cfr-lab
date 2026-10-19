@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/assets/theme.css">
 <link rel="stylesheet" href="/assets/site.css">
 <script defer src="/assets/palette.js"></script>
+<script defer src="/assets/sort.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -41,6 +42,16 @@
     </div>
   </section>
 
+  <div class="sortbar rise d1" role="group" aria-label="Sort articles">
+    <span class="label">sort</span>
+    <button type="button" data-sort="newest" aria-pressed="true">newest</button>
+    <button type="button" data-sort="oldest" aria-pressed="false">oldest</button>
+    <button type="button" data-sort="title" aria-pressed="false">a&ndash;z</button>
+    <button type="button" data-sort="kind" aria-pressed="false">type</button>
+    <button type="button" data-sort="shelf" aria-pressed="false">shelf</button>
+    <span class="count" id="sort-count"></span>
+  </div>
+
   <nav class="jump rise d1" aria-label="Sections">
     <a href="#quant">quant</a>
     <a href="#trainers">trainers</a>
@@ -68,46 +79,52 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-paper" href="/boardroom-centrality-paper">
+      <a class="entry k-paper" data-added="2026-08-28" href="/boardroom-centrality-paper">
         <span class="kind">Paper</span>
         <h3>Boardroom Centrality &amp; Firm Performance — the graph hiding in the director list</h3>
         <p>Larcker, So &amp; Wang 2013 — link two boards whenever they share a director and the resulting network prices assets. Most-central minus least-central earns 4.68% a year; the predictor is a position, not an accounting line.</p>
         <span class="path">boardroom-centrality-paper</span>
+        <time class="added" datetime="2026-08-28">2026-08-28</time>
       </a>
 
-      <a class="entry k-paper" href="/rd-investments-paper">
+      <a class="entry k-paper" data-added="2026-05-10" href="/rd-investments-paper">
         <span class="kind">Paper</span>
         <h3>R&amp;D Investments &amp; Past Returns</h3>
         <p>Maletic 2019 — the same R&amp;D number means opposite things depending on whether the stock has just won or lost. Level and change interact with past returns in opposite directions.</p>
         <span class="path">rd-investments-paper</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
 
-      <a class="entry k-paper" href="/profit-trend-paper">
+      <a class="entry k-paper" data-added="2026-08-27" href="/profit-trend-paper">
         <span class="kind">Paper</span>
         <h3>The Trend in Firm Profitability</h3>
         <p>Akbas, Jiang &amp; Koch 2017 — every level signal hides a slope signal. Keep the trend coefficient instead of the mean and two equally profitable firms land at opposite ends of the book.</p>
         <span class="path">profit-trend-paper</span>
+        <time class="added" datetime="2026-08-27">2026-08-27</time>
       </a>
 
-      <a class="entry k-paper" href="/owners-earnings-paper">
+      <a class="entry k-paper" data-added="2026-08-27" href="/owners-earnings-paper">
         <span class="kind">Paper</span>
         <h3>Owner's Earnings — Buffett's metric, rebuilt from asset-pricing parts</h3>
         <p>Vyas 2024 — the profitability literature is one long subtraction and it stopped one line early. Subtract capex and you get Buffett's owner's earnings.</p>
         <span class="path">owners-earnings-paper</span>
+        <time class="added" datetime="2026-08-27">2026-08-27</time>
       </a>
 
-      <a class="entry k-paper" href="/insider-density-paper">
+      <a class="entry k-paper" data-added="2026-08-27" href="/insider-density-paper">
         <span class="kind">Paper</span>
         <h3>When Insiders Trade Less — density and return predictability</h3>
         <p>Wang, Wang, Chiah &amp; Bai 2025 — condition on the trader, not the trade. Insiders who rarely trade are the ones whose trades carry abnormal returns.</p>
         <span class="path">insider-density-paper</span>
+        <time class="added" datetime="2026-08-27">2026-08-27</time>
       </a>
 
-      <a class="entry k-paper" href="/eig-premium-paper">
+      <a class="entry k-paper" data-added="2026-08-27" href="/eig-premium-paper">
         <span class="kind">Paper</span>
         <h3>The Expected Investment Growth Premium — sorting on the capex a firm is about to do</h3>
         <p>Li, Wang &amp; Yu 2021 — forecast next year's capex growth instead of measuring last year's and the investment effect changes sign. A committed but unspent outlay is leverage.</p>
         <span class="path">eig-premium-paper</span>
+        <time class="added" datetime="2026-08-27">2026-08-27</time>
       </a>
     </div>
   </section>
@@ -120,39 +137,44 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-drill" href="/outs-drill">
+      <a class="entry k-drill" data-added="2026-06-04" href="/outs-drill">
         <span class="kind">Drill</span>
         <h3>Counting Outs Drill</h3>
         <p>Practice counting outs across the 9-game mix — Hold'em, Omaha (Hi-Lo), Stud, Razz, and 2-7 Draw. Exact deck-accurate answers, live-card discounting in Stud/Razz, the two-hole-card rule in Omaha, and per-game accuracy tracking.</p>
         <span class="path">outs-drill</span>
+        <time class="added" datetime="2026-06-04">2026-06-04</time>
       </a>
 
-      <a class="entry k-drill" href="/stack-journey">
+      <a class="entry k-drill" data-added="2026-06-13" href="/stack-journey">
         <span class="kind">Drill</span>
         <h3>Stack Journey</h3>
         <p>Live stack-tracking the way it happens at the table — action streams one card at a time, no rewinding, and the run never stops. Keep a running count through bets, calls, wins, and losses; gold checkpoints test the number you've been holding. Chips and big-blind modes.</p>
         <span class="path">stack-journey</span>
+        <time class="added" datetime="2026-06-13">2026-06-13</time>
       </a>
 
-      <a class="entry k-quiz" href="/plo-starting-hands">
+      <a class="entry k-quiz" data-added="2026-06-24" href="/plo-starting-hands">
         <span class="kind">Quiz</span>
         <h3>PLO Starting Hands</h3>
         <p>Classify Pot-Limit Omaha hands as premium, speculative, marginal, or trash, then make preflop decisions in a $2/$5 game — built on Jeff Hwang's "Big Play" framework. Two self-grading quizzes with full explanations, rendered poker cards, and a primer on the four tiers and the structural flaws (danglers, top gaps, non-nut draws) that demote a hand. Bilingual: English / ไทย.</p>
         <span class="path">plo-starting-hands</span>
+        <time class="added" datetime="2026-06-24">2026-06-24</time>
       </a>
 
-      <a class="entry k-quiz" href="/plo-situations">
+      <a class="entry k-quiz" data-added="2026-06-25" href="/plo-situations">
         <span class="kind">Quiz</span>
         <h3>PLO Post-Flop Situations</h3>
         <p>32 post-flop decision spots — sets, wraps, nut flush draws, two pair, full houses — where you read the hand, board, and action, then choose your play. Drills the core Chapter-6 skills: don't slow-play monsters, get big draws in, and fold the second-best to pressure. Bilingual: English / ไทย.</p>
         <span class="path">plo-situations</span>
+        <time class="added" datetime="2026-06-25">2026-06-25</time>
       </a>
 
-      <a class="entry k-quiz" href="/plo-hilo">
+      <a class="entry k-quiz" data-added="2026-06-25" href="/plo-hilo">
         <span class="kind">Quiz</span>
         <h3>PLO Hi/Lo Split</h3>
         <p>24 questions on Pot-Limit Omaha Hi/Lo strategy and starting hands — scoop-or-fold, suited-ace two-way hands, position, "fold the nuts" spots, and which hand values shift from limit. Built on the key concepts from Chapter 9. Bilingual: English / ไทย.</p>
         <span class="path">plo-hilo</span>
+        <time class="added" datetime="2026-06-25">2026-06-25</time>
       </a>
     </div>
   </section>
@@ -165,25 +187,28 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-quiz" href="/mixed-game-quizzes">
+      <a class="entry k-quiz" data-added="2026-06-15" href="/mixed-game-quizzes">
         <span class="kind">Learn</span>
         <h3>Mixed Game Quizzes</h3>
         <p>Tutorials and self-grading quizzes for all 14 games in the WSOP mixed-event rotations — Hold'em (NL/Limit), Pot-Limit Omaha, Omaha Hi-Lo, Big O, Stud, Stud Hi-Lo, Razz, 2-7 (single + triple draw), A-5 Triple Draw, Badugi, and 5-Card Double Draw. Pick a game, read the rules, then quiz yourself tournament-ready. Includes a hand-rankings reference for high, A-5 low, and 2-7 low.</p>
         <span class="path">mixed-game-quizzes</span>
+        <time class="added" datetime="2026-06-15">2026-06-15</time>
       </a>
 
-      <a class="entry k-quiz" href="/triple-draw-hands">
+      <a class="entry k-quiz" data-added="2026-06-30" href="/triple-draw-hands">
         <span class="kind">Learn</span>
         <h3>Triple Draw Starting Hands</h3>
         <p>Pre-draw strategy for Ace-to-Five Triple Draw — the probability of strong starting hands, first-in open ranges by position, 3-bet/call/fold responses, BB defense, and facing a 3-bet, all on log-scaled charts and tables. Then a self-grading quiz, plus a keep-or-toss draw drill across A-5, 2-7, and Badugi that grades every discard against the optimal play.</p>
         <span class="path">triple-draw-hands</span>
+        <time class="added" datetime="2026-06-30">2026-06-30</time>
       </a>
 
-      <a class="entry k-quiz" href="/badugi">
+      <a class="entry k-quiz" data-added="2026-05-09" href="/badugi">
         <span class="kind">Poker</span>
         <h3>Badugi Tutorial</h3>
         <p>Rules, strategy, and hand rankings for Badugi — a four-card lowball draw game.</p>
         <span class="path">badugi</span>
+        <time class="added" datetime="2026-05-09">2026-05-09</time>
       </a>
     </div>
   </section>
@@ -196,25 +221,28 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-drill" href="/deuce-ev">
+      <a class="entry k-drill" data-added="2026-08-27" href="/deuce-ev">
         <span class="kind">Tool</span>
         <h3>2-7 Triple Draw EV Calculator</h3>
         <p>Win, tie and equity for a deuce-to-seven spot, with the three draws actually played out rather than frozen at showdown &mdash; so a pat eight and a live one-card draw are priced against each other honestly. Then the part a hold&rsquo;em calculator has no room for: what the hand can still <em>become</em>, priced side by side with <strong>three, two and one</strong> draw remaining. Holding 5-4-3-2, the nut is <strong>19.3%</strong> away with three draws and only <strong>8.5%</strong> with one. The last-draw column is exact by enumeration; the evaluator is the same 7,462 classes as the table below. Runs in a worker, no server.</p>
         <span class="path">deuce-ev</span>
+        <time class="added" datetime="2026-08-27">2026-08-27</time>
       </a>
 
-      <a class="entry k-metric" href="/deuce-equity">
+      <a class="entry k-metric" data-added="2026-08-11" href="/deuce-equity">
         <span class="kind">Table</span>
         <h3>2-7 Class Equity Table</h3>
         <p>All <strong>7,462</strong> deuce-to-seven value classes — rank multiset plus flush flag — each with its exact percentile equity against a uniform random hand. Built by full enumeration of all <strong>2,598,960</strong> five-card hands, no sampling. Filter by category and ranks, page through the table, and read the equity distribution histogram; median sits at <code>0.500</code>. Generated by <code>poker-bot equity-json</code>.</p>
         <span class="path">deuce-equity</span>
+        <time class="added" datetime="2026-08-11">2026-08-11</time>
       </a>
 
-      <a class="entry k-metric" href="/deuce-tree">
+      <a class="entry k-metric" data-added="2026-08-11" href="/deuce-tree">
         <span class="kind">Tree</span>
         <h3>2-7 Triple Draw — True Game Tree</h3>
         <p>The exact public game of heads-up fixed-limit 2-7 Triple Draw: every betting line, every discard count, nothing truncated. Click outcomes and draw cells to walk a line, then switch lenses to watch each abstraction merge the true game — terminal lines, decision points, and infosets at 50 buckets — with the history class your line collapses into shown per row. An abstraction ladder from the true game to a solvable one, counts exact by enumeration. Generated by <code>poker-bot tree-json</code>.</p>
         <span class="path">deuce-tree</span>
+        <time class="added" datetime="2026-08-11">2026-08-11</time>
       </a>
     </div>
   </section>
@@ -227,11 +255,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-metric" href="/hand-review">
+      <a class="entry k-metric" data-added="2026-07-16" href="/hand-review">
         <span class="kind">Review</span>
         <h3>PLO Preflop — Hwang Method</h3>
         <p>355 hands of GG PLO micro, every preflop decision scored against Jeff Hwang&rsquo;s <em>Big Play Strategy</em> tiers. Hand valuation from pair, nut-suit and wrap equity; accuracy split by effective seat and action faced; all 346 spots filterable by leak type. Verdict: <strong>90.5%</strong> — sound selection, too passive with big pairs, too loose in the small blind.</p>
         <span class="path">hand-review</span>
+        <time class="added" datetime="2026-07-16">2026-07-16</time>
       </a>
     </div>
   </section>
@@ -244,46 +273,52 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-cfr" href="/cfr-simulation">
+      <a class="entry k-cfr" data-added="2026-05-04" href="/cfr-simulation">
         <span class="kind">CFR</span>
         <h3>CFR Simulation</h3>
         <p>Watch a poker bot learn Kuhn poker from scratch via vanilla Counterfactual Regret Minimization. Includes a glossary and live math walkthrough.</p>
         <span class="path">cfr-simulation</span>
+        <time class="added" datetime="2026-05-04">2026-05-04</time>
       </a>
 
-      <a class="entry k-cfr" href="/cfr-plus">
+      <a class="entry k-cfr" data-added="2026-05-04" href="/cfr-plus">
         <span class="kind">CFR+</span>
         <h3>CFR+ on Kuhn Poker</h3>
         <p>Floor cumulative regret at zero and use weighted strategy averaging — converges roughly an order of magnitude faster than vanilla CFR. Tammelin, 2014.</p>
         <span class="path">cfr-plus</span>
+        <time class="added" datetime="2026-05-04">2026-05-04</time>
       </a>
 
-      <a class="entry k-cfr" href="/dcfr">
+      <a class="entry k-cfr" data-added="2026-05-04" href="/dcfr">
         <span class="kind">DCFR</span>
         <h3>Discounted CFR</h3>
         <p>Discount past regret and strategy contributions with α/β/γ weights. The modern default for tabular CFR. Brown &amp; Sandholm, 2019.</p>
         <span class="path">dcfr</span>
+        <time class="added" datetime="2026-05-04">2026-05-04</time>
       </a>
 
-      <a class="entry k-mccfr" href="/mccfr">
+      <a class="entry k-mccfr" data-added="2026-05-04" href="/mccfr">
         <span class="kind">MCCFR</span>
         <h3>External Sampling MCCFR</h3>
         <p>Sample a single chance outcome per iteration instead of walking all 6 deals. Trades variance for speed. Lanctot et al., 2009.</p>
         <span class="path">mccfr</span>
+        <time class="added" datetime="2026-05-04">2026-05-04</time>
       </a>
 
-      <a class="entry k-mccfr" href="/mccfr-variants">
+      <a class="entry k-mccfr" data-added="2026-05-07" href="/mccfr-variants">
         <span class="kind">Sampling</span>
         <h3>MCCFR Variants</h3>
         <p>Side-by-side comparison of Chance, External, and Outcome sampling — three ways to sample the tree, one clear winner in practice.</p>
         <span class="path">mccfr-variants</span>
+        <time class="added" datetime="2026-05-07">2026-05-07</time>
       </a>
 
-      <a class="entry k-metric" href="/convergence-metrics">
+      <a class="entry k-metric" data-added="2026-05-07" href="/convergence-metrics">
         <span class="kind">Metrics</span>
         <h3>Convergence Metrics</h3>
         <p>Exploitability, average-strategy distance, and other indicators of how CFR approaches Nash equilibrium.</p>
         <span class="path">convergence-metrics</span>
+        <time class="added" datetime="2026-05-07">2026-05-07</time>
       </a>
     </div>
   </section>
@@ -296,32 +331,36 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-cfr" href="/leduc-cfr">
+      <a class="entry k-cfr" data-added="2026-05-10" href="/leduc-cfr">
         <span class="kind">Leduc</span>
         <h3>Leduc Hold'em — Tabular CFR</h3>
         <p>One rung above Kuhn — 6 cards, public board, two betting rounds. Same CFR algorithm; converges to ε &lt; 10 mbb/g in seconds. The standard research stepping stone toward NLH.</p>
         <span class="path">leduc-cfr</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
 
-      <a class="entry k-cfr" href="/leduc-nl-cfr">
+      <a class="entry k-cfr" data-added="2026-05-10" href="/leduc-nl-cfr">
         <span class="kind">Leduc-NL</span>
         <h3>Leduc-NL — Custom Bet Sizes</h3>
         <p>Same Leduc engine, but bets come from a menu of pot fractions (½ pot, pot, 2× pot, all-in). Action abstraction at toy scale — the first place the NL bet-sizing problem actually appears.</p>
         <span class="path">leduc-nl-cfr</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
 
-      <a class="entry k-deep" href="/leduc-nl-resolver">
+      <a class="entry k-deep" data-added="2026-05-10" href="/leduc-nl-resolver">
         <span class="kind">Resolver</span>
         <h3>Leduc-NL Re-solver</h3>
         <p>Pick a spot, pick a custom bet menu (with sizes that don't exist in the blueprint), click solve. Watch the strategy and EV change. The architecture Pluribus and DeepStack run every decision — at toy scale.</p>
         <span class="path">leduc-nl-resolver</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
 
-      <a class="entry k-deep" href="/isomorphism">
+      <a class="entry k-deep" data-added="2026-05-11" href="/isomorphism">
         <span class="kind">Concept</span>
         <h3>Card Isomorphism</h3>
         <p>Why suits don't matter (until they do) and how poker solvers exploit suit symmetry for a free 24× speedup. Includes an interactive canonicalizer — type any hand+board and see its equivalence class size live.</p>
         <span class="path">isomorphism</span>
+        <time class="added" datetime="2026-05-11">2026-05-11</time>
       </a>
     </div>
   </section>
@@ -334,32 +373,36 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-deep" href="/deep-cfr-explained">
+      <a class="entry k-deep" data-added="2026-05-09" href="/deep-cfr-explained">
         <span class="kind">Concept</span>
         <h3>Deep CFR Explained</h3>
         <p>Conceptual walkthrough of how CFR drops its lookup table for a neural-network function approximator — and why that lets it scale beyond toy games.</p>
         <span class="path">deep-cfr-explained</span>
+        <time class="added" datetime="2026-05-09">2026-05-09</time>
       </a>
 
-      <a class="entry k-deep" href="/deep-cfr">
+      <a class="entry k-deep" data-added="2026-05-04" href="/deep-cfr">
         <span class="kind">Deep CFR</span>
         <h3>Deep CFR on Kuhn Poker</h3>
         <p>Tabular regret tables replaced by a neural network. Same convergence guarantees, no per-info-set bookkeeping. Brown, Lerer, Gross, Sandholm — ICML 2019.</p>
         <span class="path">deep-cfr</span>
+        <time class="added" datetime="2026-05-04">2026-05-04</time>
       </a>
 
-      <a class="entry k-deep" href="/leduc-deepstack">
+      <a class="entry k-deep" data-added="2026-05-11" href="/leduc-deepstack">
         <span class="kind">DeepStack</span>
         <h3>Leduc DeepStack — Value Network</h3>
         <p>Train a small MLP to predict round-2 counterfactual values, replacing the blueprint entirely. Compare neural-net predictions against an exact CFR solver. Validates DeepStack-style depth-limited solving at toy scale.</p>
         <span class="path">leduc-deepstack</span>
+        <time class="added" datetime="2026-05-11">2026-05-11</time>
       </a>
 
-      <a class="entry k-deep" href="/postflop-solver">
+      <a class="entry k-deep" data-added="2026-05-11" href="/postflop-solver">
         <span class="kind">Engine</span>
         <h3>Inside postflop-solver</h3>
         <p>Code walk through the open-source Rust NLH solver that the author claims beats PioSOLVER and GTO+. Customized DCFR (α=1.5, β=0, γ=3, with a power-of-4 strategy reset), no card abstraction, SIMD-tuned. ~10k lines.</p>
         <span class="path">postflop-solver</span>
+        <time class="added" datetime="2026-05-11">2026-05-11</time>
       </a>
     </div>
   </section>
@@ -377,11 +420,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-note" href="/odds-drill">
+      <a class="entry k-note" data-added="2026-06-26" href="/odds-drill">
         <span class="kind">Drill</span>
         <h3>Odds Calculation Drill</h3>
         <p>Master pot odds, outs, and equity by working the math, not memorizing it. Self-grading drills across nine reference charts — odds⇄percentage conversion, the Rule of 2 &amp; 4, exact outs-to-equity, pot odds by bet size, bluff and hero-call break-evens, preflop matchups, and SPR commitment. Every answer shows the formula and the exact book value, with per-topic mastery tracking. <strong>Chart values pending review against the source.</strong></p>
         <span class="path">odds-drill</span>
+        <time class="added" datetime="2026-06-26">2026-06-26</time>
       </a>
     </div>
   </section>
@@ -399,11 +443,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-note" href="/custom-bet-solver">
+      <a class="entry k-note" data-added="2026-05-10" href="/custom-bet-solver">
         <span class="kind">Note</span>
         <h3>Building a Custom Bet-Size Solver</h3>
         <p>Why a Deep CFR blueprint alone can't handle arbitrary bet sizes — and how Pluribus/DeepStack add action translation and depth-limited re-solving to get there. Personal summary, unverified.</p>
         <span class="path">custom-bet-solver</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
     </div>
   </section>
@@ -416,18 +461,20 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-tool" href="/kholdem">
+      <a class="entry k-tool" data-added="2026-07-18" href="/kholdem">
         <span class="kind">Study</span>
         <h3>kHold'em — Architecture &amp; Integration</h3>
         <p>Read-only teardown of the kHold'em poker-room suite (eShark / LiPoker): the client&nbsp;↔&nbsp;server WCF model where the server owns every write, the SQL Server system of record (145 tables), cloud sync, DPAPI-locked secrets, and the native Bounty/PKO schema. Ends with four ranked integration surfaces — from the .kpl addon SDK to why you should never write raw SQL.</p>
         <span class="path">kholdem</span>
+        <time class="added" datetime="2026-07-18">2026-07-18</time>
       </a>
 
-      <a class="entry k-tool" href="/pokerkit">
+      <a class="entry k-tool" data-added="2026-09-23" href="/pokerkit">
         <span class="kind">Hands-on</span>
         <h3>PokerKit, hands-on</h3>
         <p>The pure-Python poker library from U of T, taught as four jobs: Dealer, Judge, Calculator, Scribe. Five rules that trip people up (raise TO, heads-up position flip, verify/can/do) and seven verified labs, from comparing two hands to 1,000 hands of random bots and a Kuhn poker referee for your own CFR.</p>
         <span class="path">pokerkit</span>
+        <time class="added" datetime="2026-09-23">2026-09-23</time>
       </a>
     </div>
   </section>
@@ -440,11 +487,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-lesson" href="/mock-api">
+      <a class="entry k-lesson" data-added="2026-08-11" href="/mock-api">
         <span class="kind">Lesson</span>
         <h3>Mock an API — the whole idea in five minutes</h3>
         <p>How to build a demo that feels real before any database exists. An app is a restaurant: the frontend is the dining room, the API is the waiter, the backend is the kitchen — and mocking means opening with a fake kitchen. Edit the fake study data in a live editor and watch the screen re-fetch instead of hardcoding what it shows. Ends with a reusable prompt for asking an AI tool to build the same way.</p>
         <span class="path">mock-api</span>
+        <time class="added" datetime="2026-08-11">2026-08-11</time>
       </a>
     </div>
   </section>
@@ -457,11 +505,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-lesson" href="/roboparty">
+      <a class="entry k-lesson" data-added="2026-10-19" href="/roboparty">
         <span class="kind">Guide</span>
         <h3>RoboParty Assemble</h3>
         <p>Interactive step-by-step assembly instructions for the RoboParty humanoid, with 3D CAD views of each step.</p>
         <span class="path">roboparty</span>
+        <time class="added" datetime="2026-10-19">2026-10-19</time>
       </a>
     </div>
   </section>
@@ -474,11 +523,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-tool" href="/thai-music-ime">
+      <a class="entry k-tool" data-added="2026-05-13" href="/thai-music-ime">
         <span class="kind">IME</span>
         <h3>Thai Music IME</h3>
         <p>An input method editor for Thai classical music notation — type Thai music symbols directly with a custom keyboard mapping.</p>
         <span class="path">thai-music-ime</span>
+        <time class="added" datetime="2026-05-13">2026-05-13</time>
       </a>
     </div>
   </section>
@@ -491,11 +541,12 @@
     </div>
 
     <div class="card-grid">
-      <a class="entry k-deep" href="https://brianberns.github.io/Hearts/" target="_blank" rel="noopener">
+      <a class="entry k-deep" data-added="2026-05-10" href="https://brianberns.github.io/Hearts/" target="_blank" rel="noopener">
         <span class="kind">Deep CFR</span>
         <h3>Hearts via Deep CFR</h3>
         <p>Brian Berns's interactive Hearts bot trained with Deep CFR — a much larger game than Kuhn poker. Useful concrete reference for how Deep CFR scales beyond toy domains.</p>
         <span class="path">brianberns.github.io/Hearts</span>
+        <time class="added" datetime="2026-05-10">2026-05-10</time>
       </a>
     </div>
   </section>
