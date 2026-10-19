@@ -15,6 +15,8 @@
     { "source": "/splendor/:path*",       "destination": "https://splendor.nuttakitkundum.workers.dev/splendor/:path*" },
     { "source": "/splender",              "destination": "https://splendor.nuttakitkundum.workers.dev/splender" },
     { "source": "/splender/:path*",       "destination": "https://splendor.nuttakitkundum.workers.dev/splender/:path*" },
+    { "source": "/roboparty",              "destination": "https://nuttakitdw.github.io/roboparty-assemble-interactive-instruction/" },
+    { "source": "/roboparty/:path*",       "destination": "https://nuttakitdw.github.io/roboparty-assemble-interactive-instruction/:path*" },
     { "source": "/mock-api",              "destination": "https://mockup-lesson.vercel.app/" },
     { "source": "/mock-api/:path*",       "destination": "https://mockup-lesson.vercel.app/:path*" },
     { "source": "/cfr-simulation",        "destination": "/cfr-simulation.html" },
